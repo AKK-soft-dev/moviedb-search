@@ -1,11 +1,9 @@
 "use client";
-import CarouselSkeletonItem from "@/components/skeletons/CarouselSkeletonItem";
 import CarouselSlider from "@/components/utils/CarouselSlider";
 import MovieItem from "@/components/utils/MovieItem";
 import { useContext, useEffect, useState } from "react";
 import { SwiperSlide } from "swiper/react";
 import { TrendingContext } from "./Trending";
-import { usePathname } from "next/navigation";
 
 export default function TrendingDataDisplay({
   data: initialData,
@@ -15,7 +13,6 @@ export default function TrendingDataDisplay({
   const [trendData, setTrendData] = useState(initialData);
   const results = trendData?.results || [];
   const { trendTime, streamed, setStreamed } = useContext(TrendingContext);
-  const pathname = usePathname();
 
   useEffect(() => {
     if (!streamed) {

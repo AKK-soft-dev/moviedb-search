@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .parent {
+        max-width: 50%; /* Example relative value */
+        background-color: lightgray;
+        padding: 20px;
+      }
+
+      .child {
+        background-color: lightblue;
+        padding: 10px;
+      }
+    </style>
+    <title>Child Width Matching Parent's Max-Width</title>
+  </head>
+  <body>
+    <div class="parent">
+      <div class="child" id="childElement">
+        This is a child element. Its width will match the parent's max-width.
+      </div>
+    </div>
+    <script>
+      const parentElement = document.querySelector(".parent");
+      const childElement = document.querySelector(".child");
+
+      const parentMaxWidth = window.getComputedStyle(parentElement).maxWidth;
+      const parentViewportWidth = window.innerWidth;
+
+      // Convert the relative value to an absolute pixel value based on the parent's viewport width
+      const relativeValue = parseFloat(parentMaxWidth); // Remove '%' or other units
+      const absoluteValue = (relativeValue / 100) * parentViewportWidth;
+
+      childElement.style.width = absoluteValue + "px";
+    </script>
+  </body>
+</html>

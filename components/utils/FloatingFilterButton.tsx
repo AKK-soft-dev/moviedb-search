@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 
@@ -14,7 +15,7 @@ export default function FloatingFilterButton() {
         width: 60,
         height: 60,
         p: 1,
-        zIndex: "",
+        zIndex: (theme) => theme.zIndex.fab,
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
       }}
