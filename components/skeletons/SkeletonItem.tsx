@@ -1,10 +1,11 @@
 import { Box, Skeleton } from "@mui/material";
-import SliderItem from "../utils/SliderItem";
+import BSGridItem from "../utils/BSGridItem";
 
 export default function MovieSkeletonItem() {
   return (
-    <SliderItem>
+    <BSGridItem>
       <Box
+        mb={4}
         sx={{
           display: "flex",
           width: 1,
@@ -26,6 +27,6 @@ export default function MovieSkeletonItem() {
           sx={{ fontSize: "1.5rem" }}
         />
       </Box>
-    </SliderItem>
+    </BSGridItem>
   );
 }

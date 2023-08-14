@@ -5,12 +5,14 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import SingleRowSkeleton from "../skeletons/SingleRowSkeleton";
 
 export default function Popular() {
   const [releaseType, setReleaseType] = useState("digital");
+  const theme = useTheme();
   const handleChange = (
     _e: React.MouseEvent<HTMLElement>,
     newReleaseType: string
@@ -24,9 +26,14 @@ export default function Popular() {
     <Container component="section" sx={{ my: 3.5 }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <Typography
-          sx={{ color: "secondary.main", mr: 2 }}
           component="h3"
           variant="h5"
+          className="text-gradient-util"
+          sx={{
+            mr: 2,
+            fontWeight: 700,
+            background: `linear-gradient(45deg, ${theme.palette.secondary.light}, #ff4345)`,
+          }}
         >
           Popular
         </Typography>
@@ -46,16 +53,7 @@ export default function Popular() {
           </ToggleButton>
         </ToggleButtonGroup>
       </Box>
-      <SingleRowSkeleton />
-      {/* <CarouselSlider>
-        {Array(16)
-          .fill(undefined)
-          .map((_, i) => (
-            <SwiperSlide key={i}>
-              <CarouselSkeletonItem />
-            </SwiperSlide>
-          ))}
-      </CarouselSlider> */}
+      <SingleRowSkeleton length={12} />
     </Container>
   );
 }

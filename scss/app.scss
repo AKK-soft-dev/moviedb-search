@@ -1,0 +1,55 @@
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 900px,
+  lg: 1200px,
+  xl: 1536px,
+);
+
+$standard-spacing: 8px;
+$grid-gutter-width: 1.5rem;
+$gutters: (
+  0: 0,
+  1: 1.2 * $standard-spacing,
+  2: 2.2 * $standard-spacing,
+  3: 2.8 * $standard-spacing,
+  4: 3.2 * $standard-spacing,
+  5: 4 * $standard-spacing,
+);
+
+@import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow-x: auto;
+}
+
+.wrapper::-webkit-scrollbar {
+  height: 10px;
+}
+
+.wrapper::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #06e906;
+}
+
+.wrapper::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+/* Firefox */
+.wrapper {
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* Internet Explorer and Edge (Older versions) */
+.wrapper {
+  scrollbar-base-color: #f1f1f1;
+  scrollbar-arrow-color: #888;
+  scrollbar-shadow-color: #888;
+  scrollbar-face-color: #f1f1f1;
+  scrollbar-highlight-color: #f1f1f1;
+  scrollbar-darkshadow-color: #888;
+}

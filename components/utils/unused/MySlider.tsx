@@ -1,6 +1,6 @@
 "use client";
 import { Box } from "@mui/material";
-import GridContainer from "./GridContainer";
+import GridContainer from "../GridContainer";
 import { useEffect, useRef } from "react";
 
 export default function MySlider({ children }: { children: React.ReactNode }) {

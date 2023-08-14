@@ -1,0 +1,90 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carousel</title>
+    <style>
+      .wrapper {
+        width: 300px;
+        height: auto;
+        overflow-x: scroll;
+        padding: 10px 0;
+      }
+
+      .wrapper {
+        width: 100%;
+        position: relative;
+      }
+
+      .carousel {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        column-gap: 10px;
+        transition: transform 0.3s ease;
+      }
+
+      .carousel-item {
+        flex: 0 0 auto;
+        width: 10%;
+        height: 300px;
+        background-color: aqua;
+        border: solid 1px red;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Webkit (Chrome, Safari) */
+      .wrapper::-webkit-scrollbar {
+        height: 10px;
+      }
+
+      .wrapper::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background-color: #06e906;
+      }
+
+      .wrapper::-webkit-scrollbar-track {
+        background-color: #fff;
+      }
+
+      /* Firefox */
+      .wrapper {
+        scrollbar-color: #888 #f1f1f1;
+      }
+
+      /* Internet Explorer and Edge (Older versions) */
+      .wrapper {
+        scrollbar-base-color: #f1f1f1;
+        scrollbar-arrow-color: #888;
+        scrollbar-shadow-color: #888;
+        scrollbar-face-color: #f1f1f1;
+        scrollbar-highlight-color: #f1f1f1;
+        scrollbar-darkshadow-color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="carousel" style="transform: translateX(0)"></div>
+    </div>
+    <script>
+      const carouselTransform = document.querySelector(".carousel");
+      const wrapper = document.querySelector(".wrapper");
+
+      const createCarouselItems = (length) => {
+        const carouselItems = Array(length)
+          .fill(undefined)
+          .map((_, i) => {
+            return `<div class='carousel-item'>${i}</div>`;
+          });
+
+        return carouselItems.join("");
+      };
+
+      carouselTransform.innerHTML = createCarouselItems(50);
+    </script>
+  </body>
+</html>

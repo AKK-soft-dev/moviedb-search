@@ -11,7 +11,7 @@ export default function Home() {
     <Box component="main">
       <Hero />
       <Trending>
-        <Suspense fallback={<SingleRowSkeleton />}>
+        <Suspense fallback={<SingleRowSkeleton length={12} />}>
           <StreamTrending />
         </Suspense>
       </Trending>

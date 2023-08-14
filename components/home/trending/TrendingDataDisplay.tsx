@@ -1,9 +1,10 @@
 "use client";
-import CarouselSlider from "@/components/utils/CarouselSlider";
 import MovieItem from "@/components/utils/MovieItem";
 import { useContext, useEffect, useState } from "react";
-import { SwiperSlide } from "swiper/react";
+import { Box } from "@mui/material";
 import { TrendingContext } from "./Trending";
+import MySlider2 from "@/components/utils/MySlider2";
+import SliderItem from "@/components/utils/SliderItem";
 
 export default function TrendingDataDisplay({
   data: initialData,
@@ -29,12 +30,24 @@ export default function TrendingDataDisplay({
   }, [trendTime, streamed]);
 
   return (
-    <CarouselSlider prevElSelector=".prev" nextElSelector=".next">
-      {results?.map((movie, i) => (
-        <SwiperSlide key={i}>
-          <MovieItem movie={movie} />
-        </SwiperSlide>
-      ))}
-    </CarouselSlider>
+    <Box my={3}>
+      <MySlider2 prevElSelector=".prev" nextElSelector=".next">
+        {results?.map((movie, i) => (
+          <SliderItem key={i}>
+            <MovieItem movie={movie} />
+          </SliderItem>
+        ))}
+      </MySlider2>
+    </Box>
   );
+}
+
+{
+  /* <CarouselSlider prevElSelector=".prev" nextElSelector=".next">
+  {results?.map((movie, i) => (
+    <SwiperSlide key={i}>
+      <MovieItem movie={movie} />
+    </SwiperSlide>
+  ))}
+</CarouselSlider>; */
 }
