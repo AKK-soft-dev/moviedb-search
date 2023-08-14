@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 import { TrendingContext } from "./Trending";
 import MySlider2 from "@/components/utils/MySlider2";
 import SliderItem from "@/components/utils/SliderItem";
+import { useDataQueryMagic } from "react-data-query";
 
 export default function TrendingDataDisplay({
   data: initialData,
@@ -14,6 +15,7 @@ export default function TrendingDataDisplay({
   const [trendData, setTrendData] = useState(initialData);
   const results = trendData?.results || [];
   const { trendTime, streamed, setStreamed } = useContext(TrendingContext);
+  const { setQueryData } = useDataQueryMagic();
 
   useEffect(() => {
     if (!streamed) {
@@ -26,6 +28,7 @@ export default function TrendingDataDisplay({
       .then((data) => {
         console.log({ data });
         setTrendData(data);
+        setQueryData("reset-scroll", () => true);
       });
   }, [trendTime, streamed]);
 

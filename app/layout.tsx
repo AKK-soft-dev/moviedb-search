@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import { roboto } from "@/fonts/fonts";
 import Navbar from "@/components/Navbar";
 import FloatingFilterButton from "@/components/utils/FloatingFilterButton";
+import MyDataQueryProvider from "@/context/MyDataQueryProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,9 +23,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={roboto.className}>
         <ThemeRegistry options={{ key: "mui", prepend: false }}>
-          <Navbar />
-          {children}
-          <FloatingFilterButton />
+          <MyDataQueryProvider>
+            <Navbar />
+            {children}
+            <FloatingFilterButton />
+          </MyDataQueryProvider>
         </ThemeRegistry>
       </body>
     </html>
