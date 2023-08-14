@@ -11,7 +11,7 @@ export default function BSGridContainer({
   return (
     <Box
       component="div"
-      className="row g-xs-1 g-sm-2 g-md-3 g-lg-4 g-xl-5"
+      className="row g-1 g-sm-2 g-md-3 g-lg-4 g-xl-5"
       sx={{
         flexWrap: noWrap ? "nowrap" : "wrap",
       }}
