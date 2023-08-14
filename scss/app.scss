@@ -31,24 +31,105 @@ $gutters: (
 }
 
 .wrapper::-webkit-scrollbar-thumb {
-  border-radius: 3px;
-  background-color: #06e906;
+  border: solid 3px transparent;
+  border-radius: 41px;
+  background-image: linear-gradient(
+      45deg,
+      rgb(67, 95, 221) 0%,
+      rgb(67, 95, 221) 22%,
+      rgb(80, 115, 203) 22%,
+      rgb(80, 115, 203) 48%,
+      rgb(92, 135, 185) 48%,
+      rgb(92, 135, 185) 73%,
+      rgb(105, 156, 167) 73%,
+      rgb(105, 156, 167) 77%,
+      rgb(118, 176, 149) 77%,
+      rgb(118, 176, 149) 87%,
+      rgb(130, 196, 131) 87%,
+      rgb(130, 196, 131) 89%,
+      rgb(143, 216, 113) 89%,
+      rgb(143, 216, 113) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgb(67, 95, 221) 0%,
+      rgb(67, 95, 221) 22%,
+      rgb(80, 115, 203) 22%,
+      rgb(80, 115, 203) 48%,
+      rgb(92, 135, 185) 48%,
+      rgb(92, 135, 185) 73%,
+      rgb(105, 156, 167) 73%,
+      rgb(105, 156, 167) 77%,
+      rgb(118, 176, 149) 77%,
+      rgb(118, 176, 149) 87%,
+      rgb(130, 196, 131) 87%,
+      rgb(130, 196, 131) 89%,
+      rgb(143, 216, 113) 89%,
+      rgb(143, 216, 113) 100%
+    ),
+    linear-gradient(
+      67.5deg,
+      rgb(67, 95, 221) 0%,
+      rgb(67, 95, 221) 22%,
+      rgb(80, 115, 203) 22%,
+      rgb(80, 115, 203) 48%,
+      rgb(92, 135, 185) 48%,
+      rgb(92, 135, 185) 73%,
+      rgb(105, 156, 167) 73%,
+      rgb(105, 156, 167) 77%,
+      rgb(118, 176, 149) 77%,
+      rgb(118, 176, 149) 87%,
+      rgb(130, 196, 131) 87%,
+      rgb(130, 196, 131) 89%,
+      rgb(143, 216, 113) 89%,
+      rgb(143, 216, 113) 100%
+    ),
+    linear-gradient(
+      157.5deg,
+      rgb(67, 95, 221) 0%,
+      rgb(67, 95, 221) 22%,
+      rgb(80, 115, 203) 22%,
+      rgb(80, 115, 203) 48%,
+      rgb(92, 135, 185) 48%,
+      rgb(92, 135, 185) 73%,
+      rgb(105, 156, 167) 73%,
+      rgb(105, 156, 167) 77%,
+      rgb(118, 176, 149) 77%,
+      rgb(118, 176, 149) 87%,
+      rgb(130, 196, 131) 87%,
+      rgb(130, 196, 131) 89%,
+      rgb(143, 216, 113) 89%,
+      rgb(143, 216, 113) 100%
+    ),
+    linear-gradient(90deg, rgb(195, 223, 84), rgb(118, 43, 234)) !important;
+  background-blend-mode: overlay, overlay, overlay, overlay, normal !important;
+}
+
+.wrapper.yelred::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(
+    45deg,
+    rgb(255, 231, 52),
+    #ff4345
+  ) !important;
 }
 
 .wrapper::-webkit-scrollbar-track {
-  background-color: #fff;
+  border-radius: 41px;
+  background-color: transparent;
 }
 
 /* Firefox */
 .wrapper {
-  scrollbar-color: #888 #f1f1f1;
+  scrollbar-color: transparent
+    linear-gradient(45deg, rgb(255, 231, 52), #ff4345);
 }
 
 /* Internet Explorer and Edge (Older versions) */
-.wrapper {
+.wrapper,
+html {
   scrollbar-base-color: #f1f1f1;
-  scrollbar-arrow-color: #888;
-  scrollbar-shadow-color: #888;
+  scrollbar-arrow-color: #b92e2e;
+  scrollbar-shadow-color: #f30b0b;
   scrollbar-face-color: #f1f1f1;
   scrollbar-highlight-color: #f1f1f1;
   scrollbar-darkshadow-color: #888;

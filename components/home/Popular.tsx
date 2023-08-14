@@ -53,7 +53,7 @@ export default function Popular() {
           </ToggleButton>
         </ToggleButtonGroup>
       </Box>
-      <SingleRowSkeleton length={12} />
+      <SingleRowSkeleton yelredScrollbar length={12} />
     </Container>
   );
 }
