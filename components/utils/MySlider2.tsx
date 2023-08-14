@@ -27,15 +27,23 @@ export default function MySlider2({
       const childItemWidth =
         gridContainer.children[0].getBoundingClientRect().width;
 
-      prevButton?.addEventListener("click", () => {
-        console.log("prev", childItemWidth);
-        wrapper.scrollBy({ left: -childItemWidth, behavior: "smooth" });
-      });
+      const handleMove = (type: "prev" | "next") => {
+        wrapper.scrollBy({
+          left: type === "prev" ? -childItemWidth : childItemWidth,
+          behavior: "smooth",
+        });
+      };
 
-      nextButton?.addEventListener("click", () => {
-        console.log("next", childItemWidth);
-        wrapper.scrollBy({ left: childItemWidth, behavior: "smooth" });
-      });
+      const handlePrevMove = () => handleMove("prev");
+      const handleNextMove = () => handleMove("next");
+
+      prevButton?.addEventListener("click", handlePrevMove);
+      nextButton?.addEventListener("click", handleNextMove);
+
+      return () => {
+        prevButton?.removeEventListener("click", handlePrevMove);
+        nextButton?.removeEventListener("click", handleNextMove);
+      };
     }
   }, []);
   return (
