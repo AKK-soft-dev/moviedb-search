@@ -40,6 +40,7 @@ export default function MySlider2({
   }, []);
   return (
     <Box
+      ref={wrapperRef}
       component="div"
       className={`wrapper ${yelredScrollbar ? "yelred" : ""}`}
       sx={{
