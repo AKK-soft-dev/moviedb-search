@@ -29,7 +29,7 @@ export default function MovieItem({
           sx={{
             position: "relative",
             width: "100%",
-            height: { xs: 180, sm: 200, md: 220, lg: 240, xl: 250 },
+            height: { xs: 170, sm: 200, md: 220, lg: 240, xl: 250 },
           }}
         >
           <Image

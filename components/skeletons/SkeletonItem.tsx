@@ -18,7 +18,7 @@ export default function MovieSkeletonItem() {
           animation="wave"
           variant="rounded"
           width="100%"
-          sx={{ height: { xs: 220, sm: 230, md: 250 } }}
+          sx={{ height: { xs: 170, sm: 200, md: 220, lg: 240, xl: 250 } }}
         />
         <Skeleton
           animation="wave"
