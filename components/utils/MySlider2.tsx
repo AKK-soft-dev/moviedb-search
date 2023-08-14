@@ -26,10 +26,12 @@ export default function MySlider2({
         gridContainer.children[0].getBoundingClientRect().width;
 
       prevButton?.addEventListener("click", () => {
+        console.log("prev", childItemWidth);
         wrapper.scrollBy({ left: -childItemWidth, behavior: "smooth" });
       });
 
       nextButton?.addEventListener("click", () => {
+        console.log("next", childItemWidth);
         wrapper.scrollBy({ left: childItemWidth, behavior: "smooth" });
       });
     }
