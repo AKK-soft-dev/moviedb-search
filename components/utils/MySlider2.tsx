@@ -21,6 +21,7 @@ export default function MySlider2({
     initialData: false,
   });
 
+  console.log({ resetScroll });
   useEffect(() => {
     const wrapper = wrapperRef.current;
     const gridContainer = gridContainerRef.current;
