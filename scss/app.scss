@@ -10,7 +10,7 @@ $standard-spacing: 8px;
 $grid-gutter-width: 1.5rem;
 $gutters: (
   0: 0,
-  1: 1.2 * $standard-spacing,
+  1: $standard-spacing,
   2: 2.2 * $standard-spacing,
   3: 2.8 * $standard-spacing,
   4: 3.2 * $standard-spacing,
