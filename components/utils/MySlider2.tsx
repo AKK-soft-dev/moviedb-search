@@ -19,6 +19,8 @@ export default function MySlider2({
   useEffect(() => {
     const wrapper = wrapperRef.current;
     const gridContainer = gridContainerRef.current;
+    console.log({ nextElSelector, prevElSelector, wrapper, gridContainer });
+
     if (prevElSelector && nextElSelector && wrapper && gridContainer) {
       const prevButton = document.querySelector(prevElSelector);
       const nextButton = document.querySelector(nextElSelector);
