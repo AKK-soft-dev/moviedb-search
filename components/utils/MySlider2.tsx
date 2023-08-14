@@ -19,7 +19,10 @@ export default function MySlider2({
       className={`wrapper ${yelredScrollbar ? "yelred" : ""}`}
       sx={{
         "&::-webkit-scrollbar": {
-          height: { xs: 5, md: 20 },
+          height: { xs: 5, md: 14, lg: 20 },
+        },
+        "&::-webkit-scrollbar-thumb": {
+          borderRadius: { md: "solid 3px transparent" },
         },
       }}
     >
