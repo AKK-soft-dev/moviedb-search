@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import BSGridContainer from "./BSGridContainer";
 
 export default function MySlider2({
@@ -13,6 +13,27 @@ export default function MySlider2({
   prevElSelector?: string;
   nextElSelector?: string;
 }) {
+  const gridContainerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    const gridContainer = gridContainerRef.current;
+    if (prevElSelector && nextElSelector && wrapper && gridContainer) {
+      const prevButton = document.querySelector(prevElSelector);
+      const nextButton = document.querySelector(nextElSelector);
+      const childItemWidth =
+        gridContainer.children[0].getBoundingClientRect().width;
+
+      prevButton?.addEventListener("click", () => {
+        wrapper.scrollBy({ left: -childItemWidth, behavior: "smooth" });
+      });
+
+      nextButton?.addEventListener("click", () => {
+        wrapper.scrollBy({ left: childItemWidth, behavior: "smooth" });
+      });
+    }
+  }, []);
   return (
     <Box
       component="div"
@@ -26,7 +47,9 @@ export default function MySlider2({
         },
       }}
     >
-      <BSGridContainer noWrap>{children}</BSGridContainer>
+      <BSGridContainer noWrap ref={gridContainerRef}>
+        {children}
+      </BSGridContainer>
     </Box>
   );
 }
