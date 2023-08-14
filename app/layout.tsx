@@ -22,13 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <ThemeRegistry options={{ key: "mui", prepend: false }}>
-          <MyDataQueryProvider>
+        <MyDataQueryProvider>
+          <ThemeRegistry options={{ key: "mui", prepend: false }}>
             <Navbar />
             {children}
             <FloatingFilterButton />
-          </MyDataQueryProvider>
-        </ThemeRegistry>
+          </ThemeRegistry>
+        </MyDataQueryProvider>
       </body>
     </html>
   );

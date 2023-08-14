@@ -22,14 +22,16 @@ export default function TrendingDataDisplay({
       setStreamed(true);
       return;
     }
-
-    fetch(`/api/trend/${trendTime}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log({ data });
-        setTrendData(data);
-        setQueryData("reset-scroll", () => true);
-      });
+    if (streamed) {
+      fetch(`/api/trend/${trendTime}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log({ data });
+          setTrendData(data);
+          console.log("resetting scroll");
+          setQueryData("reset-scroll", (prev) => !prev);
+        });
+    }
   }, [trendTime, streamed]);
 
   return (

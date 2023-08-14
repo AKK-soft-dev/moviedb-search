@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useRef } from "react";
 import BSGridContainer from "./BSGridContainer";
-import { useDataQuery } from "react-data-query";
+import { useDataQuery, useDataQueryMagic } from "react-data-query";
 
 export default function MySlider2({
   children,
@@ -19,7 +19,9 @@ export default function MySlider2({
   const { data: resetScroll } = useDataQuery("reset-scroll", undefined, {
     autoFetchEnabled: false,
     initialData: false,
+    staleTime: Infinity,
   });
+  const { setQueryData } = useDataQueryMagic();
 
   console.log({ resetScroll });
   useEffect(() => {
@@ -39,6 +41,9 @@ export default function MySlider2({
       }
 
       const handleMove = (type: "prev" | "next") => {
+        if (resetScroll) {
+          setQueryData("reset-scroll", () => false);
+        }
         wrapper.scrollBy({
           left: type === "prev" ? -childItemWidth : childItemWidth,
           behavior: "smooth",
