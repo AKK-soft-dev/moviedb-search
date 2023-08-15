@@ -16,9 +16,8 @@ export async function GET(
 
   const releaseType = params.releaseType === "digital" ? "4" : "2%7C3";
   let urlParams =
-    params.releaseType === "digital"
-      ? `release_date.lte=${currentDate}`
-      : `release_date.gte=${last5Days}&release_date.lte=${currentDate}`;
+    params.releaseType ===
+    `release_date.gte=${last5Days}&release_date.lte=${currentDate}`;
   const uri = `/discover/movie?include_adult=true&include_video=false&language=en-US&page=1&${urlParams}&sort_by=popularity.desc&with_release_type=${releaseType}`;
 
   const res = await fetchData(uri);
