@@ -1,9 +1,9 @@
 "use client";
 import MovieItem from "@/components/utils/MovieItem";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import { TrendingContext } from "./Trending";
-import MySlider2 from "@/components/utils/MySlider2";
+import MySlider2, { MySliderHandler } from "@/components/utils/MySlider2";
 import SliderItem from "@/components/utils/SliderItem";
 import { useDataQueryMagic } from "react-data-query";
 
@@ -15,7 +15,7 @@ export default function TrendingDataDisplay({
   const [trendData, setTrendData] = useState(initialData);
   const results = trendData?.results || [];
   const { trendTime, streamed, setStreamed } = useContext(TrendingContext);
-  const { setQueryData } = useDataQueryMagic();
+  const sliderHandler = useRef<MySliderHandler>(null);
 
   useEffect(() => {
     if (!streamed) {
@@ -26,17 +26,20 @@ export default function TrendingDataDisplay({
       fetch(`/api/trend/${trendTime}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log({ data });
+          // console.log({ data });
           setTrendData(data);
-          console.log("resetting scroll");
-          setQueryData("reset-scroll", (prev) => !prev);
+          sliderHandler.current?.resetScroll();
         });
     }
   }, [trendTime, streamed]);
 
   return (
     <Box my={3}>
-      <MySlider2 prevElSelector=".prev" nextElSelector=".next">
+      <MySlider2
+        ref={sliderHandler}
+        prevElSelector=".prev"
+        nextElSelector=".next"
+      >
         {results?.map((movie, i) => (
           <SliderItem key={i}>
             <MovieItem movie={movie} />

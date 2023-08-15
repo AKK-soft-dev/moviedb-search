@@ -1,11 +1,10 @@
 "use client";
 import MovieItem from "@/components/utils/MovieItem";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import { PopularContext } from "./Popular";
-import MySlider2 from "@/components/utils/MySlider2";
+import MySlider2, { MySliderHandler } from "@/components/utils/MySlider2";
 import SliderItem from "@/components/utils/SliderItem";
-import { useDataQueryMagic } from "react-data-query";
 
 export default function PopularDataDisplay({
   data: initialData,
@@ -13,9 +12,9 @@ export default function PopularDataDisplay({
   data: { results: [] };
 }) {
   const [trendData, setTrendData] = useState(initialData);
+  const sliderHandler = useRef<MySliderHandler>(null);
   const results = trendData?.results || [];
   const { releaseType, streamed, setStreamed } = useContext(PopularContext);
-  const { setQueryData } = useDataQueryMagic();
 
   useEffect(() => {
     if (!streamed) {
@@ -28,7 +27,7 @@ export default function PopularDataDisplay({
         .then((data) => {
           console.log({ data });
           setTrendData(data);
-          setQueryData("reset-scroll", (prev) => !prev);
+          sliderHandler.current?.resetScroll();
         });
     }
   }, [releaseType, streamed]);
@@ -36,6 +35,7 @@ export default function PopularDataDisplay({
   return (
     <Box my={3}>
       <MySlider2
+        ref={sliderHandler}
         yelredScrollbar
         prevElSelector=".popular-prev"
         nextElSelector=".popular-next"
