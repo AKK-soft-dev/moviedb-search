@@ -9,7 +9,7 @@ function wait(duration: number) {
 }
 
 export default async function StreamPopular() {
-  const res = await fetch(
+  const res = await fetchData(
     `/discover/movie?include_adult=true&include_video=false&language=en-US&page=1&release_date.lte=${formatDate(
       new Date()
     )}&sort_by=popularity.desc&with_release_type=4`,
