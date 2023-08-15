@@ -11,7 +11,7 @@ export async function GET(
 ) {
   const currentDate = formatDate(new Date());
 
-  const releaseType = params.releaseType === "digital" ? "4" : "2|3";
+  const releaseType = params.releaseType === "digital" ? "4" : "2%7C3";
   let urlParams =
     params.releaseType === "digital"
       ? `release_date.lte=${currentDate}`
