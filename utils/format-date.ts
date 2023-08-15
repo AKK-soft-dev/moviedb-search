@@ -9,3 +9,17 @@ export default function formatDate(date: Date) {
 
   return formattedDate;
 }
+
+export function formatDisplayDate(
+  dateString: string,
+  formatType?: "long" | "short"
+) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const monthName = new Intl.DateTimeFormat("en-US", {
+    month: formatType || "long",
+  }).format(date);
+  const day = date.getDate();
+
+  return `${monthName} ${day} ${year}`;
+}

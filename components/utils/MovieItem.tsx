@@ -1,3 +1,4 @@
+import { formatDisplayDate } from "@/utils/format-date";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 
@@ -51,7 +52,9 @@ export default function MovieItem({
           >
             {title}
           </Typography>
-          <Typography variant="body2">{release_date}</Typography>
+          <Typography variant="body2">
+            {formatDisplayDate(release_date)}
+          </Typography>
         </Box>
       </Box>
     </Box>

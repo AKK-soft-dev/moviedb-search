@@ -14,23 +14,25 @@ export default function PopularDataDisplay({
   const [trendData, setTrendData] = useState(initialData);
   const sliderHandler = useRef<MySliderHandler>(null);
   const results = trendData?.results || [];
-  const { releaseType, streamed, setStreamed } = useContext(PopularContext);
+  const { releaseType, setStreamed } = useContext(PopularContext);
+
+  const streamed = useRef<boolean>(false);
 
   useEffect(() => {
-    if (!streamed) {
-      setStreamed(true);
+    if (!streamed.current) {
+      streamed.current = true;
       return;
     }
-    if (streamed) {
-      fetch(`/api/popular/${releaseType}`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log({ data });
-          setTrendData(data);
-          sliderHandler.current?.resetScroll();
-        });
-    }
-  }, [releaseType, streamed]);
+    sliderHandler.current?.fadeOut();
+    fetch(`/api/popular/${releaseType}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log({ data });
+        setTrendData(data);
+        sliderHandler.current?.fadeIn();
+        sliderHandler.current?.resetScroll();
+      });
+  }, [releaseType]);
 
   return (
     <Box my={3}>

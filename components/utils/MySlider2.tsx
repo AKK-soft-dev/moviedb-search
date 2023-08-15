@@ -6,7 +6,6 @@ import React, {
   useRef,
 } from "react";
 import BSGridContainer from "./BSGridContainer";
-import { useDataQuery, useDataQueryMagic } from "react-data-query";
 
 type MySliderProps = {
   children: React.ReactNode;
@@ -17,6 +16,8 @@ type MySliderProps = {
 
 export type MySliderHandler = {
   resetScroll: () => void;
+  fadeOut: () => void;
+  fadeIn: () => void;
 };
 
 const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
@@ -28,27 +29,28 @@ const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
       ref,
       () => ({
         resetScroll() {
-          const wrapper = wrapperRef.current;
-          if (wrapper) {
-            wrapper.scrollTo({ left: 0, behavior: "smooth" });
+          wrapperRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+        },
+        fadeOut() {
+          const gridContainer = gridContainerRef.current;
+          if (gridContainer) {
+            gridContainer.style.opacity = "0.6";
+          }
+        },
+        fadeIn() {
+          const gridContainer = gridContainerRef.current;
+          if (gridContainer) {
+            gridContainer.style.opacity = "1";
           }
         },
       }),
       []
     );
 
-    const { data: resetScroll } = useDataQuery("reset-scroll", undefined, {
-      autoFetchEnabled: false,
-      initialData: false,
-      staleTime: Infinity,
-    });
-    const { setQueryData } = useDataQueryMagic();
-
-    console.log({ resetScroll });
     useEffect(() => {
       const wrapper = wrapperRef.current;
       const gridContainer = gridContainerRef.current;
-      console.log({ nextElSelector, prevElSelector, wrapper, gridContainer });
+      // console.log({ nextElSelector, prevElSelector, wrapper, gridContainer });
 
       if (prevElSelector && nextElSelector && wrapper && gridContainer) {
         const prevButton = document.querySelector(prevElSelector);
@@ -57,9 +59,6 @@ const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
           gridContainer.children[0].getBoundingClientRect().width;
 
         const handleMove = (type: "prev" | "next") => {
-          if (resetScroll) {
-            setQueryData("reset-scroll", () => false);
-          }
           wrapper.scrollBy({
             left: type === "prev" ? -childItemWidth : childItemWidth,
             behavior: "smooth",
@@ -77,13 +76,14 @@ const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
           nextButton?.removeEventListener("click", handleNextMove);
         };
       }
-    }, [resetScroll]);
+    }, [prevElSelector, nextElSelector]);
     return (
       <Box
         ref={wrapperRef}
         component="div"
         className={`wrapper ${yelredScrollbar ? "yelred" : ""}`}
         sx={{
+          transition: "all 0.3s ease",
           "&::-webkit-scrollbar": {
             height: { xs: 5, md: 14, lg: 20 },
           },

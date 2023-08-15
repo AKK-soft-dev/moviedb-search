@@ -5,7 +5,6 @@ import { Box } from "@mui/material";
 import { TrendingContext } from "./Trending";
 import MySlider2, { MySliderHandler } from "@/components/utils/MySlider2";
 import SliderItem from "@/components/utils/SliderItem";
-import { useDataQueryMagic } from "react-data-query";
 
 export default function TrendingDataDisplay({
   data: initialData,
@@ -14,24 +13,24 @@ export default function TrendingDataDisplay({
 }) {
   const [trendData, setTrendData] = useState(initialData);
   const results = trendData?.results || [];
-  const { trendTime, streamed, setStreamed } = useContext(TrendingContext);
+  const { trendTime } = useContext(TrendingContext);
   const sliderHandler = useRef<MySliderHandler>(null);
+  const streamed = useRef(false);
 
   useEffect(() => {
-    if (!streamed) {
-      setStreamed(true);
+    if (!streamed.current) {
+      streamed.current = true;
       return;
     }
-    if (streamed) {
-      fetch(`/api/trend/${trendTime}`)
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log({ data });
-          setTrendData(data);
-          sliderHandler.current?.resetScroll();
-        });
-    }
-  }, [trendTime, streamed]);
+    sliderHandler.current?.fadeOut();
+    fetch(`/api/trend/${trendTime}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTrendData(data);
+        sliderHandler.current?.fadeIn();
+        sliderHandler.current?.resetScroll();
+      });
+  }, [trendTime]);
 
   return (
     <Box my={3}>
