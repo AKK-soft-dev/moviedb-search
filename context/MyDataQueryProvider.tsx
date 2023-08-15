@@ -6,5 +6,9 @@ export default function MyDataQueryProvider({
 }: {
   children: React.ReactNode;
 }) {
-  return <DataQueryProvider>{children}</DataQueryProvider>;
+  return (
+    <DataQueryProvider options={{ refetchOnWindowFocus: false }}>
+      {children}
+    </DataQueryProvider>
+  );
 }
