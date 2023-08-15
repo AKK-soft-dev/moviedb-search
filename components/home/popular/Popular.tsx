@@ -1,6 +1,7 @@
 "use client";
 import {
   Box,
+  Button,
   Container,
   ToggleButton,
   ToggleButtonGroup,
@@ -8,9 +9,20 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import SingleRowSkeleton from "../skeletons/SingleRowSkeleton";
+import { createContext } from "react";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 
-export default function Popular() {
+type PopularContextType = {
+  streamed: boolean;
+  releaseType: string;
+  setStreamed: React.Dispatch<React.SetStateAction<any>>;
+};
+
+export const PopularContext = createContext({} as PopularContextType);
+
+export default function Popular({ children }: { children: React.ReactNode }) {
+  const [streamed, setStreamed] = useState(false);
   const [releaseType, setReleaseType] = useState("digital");
   const theme = useTheme();
   const handleChange = (
@@ -48,12 +60,23 @@ export default function Popular() {
           <ToggleButton value="digital" sx={{ textTransform: "none" }}>
             Digital Released
           </ToggleButton>
-          <ToggleButton value="theatre" sx={{ textTransform: "none" }}>
+          <ToggleButton value="theatrical" sx={{ textTransform: "none" }}>
             In Theatres
           </ToggleButton>
         </ToggleButtonGroup>
+
+        <Box sx={{ ml: "auto", display: { xs: "none", sm: "block" } }}>
+          <Button startIcon={<ArrowBackIcon />} className="popular-prev">
+            Prev
+          </Button>
+          <Button endIcon={<ArrowForwardIcon />} className="popular-next">
+            Next
+          </Button>
+        </Box>
       </Box>
-      <SingleRowSkeleton yelredScrollbar length={12} />
+      <PopularContext.Provider value={{ releaseType, streamed, setStreamed }}>
+        {children}
+      </PopularContext.Provider>
     </Container>
   );
 }

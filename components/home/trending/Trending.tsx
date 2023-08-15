@@ -7,12 +7,10 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React, { createContext, useState, Suspense } from "react";
+import React, { createContext, useState } from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 import { inter } from "@/fonts/fonts";
-import StreamTrending from "./StreamTrending";
-import SingleRowSkeleton from "@/components/skeletons/SingleRowSkeleton";
 
 type TrendingContextType = {
   streamed: boolean;
