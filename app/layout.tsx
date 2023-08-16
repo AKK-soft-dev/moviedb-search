@@ -10,7 +10,10 @@ import FloatingFilterButton from "@/components/utils/FloatingFilterButton";
 import MyDataQueryProvider from "@/context/MyDataQueryProvider";
 
 export const metadata: Metadata = {
-  title: "MovieDB Search",
+  title: {
+    default: "MovieDB Search",
+    template: "%s | MovieDB Search",
+  },
   description:
     "Explore the Cinematic Universe. Discover a World of Movies and TV Shows at Your Fingertips",
   keywords: [
