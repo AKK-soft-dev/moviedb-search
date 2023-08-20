@@ -4,7 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 export default function Navbar() {
   return (
-    <AppBar position="sticky" elevation={0}>
+    <AppBar position="sticky" elevation={2}>
       <Toolbar component="nav" sx={{ columnGap: 2 }}>
         <Typography
           component={Link}

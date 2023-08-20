@@ -5,7 +5,7 @@ import TuneIcon from "@mui/icons-material/Tune";
 export default function FloatingFilterButton() {
   return (
     <Button
-      size="large"
+      size="medium"
       variant="contained"
       className="animate__animated animate__heartBeat animate__delay-3s"
       sx={{

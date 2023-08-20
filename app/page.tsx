@@ -6,11 +6,21 @@ import StreamTrending from "@/components/home/trending/StreamTrending";
 import SingleRowSkeleton from "@/components/skeletons/SingleRowSkeleton";
 import { Suspense } from "react";
 import StreamPopular from "@/components/home/popular/StreamPopular";
+import fetchData from "@/config/fetch";
 
-export default function Home() {
+export default async function Home() {
+  const trendData = await fetchData("/trending/movie/day?language=en-US", {
+    cache: "no-store",
+  }).then((res) => res.json());
+
+  const trendingMovies = trendData?.results || [];
+
+  const randomMovie =
+    trendingMovies[Math.ceil(Math.random() * trendingMovies.length)];
+
   return (
     <Box component="main">
-      <Hero />
+      <Hero backgroundImageUrl={randomMovie?.backdrop_path} />
       <Trending>
         <Suspense fallback={<SingleRowSkeleton length={12} />}>
           <StreamTrending />

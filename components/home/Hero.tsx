@@ -8,7 +8,11 @@ import {
   useTheme,
 } from "@mui/material";
 
-export default function Hero() {
+export default function Hero({
+  backgroundImageUrl,
+}: {
+  backgroundImageUrl: string;
+}) {
   const theme = useTheme();
   const defaultBackground = theme.palette.background.default;
   return (
@@ -16,7 +20,11 @@ export default function Hero() {
       component="section"
       className="background-ani"
       sx={{
-        backgroundImage: "url(/backdrop.jpg)",
+        backgroundImage: `url(${
+          backgroundImageUrl
+            ? `https://image.tmdb.org/t/p/w1280${backgroundImageUrl}`
+            : "/backdrop.jpg"
+        })`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
