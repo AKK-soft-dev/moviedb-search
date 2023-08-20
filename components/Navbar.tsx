@@ -1,3 +1,4 @@
+"use client";
 import {
   AppBar,
   Box,
@@ -5,66 +6,44 @@ import {
   Toolbar,
   Typography,
   Container,
+  styled,
+  TypographyProps,
 } from "@mui/material";
 import Link from "next/link";
 import SearchIcon from "@mui/icons-material/Search";
+import Image from "next/image";
+
+const StyledTypography = styled(Typography)<TypographyProps & { href: string }>(
+  ({ theme }) => ({
+    position: "relative",
+    top: 0,
+    left: 0,
+    color: theme.palette.text.primary,
+    transition: "transform",
+    "&:hover": {
+      transform: "scale(0.95)",
+    },
+  })
+);
 
 export default function Navbar() {
   return (
     <AppBar position="sticky" elevation={1}>
       <Container>
         <Toolbar component="nav" sx={{ columnGap: 2 }} disableGutters>
-          <Typography
-            component={Link}
-            variant="body1"
-            href="#"
-            sx={{
-              position: "relative",
-              top: 0,
-              left: 0,
-              color: "text.primary",
-              transition: "transform",
-              "&:hover": {
-                transform: "scale(0.95)",
-              },
-            }}
-          >
+          <Link href="/">
+            <Image src="/icon.png" alt="App logo" width={32} height={32} />
+          </Link>
+
+          <StyledTypography component={Link} variant="body1" href="#">
             Movies
-          </Typography>
-          <Typography
-            component={Link}
-            variant="body1"
-            href="#"
-            sx={{
-              position: "relative",
-              top: 0,
-              left: 0,
-              color: "text.primary",
-              transition: "transform 0.2s ease",
-              "&:hover": {
-                transform: "scale(0.95)",
-              },
-            }}
-          >
+          </StyledTypography>
+          <StyledTypography component={Link} variant="body1" href="#">
             TV Shows
-          </Typography>
-          <Typography
-            component={Link}
-            variant="body1"
-            href="#"
-            sx={{
-              position: "relative",
-              top: 0,
-              left: 0,
-              color: "text.primary",
-              transition: "transform 0.3s ease",
-              "&:hover": {
-                transform: "scale(0.95)",
-              },
-            }}
-          >
+          </StyledTypography>
+          <StyledTypography component={Link} variant="body1" href="#">
             People
-          </Typography>
+          </StyledTypography>
 
           <Box sx={{ ml: "auto" }}>
             <IconButton>
