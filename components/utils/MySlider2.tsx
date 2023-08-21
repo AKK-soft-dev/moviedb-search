@@ -77,6 +77,7 @@ const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
         };
       }
     }, [prevElSelector, nextElSelector]);
+
     return (
       <Box
         ref={wrapperRef}

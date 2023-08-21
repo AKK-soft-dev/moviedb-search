@@ -48,7 +48,7 @@ export default function Hero({
             className="text-gradient-util"
             sx={{
               fontWeight: 700,
-              background: `linear-gradient(45deg, ${theme.palette.secondary.light}, #ff4345)`,
+              background: `linear-gradient(45deg, #ff4345, ${theme.palette.secondary.light})`,
             }}
           >
             <Box component="span">Explore</Box> the Cinematic Universe

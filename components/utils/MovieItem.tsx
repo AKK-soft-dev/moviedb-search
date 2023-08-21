@@ -35,11 +35,16 @@ export default function MovieItem({
         >
           <Image
             src={imgSrc}
-            fill
             style={{ objectFit: "cover" }}
             alt={original_title}
             title={title}
+            fill
           />
+          <Box component="div" className="imdb-wrapper">
+            <Typography className="imdb" variant="body2" component="span">
+              {vote_average.toFixed(1)}
+            </Typography>
+          </Box>
         </Box>
         <Box sx={{ mt: 1, width: 1 }}>
           <Typography

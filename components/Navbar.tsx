@@ -11,7 +11,9 @@ import {
   TypographyProps,
   List,
   ListItemButton,
+  ListItemButtonProps,
   ListItemIcon,
+  alpha,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LiveTVIcon from "@mui/icons-material/LiveTv";
@@ -34,6 +36,16 @@ const StyledTypography = styled(Typography)<TypographyProps & { href: string }>(
     },
   })
 );
+
+const StyledListItemButton = styled(ListItemButton)<
+  ListItemButtonProps & { href: string }
+>(({ theme }) => ({
+  paddingTop: theme.spacing(2),
+  paddingBottom: theme.spacing(2),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.secondary.dark, 0.2),
+  },
+}));
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -70,39 +82,24 @@ export default function Navbar() {
           >
             <Toolbar />
             <List>
-              <ListItemButton
-                LinkComponent={Link}
-                href="#"
-                divider
-                sx={{ py: 2 }}
-              >
+              <StyledListItemButton LinkComponent={Link} href="#" divider>
                 <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
                   <MovieIcon />
                 </ListItemIcon>
                 Movies
-              </ListItemButton>
-              <ListItemButton
-                LinkComponent={Link}
-                href="#"
-                divider
-                sx={{ py: 2 }}
-              >
+              </StyledListItemButton>
+              <StyledListItemButton LinkComponent={Link} href="#" divider>
                 <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
                   <LiveTVIcon />
                 </ListItemIcon>
                 TV Shows
-              </ListItemButton>
-              <ListItemButton
-                LinkComponent={Link}
-                href="#"
-                divider
-                sx={{ py: 2 }}
-              >
+              </StyledListItemButton>
+              <StyledListItemButton LinkComponent={Link} href="#" divider>
                 <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
                   <PeopleIcon />
                 </ListItemIcon>
                 People
-              </ListItemButton>
+              </StyledListItemButton>
             </List>
           </Drawer>
 
