@@ -2,7 +2,7 @@
 import {
   Box,
   Container,
-  TextField,
+  OutlinedInput,
   Typography,
   alpha,
   useTheme,
@@ -57,12 +57,14 @@ export default function Hero({
             Discover a World of Movies and TV Shows at Your Fingertips
           </Typography>
 
-          <TextField
-            label="Search movies, shows, and people"
-            fullWidth
-            variant="outlined"
-            sx={{ mt: 2 }}
-          />
+          <Box component="form">
+            <OutlinedInput
+              placeholder="Search movies, shows, and people"
+              fullWidth
+              sx={{ mt: 2 }}
+              inputProps={{ inputMode: "search" }}
+            />
+          </Box>
         </Container>
       </Box>
     </Box>

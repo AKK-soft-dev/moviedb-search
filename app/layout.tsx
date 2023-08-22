@@ -4,6 +4,7 @@ import "animate.css";
 import "../style/bs-grid.css";
 import "../node_modules/swiper/swiper-bundle.min.css";
 import type { Metadata } from "next";
+import { Box } from "@mui/material";
 import { roboto } from "@/fonts/fonts";
 import Navbar from "@/components/Navbar";
 import FloatingFilterButton from "@/components/utils/FloatingFilterButton";
@@ -35,7 +36,9 @@ export default function RootLayout({
       <body className={roboto.className}>
         <MyDataQueryProvider>
           <ThemeRegistry options={{ key: "mui", prepend: false }}>
+            <Box position="relative"></Box>
             <Navbar />
+
             {children}
             <FloatingFilterButton />
           </ThemeRegistry>

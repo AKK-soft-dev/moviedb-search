@@ -14,15 +14,19 @@ import {
   ListItemButtonProps,
   ListItemIcon,
   alpha,
+  TextField,
+  CircularProgress,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LiveTVIcon from "@mui/icons-material/LiveTv";
 import MovieIcon from "@mui/icons-material/LocalMovies";
 import PeopleIcon from "@mui/icons-material/Group";
+import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 import SearchIcon from "@mui/icons-material/Search";
 import Image from "next/image";
-import { useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 
 const StyledTypography = styled(Typography)<TypographyProps & { href: string }>(
   ({ theme }) => ({
@@ -47,16 +51,50 @@ const StyledListItemButton = styled(ListItemButton)<
   },
 }));
 
+const filter = createFilterOptions<string>();
+
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openSearchBox, setOpenSearchBox] = useState(false);
+  const [options, setOptions] = useState<string[]>([]);
+  const [query, setQuery] = useState<string | null>(null);
+  const [inputQuery, setInputQuery] = useState<string | undefined>("");
+  const [loading, setLoading] = useState(false);
+
+  const toggleSearchBox = () => {
+    setOpenSearchBox((prev) => !prev);
+  };
+
   const toggleDrawer = () => {
-    setOpen((prev) => !prev);
+    setOpenDrawer((prev) => !prev);
   };
+
   const handleClose = () => {
-    setOpen(false);
+    setOpenDrawer(false);
   };
+
+  const deferredQuery = useDeferredValue<string | undefined>(inputQuery);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`/api/search?query=${inputQuery}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        const options = data.results.map(
+          (res: { name?: string; title?: string }) => res.name || res.title
+        );
+        setOptions(Array.from(new Set(options)));
+        setLoading(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [deferredQuery]);
+
   return (
-    <AppBar position="sticky" elevation={1}>
+    <AppBar position="sticky" sx={{ top: 0 }} elevation={1}>
       <Container>
         <Toolbar component="nav" sx={{ columnGap: 2 }} disableGutters>
           <IconButton
@@ -69,7 +107,7 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
           <Drawer
-            open={open}
+            open={openDrawer}
             onClose={handleClose}
             PaperProps={{
               elevation: 0,
@@ -129,12 +167,79 @@ export default function Navbar() {
           </Box>
 
           <Box sx={{ flex: "0 0 auto" }}>
-            <IconButton>
-              <SearchIcon />
+            <IconButton onClick={toggleSearchBox}>
+              {openSearchBox ? <CloseIcon /> : <SearchIcon />}
             </IconButton>
           </Box>
         </Toolbar>
       </Container>
+      <Box
+        component="div"
+        className="search-box"
+        display={openSearchBox ? "block" : "none"}
+        sx={{
+          background: (theme) => theme.palette.background.default,
+        }}
+      >
+        <Autocomplete
+          loading={loading}
+          autoSelect
+          freeSolo
+          selectOnFocus
+          clearOnBlur
+          handleHomeEndKeys
+          options={options}
+          value={query}
+          inputValue={inputQuery}
+          onChange={(_event, newValue) => {
+            setQuery(newValue);
+          }}
+          onInputChange={(_e, newInput) => {
+            setInputQuery(newInput);
+          }}
+          filterOptions={(options, params) => {
+            const filtered = filter(options, params);
+
+            const { inputValue } = params;
+            // Suggest the creation of a new value
+            const isExisting = options.some((option) => inputValue === option);
+            if (inputValue !== "" && !isExisting) {
+              filtered.push(inputValue);
+            }
+
+            return filtered;
+          }}
+          renderOption={(props, option) => {
+            return (
+              <Box component="li" {...props}>
+                <SearchIcon sx={{ mr: 1 }} /> {option}
+              </Box>
+            );
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: 0,
+                },
+              }}
+              placeholder="Search movies, shows and people..."
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {loading ? (
+                      <CircularProgress color="inherit" size={20} />
+                    ) : null}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              }}
+            />
+          )}
+        />
+      </Box>
     </AppBar>
   );
 }

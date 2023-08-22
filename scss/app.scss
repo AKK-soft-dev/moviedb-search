@@ -124,12 +124,19 @@ $gutters: (
 }
 
 /* Internet Explorer and Edge (Older versions) */
-.wrapper,
-html {
+.wrapper {
   scrollbar-base-color: #f1f1f1;
   scrollbar-arrow-color: #b92e2e;
   scrollbar-shadow-color: #f30b0b;
   scrollbar-face-color: #f1f1f1;
   scrollbar-highlight-color: #f1f1f1;
   scrollbar-darkshadow-color: #888;
+}
+
+.search-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
 }

@@ -11,6 +11,5 @@ export async function GET(
 
   const res = await fetchData(uri);
   const data = await res.json();
-  // console.log("fetching trend data", { uri, data });
   return NextResponse.json(data);
 }
