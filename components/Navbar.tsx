@@ -16,6 +16,7 @@ import {
   alpha,
   TextField,
   CircularProgress,
+  LinearProgress,
 } from "@mui/material";
 import { useRef } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -28,6 +29,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import Image from "next/image";
 import { useDeferredValue, useEffect, useState } from "react";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
+import { useDataQuery, useDataQueryMagic } from "react-data-query";
+import { useRouter } from "next/navigation";
 
 const StyledTypography = styled(Typography)<TypographyProps & { href: string }>(
   ({ theme }) => ({
@@ -62,6 +65,13 @@ export default function Navbar() {
   const [inputQuery, setInputQuery] = useState<string | undefined>("");
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  const { data: isSearching } = useDataQuery("search-indicator", undefined, {
+    initialData: false,
+    autoFetchEnabled: false,
+  });
+  const { setQueryData } = useDataQueryMagic();
 
   const toggleSearchBox = () => {
     setOpenSearchBox((prev) => !prev);
@@ -78,6 +88,10 @@ export default function Navbar() {
   useEffect(() => {
     openSearchBox && inputRef.current?.focus();
   }, [openSearchBox]);
+
+  useEffect(() => {
+    router.prefetch("/search");
+  }, []);
 
   const deferredQuery = useDeferredValue<string | undefined>(inputQuery);
 
@@ -180,6 +194,17 @@ export default function Navbar() {
         </Toolbar>
       </Container>
       <Box
+        sx={{
+          position: "absolute",
+          display: isSearching ? "block" : "none",
+          top: 0,
+          left: 0,
+          right: 0,
+        }}
+      >
+        <LinearProgress />
+      </Box>
+      <Box
         component="div"
         className="search-box"
         display={openSearchBox ? "block" : "none"}
@@ -200,6 +225,11 @@ export default function Navbar() {
           inputValue={inputQuery}
           onChange={(_event, newValue) => {
             setQuery(newValue);
+            if (newValue) {
+              setOpenSearchBox(false);
+              setQueryData("search-indicator", () => true);
+              router.push(`/search?query=${newValue}`);
+            }
           }}
           onInputChange={(_e, newInput) => {
             setInputQuery(newInput);
@@ -235,6 +265,7 @@ export default function Navbar() {
               InputProps={{
                 ...params.InputProps,
                 inputRef: inputRef,
+                inputMode: "search",
                 startAdornment: <SearchIcon />,
                 endAdornment: (
                   <>

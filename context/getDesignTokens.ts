@@ -28,6 +28,7 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => {
       body1: {
         fontWeight: 500,
         textDecoration: "none",
+        textTransform: "none",
       },
     },
     shape: {
