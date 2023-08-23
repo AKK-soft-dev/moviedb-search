@@ -265,7 +265,6 @@ export default function Navbar() {
               InputProps={{
                 ...params.InputProps,
                 inputRef: inputRef,
-                type: "search",
                 startAdornment: <SearchIcon />,
                 endAdornment: (
                   <>
