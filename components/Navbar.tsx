@@ -17,6 +17,7 @@ import {
   TextField,
   CircularProgress,
 } from "@mui/material";
+import { useRef } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import LiveTVIcon from "@mui/icons-material/LiveTv";
 import MovieIcon from "@mui/icons-material/LocalMovies";
@@ -60,6 +61,7 @@ export default function Navbar() {
   const [query, setQuery] = useState<string | null>(null);
   const [inputQuery, setInputQuery] = useState<string | undefined>("");
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const toggleSearchBox = () => {
     setOpenSearchBox((prev) => !prev);
@@ -72,6 +74,10 @@ export default function Navbar() {
   const handleClose = () => {
     setOpenDrawer(false);
   };
+
+  useEffect(() => {
+    openSearchBox && inputRef.current?.focus();
+  }, [openSearchBox]);
 
   const deferredQuery = useDeferredValue<string | undefined>(inputQuery);
 
@@ -183,6 +189,7 @@ export default function Navbar() {
       >
         <Autocomplete
           loading={loading}
+          autoFocus
           autoSelect
           freeSolo
           selectOnFocus
@@ -227,6 +234,8 @@ export default function Navbar() {
               placeholder="Search movies, shows and people..."
               InputProps={{
                 ...params.InputProps,
+                inputRef: inputRef,
+                startAdornment: <SearchIcon />,
                 endAdornment: (
                   <>
                     {loading ? (

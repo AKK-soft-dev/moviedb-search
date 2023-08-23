@@ -7,7 +7,7 @@ export async function GET(_req: NextRequest) {
       "query"
     )}&include_adult=false&language=en-US&page=1`
   );
-  console.log({ res });
+  // console.log({ res });
   const data = await res.json();
 
   return NextResponse.json(data);

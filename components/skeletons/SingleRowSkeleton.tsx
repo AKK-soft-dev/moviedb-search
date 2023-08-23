@@ -7,7 +7,6 @@ export default function SingleRowSkeleton({
   length = 6,
   yelredScrollbar = false,
 }) {
-  console.log("streaming with length ", length);
   return (
     <Box my={3}>
       <MySlider2 yelredScrollbar={yelredScrollbar}>
