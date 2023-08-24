@@ -3,18 +3,18 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 
-type VideoItemProps = {
-  movie: {
+type TVShowItemProps = {
+  tv: {
     poster_path: string;
-    title: string;
-    original_title: string;
+    name: string;
+    original_name: string;
     vote_average: number;
-    release_date: string;
+    first_air_date: string;
   };
 };
 export default function MovieItem({
-  movie: { poster_path, title, original_title, vote_average, release_date },
-}: VideoItemProps) {
+  tv: { poster_path, name, original_name, vote_average, first_air_date },
+}: TVShowItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
   return (
     <Box mb={4}>
@@ -38,8 +38,8 @@ export default function MovieItem({
             <Image
               src={imgSrc}
               style={{ objectFit: "cover" }}
-              alt={original_title}
-              title={title}
+              alt={original_name}
+              title={name}
               fill
             />
           ) : (
@@ -69,10 +69,10 @@ export default function MovieItem({
               whiteSpace: "nowrap",
             }}
           >
-            {title}
+            {name}
           </Typography>
           <Typography variant="body2">
-            {release_date && formatDisplayDate(release_date)}
+            {first_air_date && formatDisplayDate(first_air_date)}
           </Typography>
         </Box>
       </Box>

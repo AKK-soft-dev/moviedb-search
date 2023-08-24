@@ -1,6 +1,8 @@
 import { Box } from "@mui/material";
 import { TabPanelProps } from "./tabs";
 import MovieResultItem from "./item/movie-res-item";
+import MovieItem from "@/components/utils/MovieItem";
+import BSGridItem from "@/components/utils/BSGridItem";
 
 export default function MoviesPanel(props: TabPanelProps) {
   const { data, value, index, ...other } = props;
@@ -17,13 +19,9 @@ export default function MoviesPanel(props: TabPanelProps) {
       <Box>
         <Box component="div" className="row g-2">
           {data.results?.map((res) => (
-            <Box
-              component="div"
-              className="col-12 col-sm-6 col-lg-4"
-              key={res.id}
-            >
-              <MovieResultItem movie={res} />
-            </Box>
+            <BSGridItem key={res.id}>
+              <MovieItem movie={res} />
+            </BSGridItem>
           ))}
         </Box>
       </Box>

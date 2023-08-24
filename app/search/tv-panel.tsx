@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { TabPanelProps } from "./tabs";
-import TVShowResultItem from "./item/tv-res-item";
+import BSGridItem from "@/components/utils/BSGridItem";
+import TVShowItem from "@/components/utils/TVShowItem";
 
 export default function TVShowsPanel(props: TabPanelProps) {
   const { data, value, index, ...other } = props;
@@ -17,13 +18,9 @@ export default function TVShowsPanel(props: TabPanelProps) {
       <Box>
         <Box component="div" className="row g-2">
           {data.results?.map((res) => (
-            <Box
-              component="div"
-              className="col-12 col-sm-6 col-lg-4"
-              key={res.id}
-            >
-              <TVShowResultItem tv={res} />
-            </Box>
+            <BSGridItem key={res.id}>
+              <TVShowItem tv={res} />
+            </BSGridItem>
           ))}
         </Box>
       </Box>

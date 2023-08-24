@@ -15,6 +15,7 @@ export default function TVShowResultItem({
   tv,
 }: {
   tv: {
+    poster_path: string;
     backdrop_path: string;
     vote_average: number;
     name: string;
@@ -27,6 +28,7 @@ export default function TVShowResultItem({
 }) {
   const {
     backdrop_path,
+    poster_path,
     vote_average,
     name,
     original_name,
@@ -35,13 +37,14 @@ export default function TVShowResultItem({
     release_date,
     original_language,
   } = tv;
-  const imgSrc = `https://image.tmdb.org/t/p/w1280${backdrop_path}`;
+  const backdropImgSrc = `https://image.tmdb.org/t/p/w1280${backdrop_path}`;
+  const posterImgSrc = `https://image.tmdb.org/t/p/w780${poster_path}`;
   return (
     <Card sx={{ width: 1 }} component="div">
-      {backdrop_path ? (
+      {/* {backdrop_path || poster_path ? (
         <CardMedia
           component="img"
-          src={imgSrc}
+          src={backdropImgSrc || posterImgSrc}
           sx={{ height: { xs: 220, sm: 240, md: 250, lg: 260, xl: 270 } }}
           alt={original_name}
         />
@@ -57,7 +60,13 @@ export default function TVShowResultItem({
         >
           <ImageNotSupportedIcon fontSize="large" />
         </Box>
-      )}
+      )} */}
+      <CardMedia
+        component="img"
+        src={backdrop_path ? backdropImgSrc : posterImgSrc}
+        sx={{ height: { xs: 220, sm: 240, md: 250, lg: 260, xl: 270 } }}
+        alt={original_name}
+      />
 
       <CardContent>
         <Typography noWrap>{name}</Typography>
