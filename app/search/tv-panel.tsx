@@ -2,17 +2,12 @@ import { Box, Pagination } from "@mui/material";
 import { TabPanelProps } from "./tabs";
 import BSGridItem from "@/components/utils/BSGridItem";
 import TVShowItem from "@/components/utils/TVShowItem";
-import { useEffect, useRef, useState } from "react";
-import { useDataQueryMagic } from "react-data-query";
-import { useSearchParams } from "next/navigation";
-import { searchIndicatorKey } from "@/components/Navbar";
+import { useCallback, useState } from "react";
+import usePaginatedSearchQuery from "@/utils/usePaginatedSearchQuery";
 
 export default function TVShowsPanel(props: TabPanelProps) {
-  const searchParams = useSearchParams();
   const { data, value, index, ...other } = props;
   const { results, total_pages } = data;
-  const [tvShows, setTVShows] = useState(results);
-  const { setQueryData } = useDataQueryMagic();
   const [page, setPage] = useState(1);
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -21,54 +16,31 @@ export default function TVShowsPanel(props: TabPanelProps) {
     setPage(value);
   };
 
-  const prevQuery = useRef<string | null>(searchParams.get("query"));
-  const prevPage = useRef<number>(page);
-  const currentQuery = searchParams.get("query");
+  const resetPage = useCallback(() => {
+    setPage(1);
+  }, []);
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    // If the previous query and current query are different, set the page to 1 and set new movies coming from server
-    if (prevQuery.current !== currentQuery) {
-      prevQuery.current = currentQuery;
-      prevPage.current = 1;
-      setPage(1);
-      setTVShows(results);
-    } else if (
-      prevPage.current !== page &&
-      prevQuery.current === currentQuery
-    ) {
-      prevPage.current = page;
-      setQueryData(searchIndicatorKey, () => true);
-      fetch(`/api/search/tv?query=${currentQuery}&p=${page}`, {
-        signal: abortController.signal,
-      })
-        .then((res) => res.json())
-        .then((tvShows) => {
-          setTVShows(tvShows.results);
-          setQueryData(searchIndicatorKey, () => false);
-          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-        });
-    }
-
-    return () => {
-      abortController.abort();
-    };
-  }, [currentQuery, page]);
+  const tvShows = usePaginatedSearchQuery(
+    page,
+    "tv",
+    results,
+    resetPage
+  ) as any[];
 
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
       aria-hidden={value !== index}
-      id={`movies-tabpanel-${index}`}
+      id={`tv-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
       <Box>
         <Box component="div" className="row g-2">
-          {tvShows?.map((res) => (
-            <BSGridItem key={res.id}>
-              <TVShowItem tv={res} />
+          {tvShows?.map((tvShow) => (
+            <BSGridItem key={tvShow.id}>
+              <TVShowItem tv={tvShow} />
             </BSGridItem>
           ))}
         </Box>
