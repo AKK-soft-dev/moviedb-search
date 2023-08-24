@@ -61,7 +61,13 @@ export default function TVShowResultItem({
 
       <CardContent>
         <Typography noWrap>{name}</Typography>
-        <Typography variant="caption" noWrap color="text.secondary">
+        <Typography
+          variant="caption"
+          noWrap
+          color="text.secondary"
+          display="block"
+          sx={{ fontSize: (theme) => theme.typography.caption.fontSize }}
+        >
           OT - {original_name}
         </Typography>
         <Box sx={{ display: "flex", my: 2 }}>
@@ -78,6 +84,7 @@ export default function TVShowResultItem({
             </Typography>
           </Box>
         </Box>
+        <Divider sx={{ my: 2 }} />
         <Box>
           <CustomTooltip
             title={

@@ -61,7 +61,13 @@ export default function MovieResultItem({
 
       <CardContent>
         <Typography noWrap>{title}</Typography>
-        <Typography variant="caption" noWrap color="text.secondary">
+        <Typography
+          component="span"
+          noWrap
+          color="text.secondary"
+          display="block"
+          sx={{ fontSize: (theme) => theme.typography.caption.fontSize }}
+        >
           OT - {original_title}
         </Typography>
         <Box sx={{ display: "flex", my: 2 }}>
@@ -78,6 +84,7 @@ export default function MovieResultItem({
             </Typography>
           </Box>
         </Box>
+        <Divider sx={{ my: 2 }} />
         <Box>
           <CustomTooltip
             title={
