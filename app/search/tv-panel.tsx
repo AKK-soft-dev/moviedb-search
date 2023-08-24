@@ -4,6 +4,7 @@ import BSGridItem from "@/components/utils/BSGridItem";
 import TVShowItem from "@/components/utils/TVShowItem";
 import { useCallback, useState } from "react";
 import usePaginatedSearchQuery from "@/utils/usePaginatedSearchQuery";
+import BSGridContainer from "../../components/utils/BSGridContainer";
 
 export default function TVShowsPanel(props: TabPanelProps) {
   const { data, value, index, ...other } = props;
@@ -37,13 +38,13 @@ export default function TVShowsPanel(props: TabPanelProps) {
       {...other}
     >
       <Box>
-        <Box component="div" className="row g-2">
+        <BSGridContainer>
           {tvShows?.map((tvShow) => (
             <BSGridItem key={tvShow.id}>
               <TVShowItem tv={tvShow} />
             </BSGridItem>
           ))}
-        </Box>
+        </BSGridContainer>
         {total_pages > 1 && (
           <Box display="flex" justifyContent="center" my={2}>
             <Pagination

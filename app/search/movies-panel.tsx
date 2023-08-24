@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import MovieItem from "@/components/utils/MovieItem";
 import BSGridItem from "@/components/utils/BSGridItem";
 import usePaginatedSearchQuery from "@/utils/usePaginatedSearchQuery";
+import BSGridContainer from "@/components/utils/BSGridContainer";
 
 export default function MoviesPanel(props: TabPanelProps) {
   const { data, value, index, ...other } = props;
@@ -38,13 +39,13 @@ export default function MoviesPanel(props: TabPanelProps) {
       {...other}
     >
       <Box>
-        <Box component="div" className="row g-2">
+        <BSGridContainer>
           {movies?.map((movie) => (
             <BSGridItem key={movie.id}>
               <MovieItem movie={movie} />
             </BSGridItem>
           ))}
-        </Box>
+        </BSGridContainer>
 
         {total_pages > 1 && (
           <Box display="flex" justifyContent="center" my={2}>
