@@ -21,11 +21,6 @@ export default async function SearchPage({
     `/search/person?query=${searchParams?.query}&include_adult=false&language=en-US&page=1`
   ).then((res) => res.json());
 
-  // console.log({
-  //   movies: movies.total_results,
-  //   tv: tv.total_results,
-  //   people: people.total_results,
-  // });
   return (
     <Container>
       <Box position="relative">

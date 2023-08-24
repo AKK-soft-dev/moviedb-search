@@ -14,6 +14,7 @@ import PeopleIcon from "@mui/icons-material/Group";
 type DataType = {
   results: any[];
   total_results: number;
+  total_pages: number;
 };
 export interface TabPanelProps {
   data: DataType;

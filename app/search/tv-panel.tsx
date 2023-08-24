@@ -1,10 +1,59 @@
-import { Box } from "@mui/material";
+import { Box, Pagination } from "@mui/material";
 import { TabPanelProps } from "./tabs";
 import BSGridItem from "@/components/utils/BSGridItem";
 import TVShowItem from "@/components/utils/TVShowItem";
+import { useEffect, useRef, useState } from "react";
+import { useDataQueryMagic } from "react-data-query";
+import { useSearchParams } from "next/navigation";
+import { searchIndicatorKey } from "@/components/Navbar";
 
 export default function TVShowsPanel(props: TabPanelProps) {
+  const searchParams = useSearchParams();
   const { data, value, index, ...other } = props;
+  const { results, total_pages } = data;
+  const [tvShows, setTVShows] = useState(results);
+  const { setQueryData } = useDataQueryMagic();
+  const [page, setPage] = useState(1);
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
+
+  const prevQuery = useRef<string | null>(searchParams.get("query"));
+  const prevPage = useRef<number>(page);
+  const currentQuery = searchParams.get("query");
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    // If the previous query and current query are different, set the page to 1 and set new movies coming from server
+    if (prevQuery.current !== currentQuery) {
+      prevQuery.current = currentQuery;
+      prevPage.current = 1;
+      setPage(1);
+      setTVShows(results);
+    } else if (
+      prevPage.current !== page &&
+      prevQuery.current === currentQuery
+    ) {
+      prevPage.current = page;
+      setQueryData(searchIndicatorKey, () => true);
+      fetch(`/api/search/tv?query=${currentQuery}&p=${page}`, {
+        signal: abortController.signal,
+      })
+        .then((res) => res.json())
+        .then((tvShows) => {
+          setTVShows(tvShows.results);
+          setQueryData(searchIndicatorKey, () => false);
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        });
+    }
+
+    return () => {
+      abortController.abort();
+    };
+  }, [currentQuery, page]);
 
   return (
     <div
@@ -17,12 +66,26 @@ export default function TVShowsPanel(props: TabPanelProps) {
     >
       <Box>
         <Box component="div" className="row g-2">
-          {data.results?.map((res) => (
+          {tvShows?.map((res) => (
             <BSGridItem key={res.id}>
               <TVShowItem tv={res} />
             </BSGridItem>
           ))}
         </Box>
+        {total_pages > 1 && (
+          <Box display="flex" justifyContent="center" my={2}>
+            <Pagination
+              page={page}
+              onChange={handlePageChange}
+              count={total_pages > 500 ? 500 : total_pages}
+              showLastButton
+              showFirstButton
+              color="primary"
+              variant="outlined"
+              shape="rounded"
+            />
+          </Box>
+        )}
       </Box>
     </div>
   );

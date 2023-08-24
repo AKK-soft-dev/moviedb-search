@@ -57,6 +57,8 @@ const StyledListItemButton = styled(ListItemButton)<
 
 const filter = createFilterOptions<string>();
 
+export const searchIndicatorKey = "search-indicator";
+
 export default function Navbar() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openSearchBox, setOpenSearchBox] = useState(false);
@@ -67,7 +69,7 @@ export default function Navbar() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  const { data: isSearching } = useDataQuery("search-indicator", undefined, {
+  const { data: isSearching } = useDataQuery(searchIndicatorKey, undefined, {
     initialData: false,
     autoFetchEnabled: false,
   });
@@ -89,15 +91,12 @@ export default function Navbar() {
     openSearchBox && inputRef.current?.focus();
   }, [openSearchBox]);
 
-  useEffect(() => {
-    router.prefetch("/search");
-  }, []);
-
   const deferredQuery = useDeferredValue<string | undefined>(inputQuery);
 
   useEffect(() => {
+    const abortController = new AbortController();
     setLoading(true);
-    fetch(`/api/search?query=${inputQuery}`)
+    fetch(`/api/search?query=${inputQuery}`, { signal: abortController.signal })
       .then((res) => {
         return res.json();
       })
@@ -109,8 +108,12 @@ export default function Navbar() {
         setLoading(false);
       })
       .finally(() => {
-        setLoading(false);
+        // setLoading(false);
       });
+
+    return () => {
+      abortController.abort();
+    };
   }, [deferredQuery]);
 
   return (
@@ -227,7 +230,7 @@ export default function Navbar() {
             setQuery(newValue);
             if (newValue) {
               setOpenSearchBox(false);
-              setQueryData("search-indicator", () => true);
+              setQueryData(searchIndicatorKey, () => true);
               router.push(`/search?query=${newValue}`);
             }
           }}

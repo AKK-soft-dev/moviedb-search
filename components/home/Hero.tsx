@@ -7,6 +7,10 @@ import {
   alpha,
   useTheme,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useDataQueryMagic } from "react-data-query";
+import { searchIndicatorKey } from "../Navbar";
 
 export default function Hero({
   backgroundImageUrl,
@@ -15,6 +19,14 @@ export default function Hero({
 }) {
   const theme = useTheme();
   const defaultBackground = theme.palette.background.default;
+  const [query, setQuery] = useState("");
+  const router = useRouter();
+  const { setQueryData } = useDataQueryMagic();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setQueryData(searchIndicatorKey, () => true);
+    router.push(`/search?query=${query}`);
+  };
   return (
     <Box
       component="section"
@@ -57,11 +69,15 @@ export default function Hero({
             Discover a World of Movies and TV Shows at Your Fingertips
           </Typography>
 
-          <Box component="form">
+          <Box component="form" onSubmit={handleSubmit}>
             <OutlinedInput
               placeholder="Search movies, shows, and people"
               fullWidth
               sx={{ mt: 2 }}
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
               inputProps={{ inputMode: "search" }}
             />
           </Box>
