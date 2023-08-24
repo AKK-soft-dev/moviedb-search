@@ -9,7 +9,7 @@ import SliderItem from "@/components/utils/SliderItem";
 export default function PopularDataDisplay({
   data: initialData,
 }: {
-  data: { results: [] };
+  data: { results: any[] };
 }) {
   const [trendData, setTrendData] = useState(initialData);
   const sliderHandler = useRef<MySliderHandler>(null);
@@ -27,8 +27,9 @@ export default function PopularDataDisplay({
     fetch(`/api/popular/${releaseType}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log({ data });
         setTrendData(data);
+      })
+      .finally(() => {
         sliderHandler.current?.fadeIn();
         sliderHandler.current?.resetScroll();
       });
@@ -42,8 +43,8 @@ export default function PopularDataDisplay({
         prevElSelector=".popular-prev"
         nextElSelector=".popular-next"
       >
-        {results?.map((movie, i) => (
-          <SliderItem key={i}>
+        {results?.map((movie) => (
+          <SliderItem key={movie.id}>
             <MovieItem movie={movie} />
           </SliderItem>
         ))}

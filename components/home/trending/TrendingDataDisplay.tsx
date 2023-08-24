@@ -9,7 +9,7 @@ import SliderItem from "@/components/utils/SliderItem";
 export default function TrendingDataDisplay({
   data: initialData,
 }: {
-  data: { results: [] };
+  data: { results: any[] };
 }) {
   const [trendData, setTrendData] = useState(initialData);
   const results = trendData?.results || [];
@@ -27,6 +27,8 @@ export default function TrendingDataDisplay({
       .then((res) => res.json())
       .then((data) => {
         setTrendData(data);
+      })
+      .finally(() => {
         sliderHandler.current?.fadeIn();
         sliderHandler.current?.resetScroll();
       });
@@ -39,8 +41,8 @@ export default function TrendingDataDisplay({
         prevElSelector=".prev"
         nextElSelector=".next"
       >
-        {results?.map((movie, i) => (
-          <SliderItem key={i}>
+        {results?.map((movie) => (
+          <SliderItem key={movie.id}>
             <MovieItem movie={movie} />
           </SliderItem>
         ))}

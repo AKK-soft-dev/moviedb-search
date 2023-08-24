@@ -11,7 +11,12 @@ import LiveTVIcon from "@mui/icons-material/LiveTv";
 import MovieIcon from "@mui/icons-material/LocalMovies";
 import PeopleIcon from "@mui/icons-material/Group";
 
+type DataType = {
+  results: any[];
+  total_results: number;
+};
 export interface TabPanelProps {
+  data: DataType;
   index: number;
   value: number;
 }
@@ -24,13 +29,13 @@ function a11yProps(index: number) {
 }
 
 export default function SearchPageTabs({
-  movies = 0,
-  shows = 0,
-  people = 0,
+  movies,
+  shows,
+  people,
 }: {
-  movies: number;
-  shows: number;
-  people: number;
+  movies: DataType;
+  shows: DataType;
+  people: DataType;
 }) {
   const [value, setValue] = useState(0);
   const { setQueryData } = useDataQueryMagic();
@@ -40,8 +45,7 @@ export default function SearchPageTabs({
   };
 
   useEffect(() => {
-    setQueryData("search-indicator", (prev) => {
-      console.log({ prev });
+    setQueryData("search-indicator", () => {
       return false;
     });
   });
@@ -58,7 +62,7 @@ export default function SearchPageTabs({
       >
         <Tab
           icon={
-            <Badge badgeContent={movies} color="secondary">
+            <Badge badgeContent={movies.total_results} color="secondary">
               <MovieIcon />
             </Badge>
           }
@@ -68,7 +72,7 @@ export default function SearchPageTabs({
         />
         <Tab
           icon={
-            <Badge badgeContent={shows} color="secondary">
+            <Badge badgeContent={shows.total_results} color="secondary">
               <LiveTVIcon />
             </Badge>
           }
@@ -78,7 +82,7 @@ export default function SearchPageTabs({
         />
         <Tab
           icon={
-            <Badge badgeContent={people} color="secondary">
+            <Badge badgeContent={people.total_results} color="secondary">
               <PeopleIcon />
             </Badge>
           }
@@ -89,9 +93,9 @@ export default function SearchPageTabs({
       </Tabs>
       <Suspense fallback={<SearchingIndicatorSkeleton />}>
         <Box sx={{ mt: 2 }}>
-          <MoviesPanel value={value} index={0} />
-          <TVShowsPanel value={value} index={1} />
-          <PeoplePanel value={value} index={2} />
+          <MoviesPanel data={movies} value={value} index={0} />
+          <TVShowsPanel data={shows} value={value} index={1} />
+          <PeoplePanel data={people} value={value} index={2} />
         </Box>
       </Suspense>
     </Box>
