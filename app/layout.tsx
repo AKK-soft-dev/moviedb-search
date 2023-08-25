@@ -9,6 +9,7 @@ import { roboto } from "@/fonts/fonts";
 import Navbar from "@/components/Navbar";
 import FloatingFilterButton from "@/components/utils/FloatingFilterButton";
 import MyDataQueryProvider from "@/context/MyDataQueryProvider";
+import SnackbarProviderClient from "@/context/SnackbarProviderClient";
 
 export const metadata: Metadata = {
   title: {
@@ -36,11 +37,11 @@ export default function RootLayout({
       <body className={roboto.className}>
         <MyDataQueryProvider>
           <ThemeRegistry options={{ key: "mui", prepend: false }}>
-            <Box position="relative"></Box>
             <Navbar />
-
-            {children}
-            <FloatingFilterButton />
+            <SnackbarProviderClient>
+              {children}
+              <FloatingFilterButton />
+            </SnackbarProviderClient>
           </ThemeRegistry>
         </MyDataQueryProvider>
       </body>

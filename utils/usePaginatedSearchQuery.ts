@@ -2,6 +2,7 @@ import { useDataQueryMagic } from "react-data-query";
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { searchIndicatorKey } from "@/components/Navbar";
+import { useSnackbar } from "notistack";
 
 export default function usePaginatedSearchQuery(
   page: number,
@@ -11,6 +12,7 @@ export default function usePaginatedSearchQuery(
 ) {
   const [data, setData] = useState(helperData);
   const searchParams = useSearchParams();
+  const { enqueueSnackbar } = useSnackbar();
 
   const currentQuery = searchParams.get("query");
   const prevQuery = useRef(currentQuery);
@@ -56,6 +58,11 @@ export default function usePaginatedSearchQuery(
           setQueryData(cacheKey, data.results);
           setQueryData(searchIndicatorKey, () => false);
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        })
+        .catch((e: Error) => {
+          if (e.name !== "AbortError") {
+            enqueueSnackbar(e.message, { variant: "error" });
+          }
         });
     }
 
