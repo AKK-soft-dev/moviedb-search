@@ -64,9 +64,6 @@ export default function usePaginatedSearchQuery(
             enqueueSnackbar(e.message, { variant: "error" });
             setQueryData(searchIndicatorKey, () => false);
           }
-        })
-        .finally(() => {
-          setQueryData(searchIndicatorKey, () => false);
         });
     }
 
