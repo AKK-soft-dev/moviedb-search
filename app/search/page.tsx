@@ -7,9 +7,7 @@ import SearchPageTabs from "./tabs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: {
-    absolute: "Search",
-  },
+  title: "Search",
   description: "Search movies, tv shows and people from around the world!",
 };
 
