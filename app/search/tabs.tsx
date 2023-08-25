@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import { useDataQueryMagic } from "react-data-query";
 import { Suspense } from "react";
 import SearchingIndicatorSkeleton from "@/components/skeletons/SearchingIndicatorSkeleton";
-import MoviesPanel from "./movies-panel";
-import TVShowsPanel from "./tv-panel";
-import PeoplePanel from "./people-panel";
 import LiveTVIcon from "@mui/icons-material/LiveTv";
 import MovieIcon from "@mui/icons-material/LocalMovies";
 import PeopleIcon from "@mui/icons-material/Group";
+import withPanel from "./withPanel";
+import PeopleResultItem from "./item/people-res-item";
+import MovieItem from "@/components/utils/MovieItem";
+import TVShowItem from "@/components/utils/TVShowItem";
 
 type DataType = {
   results: any[];
@@ -28,6 +29,20 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
+const PeoplePanel = withPanel({
+  type: "person",
+  ItemDisplayComponent: PeopleResultItem,
+});
+
+const MoviesPanel = withPanel({
+  type: "movie",
+  ItemDisplayComponent: MovieItem,
+});
+const TVShowsPanel = withPanel({
+  type: "tv",
+  ItemDisplayComponent: TVShowItem,
+});
 
 export default function SearchPageTabs({
   movies,

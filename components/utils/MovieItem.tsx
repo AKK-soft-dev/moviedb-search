@@ -3,8 +3,8 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 
-type VideoItemProps = {
-  movie: {
+type MovieItemProps = {
+  data: {
     poster_path: string;
     title: string;
     original_title: string;
@@ -13,8 +13,8 @@ type VideoItemProps = {
   };
 };
 export default function MovieItem({
-  movie: { poster_path, title, original_title, vote_average, release_date },
-}: VideoItemProps) {
+  data: { poster_path, title, original_title, vote_average, release_date },
+}: MovieItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
   return (
     <Box mb={4}>

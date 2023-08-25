@@ -43,7 +43,7 @@ export default function TrendingDataDisplay({
       >
         {results?.map((movie) => (
           <SliderItem key={movie.id}>
-            <MovieItem movie={movie} />
+            <MovieItem data={movie} />
           </SliderItem>
         ))}
       </MySlider2>

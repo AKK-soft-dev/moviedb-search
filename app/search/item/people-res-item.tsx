@@ -3,14 +3,14 @@ import Image from "next/image";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 
 type PersonItemProps = {
-  person: {
+  data: {
     profile_path: string;
     name: string;
     original_name: string;
   };
 };
 export default function PeopleResultItem({
-  person: { profile_path, name, original_name },
+  data: { profile_path, name, original_name },
 }: PersonItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${profile_path}`;
   return (

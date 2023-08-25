@@ -4,7 +4,7 @@ import Image from "next/image";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 
 type TVShowItemProps = {
-  tv: {
+  data: {
     poster_path: string;
     name: string;
     original_name: string;
@@ -13,7 +13,7 @@ type TVShowItemProps = {
   };
 };
 export default function MovieItem({
-  tv: { poster_path, name, original_name, vote_average, first_air_date },
+  data: { poster_path, name, original_name, vote_average, first_air_date },
 }: TVShowItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
   return (
