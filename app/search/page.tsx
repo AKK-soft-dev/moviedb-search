@@ -4,6 +4,14 @@ import SearchingIndicatorSkeleton from "@/components/skeletons/SearchingIndicato
 import fetchData from "@/config/fetch";
 import { Box, Container } from "@mui/material";
 import SearchPageTabs from "./tabs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Search",
+  },
+  description: "Search movies, tv shows and people from around the world!",
+};
 
 export default async function SearchPage({
   searchParams,

@@ -11,10 +11,8 @@ type PanelProps = {
   ItemDisplayComponent: React.ElementType;
 };
 
-export default function withPanel(props: PanelProps) {
-  const { type, ItemDisplayComponent } = props;
-
-  function Panel(props: TabPanelProps) {
+export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
+  return function Panel(props: TabPanelProps) {
     const { data, value, index, ...other } = props;
     const { results, total_pages } = data;
     const [page, setPage] = useState(1);
@@ -71,7 +69,5 @@ export default function withPanel(props: PanelProps) {
         </Box>
       </div>
     );
-  }
-
-  return Panel;
+  };
 }
