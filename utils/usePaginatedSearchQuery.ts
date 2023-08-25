@@ -62,6 +62,7 @@ export default function usePaginatedSearchQuery(
         .catch((e: Error) => {
           if (e.name !== "AbortError") {
             enqueueSnackbar(e.message, { variant: "error" });
+            setQueryData(searchIndicatorKey, () => false);
           }
         });
     }
@@ -69,7 +70,7 @@ export default function usePaginatedSearchQuery(
     return () => {
       abortController.abort();
     };
-  }, [currentQuery, page, resetPage, setQueryData, getQueryData]);
+  }, [currentQuery, searchType, page, resetPage, setQueryData, getQueryData]);
 
   return data;
 }
