@@ -99,38 +99,37 @@ type NavMenuProps = {
 
 export type MenuType = keyof typeof menus;
 
-const StyledNavMenu = styled(
-  forwardRef<HTMLDivElement, NavMenuProps>((props, ref) => {
-    const { children, active, typographySx, containerSx, onClick } = props;
-    return (
-      <Box
-        onClick={onClick}
-        component="div"
-        ref={ref}
+const NavMenu = forwardRef<HTMLDivElement, NavMenuProps>((props, ref) => {
+  const { children, active, typographySx, containerSx, onClick } = props;
+  return (
+    <Box
+      onClick={onClick}
+      component="div"
+      ref={ref}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        cursor: "pointer",
+        ...containerSx,
+      }}
+    >
+      <Typography
+        variant="body1"
         sx={{
-          display: "flex",
-          alignItems: "center",
-          cursor: "pointer",
-          ...containerSx,
+          userSelect: "none",
+          ...typographySx,
+          ...(active && {
+            fontWeight: 700,
+          }),
         }}
       >
-        <Typography
-          variant="body1"
-          sx={{
-            userSelect: "none",
-            ...typographySx,
-            ...(active && {
-              fontWeight: 700,
-            }),
-          }}
-        >
-          {children}
-        </Typography>
-        <ExpandMoreIcon open={active} />
-      </Box>
-    );
-  })
-)``;
+        {children}
+      </Typography>
+      <ExpandMoreIcon open={active} />
+    </Box>
+  );
+});
+NavMenu.displayName = "NavMenu";
 
 const filter = createFilterOptions<string>();
 
@@ -217,40 +216,6 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
           <MyDrawer open={openDrawer} onClose={handleClose} />
-          {/* <Drawer
-            open={openDrawer}
-            onClose={handleClose}
-            PaperProps={{
-              elevation: 0,
-            }}
-            sx={{
-              "& .MuiPaper-root": {
-                minWidth: 120,
-              },
-            }}
-          >
-            <Toolbar />
-            <List>
-              <StyledListItemButton LinkComponent={Link} href="#" divider>
-                <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
-                  <MovieIcon />
-                </ListItemIcon>
-                Movies
-              </StyledListItemButton>
-              <StyledListItemButton LinkComponent={Link} href="#" divider>
-                <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
-                  <LiveTVIcon />
-                </ListItemIcon>
-                TV Shows
-              </StyledListItemButton>
-              <StyledListItemButton LinkComponent={Link} href="#" divider>
-                <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
-                  <PeopleIcon />
-                </ListItemIcon>
-                People
-              </StyledListItemButton>
-            </List>
-          </Drawer> */}
 
           <Box
             sx={{
@@ -267,7 +232,7 @@ export default function Navbar() {
             <Box sx={{ display: { xs: "none", md: "flex" }, columnGap: 2 }}>
               {Object.keys(menus).map((menu, i) => {
                 return (
-                  <StyledNavMenu
+                  <NavMenu
                     key={menu}
                     active={!!(menuAnchorEl && menuAnchorEl.menuName === menu)}
                     onClick={(e) => handleMenuOpen(e, menu as MenuType)}
@@ -279,7 +244,7 @@ export default function Navbar() {
                     }}
                   >
                     {menu}
-                  </StyledNavMenu>
+                  </NavMenu>
                 );
               })}
               <MyMenu
