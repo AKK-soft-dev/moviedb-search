@@ -7,16 +7,18 @@ type PersonItemProps = {
     profile_path: string;
     name: string;
     original_name: string;
+    known_for_department: string;
   };
 };
 export default function PeopleResultItem({
-  data: { profile_path, name, original_name },
+  data: { profile_path, name, original_name, known_for_department },
 }: PersonItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${profile_path}`;
   return (
     <Box mb={4}>
       <Box
         sx={{
+          position: "relative",
           display: "flex",
           width: 1,
           flexDirection: "column",
@@ -55,6 +57,12 @@ export default function PeopleResultItem({
             <ImageNotSupportedIcon fontSize="large" />
           </Box>
         )}
+
+        <Box component="div" className="department-wrapper">
+          <Typography className="department" variant="body2" component="span">
+            {known_for_department}
+          </Typography>
+        </Box>
 
         <Box sx={{ mt: 1, width: 1 }}>
           <Typography

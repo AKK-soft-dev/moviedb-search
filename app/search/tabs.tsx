@@ -34,7 +34,6 @@ const PeoplePanel = withPanel({
   type: "person",
   ItemDisplayComponent: PeopleResultItem,
 });
-
 const MoviesPanel = withPanel({
   type: "movie",
   ItemDisplayComponent: MovieItem,

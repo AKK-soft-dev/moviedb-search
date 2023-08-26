@@ -2,9 +2,11 @@ import { formatDisplayDate } from "@/utils/format-date";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
+import Link from "next/link";
 
 type TVShowItemProps = {
   data: {
+    id: number;
     poster_path: string;
     name: string;
     original_name: string;
@@ -13,9 +15,10 @@ type TVShowItemProps = {
   };
 };
 export default function MovieItem({
-  data: { poster_path, name, original_name, vote_average, first_air_date },
+  data: { id, poster_path, name, original_name, vote_average, first_air_date },
 }: TVShowItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
+  const tvShowLink = `/tvshow/${id}-${name.toLowerCase().split(" ").join("-")}`;
   return (
     <Box mb={4}>
       <Box
@@ -28,6 +31,8 @@ export default function MovieItem({
         }}
       >
         <Box
+          component={Link}
+          href={tvShowLink}
           sx={{
             position: "relative",
             width: "100%",
@@ -49,9 +54,12 @@ export default function MovieItem({
               display="flex"
               justifyContent="center"
               alignItems="center"
-              sx={{ background: (theme) => theme.palette.background.paper }}
+              sx={{
+                background: (theme) => theme.palette.background.paper,
+                color: "text.primary",
+              }}
             >
-              <ImageNotSupportedIcon />
+              <ImageNotSupportedIcon fontSize="large" />
             </Box>
           )}
           <Box component="div" className="imdb-wrapper">

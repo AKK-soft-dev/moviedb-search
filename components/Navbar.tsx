@@ -17,8 +17,9 @@ import {
   TextField,
   CircularProgress,
   LinearProgress,
+  SxProps,
 } from "@mui/material";
-import { useRef } from "react";
+import { MouseEventHandler } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import LiveTVIcon from "@mui/icons-material/LiveTv";
 import MovieIcon from "@mui/icons-material/LocalMovies";
@@ -26,24 +27,20 @@ import PeopleIcon from "@mui/icons-material/Group";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 import SearchIcon from "@mui/icons-material/Search";
+import MuiExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Image from "next/image";
-import { useDeferredValue, useEffect, useState } from "react";
+import {
+  useDeferredValue,
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+} from "react";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { useDataQuery, useDataQueryMagic } from "react-data-query";
 import { useRouter } from "next/navigation";
-
-const StyledTypography = styled(Typography)<TypographyProps & { href: string }>(
-  ({ theme }) => ({
-    position: "relative",
-    top: 0,
-    left: 0,
-    color: theme.palette.text.primary,
-    transition: "transform",
-    "&:hover": {
-      transform: "scale(0.95)",
-    },
-  })
-);
+import MyMenu from "./utils/MyMenu";
+import MyDrawer from "./utils/MyDrawer";
 
 const StyledListItemButton = styled(ListItemButton)<
   ListItemButtonProps & { href: string }
@@ -54,6 +51,86 @@ const StyledListItemButton = styled(ListItemButton)<
     backgroundColor: alpha(theme.palette.secondary.dark, 0.2),
   },
 }));
+
+const ExpandMoreIcon = styled(MuiExpandMoreIcon)<{ open: boolean }>(
+  ({ open, theme }) => ({
+    fontSize: "1.4rem",
+    marginLeft: "2px",
+    color: theme.palette.text.primary,
+    transition: theme.transitions.create("all"),
+    ...(open && {
+      transform: "rotate(180deg)",
+    }),
+  })
+);
+
+export const menus = {
+  Movies: {
+    subMenus: [
+      { name: "Popular", link: "/movie" },
+      { name: "Now Playing", link: "/movie/now-playing" },
+      { name: "Upcoming", link: "/movie/upcoming" },
+      { name: "Top Rated", link: "/movie/top-rated" },
+    ],
+    icon: <MovieIcon />,
+  },
+  ["TV Shows"]: {
+    subMenus: [
+      { name: "Popular", link: "/tvshow" },
+      { name: "Airing Today", link: "/tvshow/airing-today" },
+      { name: "On TV", link: "/tvshow/on-tv" },
+      { name: "Top Rated", link: "/tvshow/top-rated" },
+    ],
+    icon: <LiveTVIcon />,
+  },
+  People: {
+    subMenus: [{ name: "Popular People", link: "/people" }],
+    icon: <PeopleIcon />,
+  },
+};
+
+type NavMenuProps = {
+  children: React.ReactNode;
+  active: boolean;
+  typographySx?: SxProps;
+  containerSx?: SxProps;
+  onClick: MouseEventHandler<HTMLDivElement>;
+};
+
+export type MenuType = keyof typeof menus;
+
+const StyledNavMenu = styled(
+  forwardRef<HTMLDivElement, NavMenuProps>((props, ref) => {
+    const { children, active, typographySx, containerSx, onClick } = props;
+    return (
+      <Box
+        onClick={onClick}
+        component="div"
+        ref={ref}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          cursor: "pointer",
+          ...containerSx,
+        }}
+      >
+        <Typography
+          variant="body1"
+          sx={{
+            userSelect: "none",
+            ...typographySx,
+            ...(active && {
+              fontWeight: 700,
+            }),
+          }}
+        >
+          {children}
+        </Typography>
+        <ExpandMoreIcon open={active} />
+      </Box>
+    );
+  })
+)``;
 
 const filter = createFilterOptions<string>();
 
@@ -66,8 +143,13 @@ export default function Navbar() {
   const [query, setQuery] = useState<string | null>(null);
   const [inputQuery, setInputQuery] = useState<string | undefined>("");
   const [loading, setLoading] = useState(false);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<{
+    el: HTMLElement;
+    menuName: MenuType;
+  } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const openMenu = Boolean(menuAnchorEl && menuAnchorEl.el);
 
   const { data: isSearching } = useDataQuery(searchIndicatorKey, undefined, {
     initialData: false,
@@ -85,6 +167,14 @@ export default function Navbar() {
 
   const handleClose = () => {
     setOpenDrawer(false);
+  };
+
+  const handleMenuOpen = (event: any, menuName: keyof typeof menus) => {
+    setMenuAnchorEl({ el: event.currentTarget as HTMLElement, menuName });
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
   };
 
   useEffect(() => {
@@ -106,9 +196,6 @@ export default function Navbar() {
         );
         setOptions(Array.from(new Set(options)));
         setLoading(false);
-      })
-      .finally(() => {
-        // setLoading(false);
       });
 
     return () => {
@@ -129,7 +216,8 @@ export default function Navbar() {
           >
             <MenuIcon />
           </IconButton>
-          <Drawer
+          <MyDrawer open={openDrawer} onClose={handleClose} />
+          {/* <Drawer
             open={openDrawer}
             onClose={handleClose}
             PaperProps={{
@@ -162,7 +250,7 @@ export default function Navbar() {
                 People
               </StyledListItemButton>
             </List>
-          </Drawer>
+          </Drawer> */}
 
           <Box
             sx={{
@@ -177,15 +265,29 @@ export default function Navbar() {
             </Box>
 
             <Box sx={{ display: { xs: "none", md: "flex" }, columnGap: 2 }}>
-              <StyledTypography component={Link} variant="body1" href="#">
-                Movies
-              </StyledTypography>
-              <StyledTypography component={Link} variant="body1" href="#">
-                TV Shows
-              </StyledTypography>
-              <StyledTypography component={Link} variant="body1" href="#">
-                People
-              </StyledTypography>
+              {Object.keys(menus).map((menu, i) => {
+                return (
+                  <StyledNavMenu
+                    key={menu}
+                    active={!!(menuAnchorEl && menuAnchorEl.menuName === menu)}
+                    onClick={(e) => handleMenuOpen(e, menu as MenuType)}
+                    typographySx={{
+                      ...(i === 0 && {
+                        color: "text.primary",
+                        fontWeight: 700,
+                      }),
+                    }}
+                  >
+                    {menu}
+                  </StyledNavMenu>
+                );
+              })}
+              <MyMenu
+                open={openMenu}
+                onClose={handleMenuClose}
+                anchorEl={menuAnchorEl && menuAnchorEl.el}
+                mainMenu={menuAnchorEl && menuAnchorEl.menuName}
+              />
             </Box>
           </Box>
 
