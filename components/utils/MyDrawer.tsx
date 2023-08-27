@@ -84,6 +84,7 @@ function MyDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
                   component={Link}
                   href={link}
                   sx={{ color: "text.primary", textDecoration: "none" }}
+                  onClick={onClose}
                 >
                   <ListItemButton
                     selected={name === "E-Learning"}
