@@ -41,6 +41,7 @@ import { useDataQuery, useDataQueryMagic } from "react-data-query";
 import { useRouter } from "next/navigation";
 import MyMenu from "./utils/MyMenu";
 import MyDrawer from "./utils/MyDrawer";
+import menus from "@/utils/menus";
 
 const StyledListItemButton = styled(ListItemButton)<
   ListItemButtonProps & { href: string }
@@ -63,31 +64,6 @@ const ExpandMoreIcon = styled(MuiExpandMoreIcon)<{ open: boolean }>(
     }),
   })
 );
-
-export const menus = {
-  Movies: {
-    subMenus: [
-      { name: "Popular", link: "/movie" },
-      { name: "Now Playing", link: "/movie/now-playing" },
-      { name: "Upcoming", link: "/movie/upcoming" },
-      { name: "Top Rated", link: "/movie/top-rated" },
-    ],
-    icon: <MovieIcon />,
-  },
-  ["TV Shows"]: {
-    subMenus: [
-      { name: "Popular", link: "/tvshow" },
-      { name: "Airing Today", link: "/tvshow/airing-today" },
-      { name: "On TV", link: "/tvshow/on-tv" },
-      { name: "Top Rated", link: "/tvshow/top-rated" },
-    ],
-    icon: <LiveTVIcon />,
-  },
-  People: {
-    subMenus: [{ name: "Popular People", link: "/people" }],
-    icon: <PeopleIcon />,
-  },
-};
 
 type NavMenuProps = {
   children: React.ReactNode;

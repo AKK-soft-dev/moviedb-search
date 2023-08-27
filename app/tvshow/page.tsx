@@ -1,23 +1,23 @@
 import fetchData from "@/config/fetch";
 import { Box, Container, Typography } from "@mui/material";
 import type { Metadata } from "next";
-import PopularMovieDataDisplay from "./PopularMovieDataDisplay";
 import FetchedDetector from "@/components/utils/FetchedDetector";
+import PopularTVShowDataDisplay from "./PopularTVShowDataDisplay";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Popular Movies",
+    absolute: "Popular TV Shows",
   },
-  description: "Discover the popular movies!",
+  description: "Discover the popular tv shows!",
 };
 
-export default async function PopularMoviesPage({
+export default async function PopularTVShowsPage({
   searchParams,
 }: {
   searchParams: { page: number };
 }) {
   const movies = await fetchData(
-    `/movie/popular?language=en-US&page=${searchParams.page || 1}`
+    `/tv/popular?language=en-US&page=${searchParams.page || 1}`
   ).then((res) => res.json());
   return (
     <Container>
@@ -30,10 +30,10 @@ export default async function PopularMoviesPage({
             backgroundImage: `linear-gradient(transparent 83%, rgb(55, 125, 255) 10%)`,
           }}
         >
-          Popular Movies
+          Popular TV Shows
         </Typography>
       </Box>
-      <PopularMovieDataDisplay data={movies} />
+      <PopularTVShowDataDisplay data={movies} />
       <FetchedDetector />
     </Container>
   );

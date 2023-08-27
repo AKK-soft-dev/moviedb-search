@@ -8,9 +8,9 @@ import LiveTVIcon from "@mui/icons-material/LiveTv";
 import MovieIcon from "@mui/icons-material/LocalMovies";
 import PeopleIcon from "@mui/icons-material/Group";
 import withPanel from "./withPanel";
-import PeopleResultItem from "./item/people-res-item";
 import MovieItem from "@/components/utils/MovieItem";
 import TVShowItem from "@/components/utils/TVShowItem";
+import PersonItem from "@/components/utils/PersonItem";
 
 type DataType = {
   results: any[];
@@ -32,7 +32,7 @@ function a11yProps(index: number) {
 
 const PeoplePanel = withPanel({
   type: "person",
-  ItemDisplayComponent: PeopleResultItem,
+  ItemDisplayComponent: PersonItem,
 });
 const MoviesPanel = withPanel({
   type: "movie",

@@ -8,7 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import { MenuType, menus } from "../Navbar";
+import { MenuType } from "../Navbar";
+import menus from "@/utils/menus";
 
 const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   ...theme.typography.body2,
@@ -16,6 +17,9 @@ const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   "&:hover": {
     backgroundColor: alpha(theme.palette.primary.main, 0.1),
+  },
+  "&:active": {
+    backgroundColor: alpha(theme.palette.primary.main, 0.2),
   },
   "&.Mui-selected": {
     color: theme.palette.primary.main,
@@ -61,7 +65,12 @@ function MyMenu({ open, anchorEl, onClose, mainMenu }: MyMenuProps) {
         {mainMenu &&
           menus[mainMenu].subMenus?.map(({ name, link }) => (
             <Grid item xs={12} key={name}>
-              <Box component={Link} href={link} sx={{ textDecoration: "none" }}>
+              <Box
+                component={Link}
+                href={link}
+                sx={{ textDecoration: "none" }}
+                onClick={onClose}
+              >
                 <ListItemButton>
                   <Typography variant="body2" color="text.primary">
                     {name}

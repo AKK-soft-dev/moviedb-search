@@ -1,24 +1,22 @@
-import { formatDisplayDate } from "@/utils/format-date";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import Link from "next/link";
 
-type MovieItemProps = {
+type PersonItemProps = {
   data: {
     id: number;
-    poster_path: string;
-    title: string;
-    original_title: string;
-    vote_average: number;
-    release_date: string;
+    profile_path: string;
+    name: string;
+    original_name: string;
+    known_for_department: string;
   };
 };
-export default function MovieItem({
-  data: { id, poster_path, title, original_title, vote_average, release_date },
-}: MovieItemProps) {
-  const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
-  const movieLink = `/movie/${id}-${title.toLowerCase().replaceAll(" ", "-")}`;
+export default function PersonItem({
+  data: { id, profile_path, name, original_name, known_for_department },
+}: PersonItemProps) {
+  const imgSrc = `https://image.tmdb.org/t/p/w300${profile_path}`;
+  const personLink = `/person/${id}-${name.toLowerCase().replaceAll(" ", "-")}`;
   return (
     <Box mb={4}>
       <Box
@@ -32,19 +30,19 @@ export default function MovieItem({
       >
         <Box
           component={Link}
-          href={movieLink}
+          href={personLink}
           sx={{
             position: "relative",
             width: "100%",
             height: { xs: 170, sm: 200, md: 220, lg: 240, xl: 250 },
           }}
         >
-          {poster_path ? (
+          {profile_path ? (
             <Image
               src={imgSrc}
               style={{ objectFit: "cover" }}
-              alt={original_title}
-              title={title}
+              alt={original_name}
+              title={name}
               fill
             />
           ) : (
@@ -62,21 +60,18 @@ export default function MovieItem({
               <ImageNotSupportedIcon fontSize="large" />
             </Box>
           )}
-          <Box component="div" className="imdb-wrapper">
-            <Typography className="imdb" variant="body2" component="span">
-              {vote_average.toFixed(1)}
+
+          <Box component="div" className="department-wrapper">
+            <Typography className="department" variant="body2" component="span">
+              {known_for_department}
             </Typography>
           </Box>
         </Box>
+
         <Box sx={{ mt: 1, width: 1 }}>
-          <Typography variant="body1" noWrap>
-            {title}
+          <Typography variant="body1" noWrap textAlign="center">
+            {name}
           </Typography>
-          {release_date && (
-            <Typography variant="body2">
-              {formatDisplayDate(release_date)}
-            </Typography>
-          )}
         </Box>
       </Box>
     </Box>

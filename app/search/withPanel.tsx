@@ -12,7 +12,7 @@ type PanelProps = {
 };
 
 export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
-  return function Panel(props: TabPanelProps) {
+  function Panel(props: TabPanelProps) {
     const { data, value, index, ...other } = props;
     const { results, total_pages } = data;
     const [page, setPage] = useState(1);
@@ -69,5 +69,7 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
         </Box>
       </div>
     );
-  };
+  }
+  Panel.displayName = `${type[0].toUpperCase()}${type.slice(1)}Panel`;
+  return Panel;
 }

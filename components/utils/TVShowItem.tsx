@@ -18,7 +18,7 @@ export default function MovieItem({
   data: { id, poster_path, name, original_name, vote_average, first_air_date },
 }: TVShowItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
-  const tvShowLink = `/tvshow/${id}-${name.toLowerCase().split(" ").join("-")}`;
+  const tvShowLink = `/tvshow/${id}-${name.toLowerCase().replaceAll(" ", "-")}`;
   return (
     <Box mb={4}>
       <Box
@@ -69,19 +69,14 @@ export default function MovieItem({
           </Box>
         </Box>
         <Box sx={{ mt: 1, width: 1 }}>
-          <Typography
-            variant="body1"
-            sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
+          <Typography variant="body1" noWrap>
             {name}
           </Typography>
-          <Typography variant="body2">
-            {first_air_date && formatDisplayDate(first_air_date)}
-          </Typography>
+          {first_air_date && (
+            <Typography variant="body2">
+              {formatDisplayDate(first_air_date)}
+            </Typography>
+          )}
         </Box>
       </Box>
     </Box>

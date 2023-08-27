@@ -1,23 +1,23 @@
 import fetchData from "@/config/fetch";
 import { Box, Container, Typography } from "@mui/material";
 import type { Metadata } from "next";
-import PopularMovieDataDisplay from "./PopularMovieDataDisplay";
 import FetchedDetector from "@/components/utils/FetchedDetector";
+import AiringTodayTVShowDataDisplay from "./AiringTodayTVShowDataDisplay";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Popular Movies",
+    absolute: "TV Shows Airing Today",
   },
-  description: "Discover the popular movies!",
+  description: "Discover the tv shows airing today!",
 };
 
-export default async function PopularMoviesPage({
+export default async function AiringTodayTVShowsPage({
   searchParams,
 }: {
   searchParams: { page: number };
 }) {
   const movies = await fetchData(
-    `/movie/popular?language=en-US&page=${searchParams.page || 1}`
+    `/tv/airing_today?language=en-US&page=${searchParams.page || 1}`
   ).then((res) => res.json());
   return (
     <Container>
@@ -30,10 +30,10 @@ export default async function PopularMoviesPage({
             backgroundImage: `linear-gradient(transparent 83%, rgb(55, 125, 255) 10%)`,
           }}
         >
-          Popular Movies
+          Popular TV Shows
         </Typography>
       </Box>
-      <PopularMovieDataDisplay data={movies} />
+      <AiringTodayTVShowDataDisplay data={movies} />
       <FetchedDetector />
     </Container>
   );

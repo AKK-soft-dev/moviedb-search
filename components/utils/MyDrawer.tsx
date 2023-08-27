@@ -11,7 +11,8 @@ import {
   alpha,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { MenuType, menus } from "../Navbar";
+import { MenuType } from "../Navbar";
+import menus from "@/utils/menus";
 import Link from "next/link";
 
 const drawerWidth = 260;
