@@ -4,8 +4,7 @@ import { Box, Pagination, Container, Typography } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/BSGridItem";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useDataQueryMagic } from "react-data-query";
-import { searchIndicatorKey } from "../Navbar";
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 
 type DataType = {
   results: any[];
@@ -50,13 +49,13 @@ export default function withCategorizedPage({
     const [page, setPage] = useState(pageInSearchParams);
     const router = useRouter();
     const { type, category } = pageType;
-    const { setQueryData } = useDataQueryMagic();
+    const { openLoadingIndicator } = useLoadingIndicatorToggler();
 
     const handlePageChange = (
       _event: React.ChangeEvent<unknown>,
       value: number
     ) => {
-      setQueryData(searchIndicatorKey, () => true);
+      openLoadingIndicator();
       setPage(value);
       router.push(
         `/${

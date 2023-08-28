@@ -1,10 +1,9 @@
-import { Suspense } from "react";
 import SearchResult from "./search-result";
-import SearchingIndicatorSkeleton from "@/components/skeletons/SearchingIndicatorSkeleton";
 import fetchData from "@/config/fetch";
 import { Box, Container } from "@mui/material";
 import SearchPageTabs from "./tabs";
 import { Metadata } from "next";
+import { PanelType } from "./withPanel";
 
 export const metadata: Metadata = {
   title: "Search",
@@ -14,16 +13,28 @@ export const metadata: Metadata = {
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string };
+  searchParams: {
+    query?: string;
+    page?: string;
+    for?: PanelType;
+  };
 }) {
+  const { query, page = 1, for: pageFor } = searchParams;
+
   const movies = await fetchData(
-    `/search/movie?query=${searchParams?.query}&include_adult=false&language=en-US&page=1`
+    `/search/movie?query=${query}&include_adult=false&language=en-US&page=${
+      pageFor === "movie" ? page : 1
+    }`
   ).then((res) => res.json());
   const tv = await fetchData(
-    `/search/tv?query=${searchParams?.query}&include_adult=false&language=en-US&page=1`
+    `/search/tv?query=${query}&include_adult=false&language=en-US&page=${
+      pageFor === "tv" ? page : 1
+    }`
   ).then((res) => res.json());
   const people = await fetchData(
-    `/search/person?query=${searchParams?.query}&include_adult=false&language=en-US&page=1`
+    `/search/person?query=${query}&include_adult=false&language=en-US&page=${
+      pageFor === "person" ? page : 1
+    }`
   ).then((res) => res.json());
 
   return (
@@ -31,9 +42,7 @@ export default async function SearchPage({
       <Box position="relative">
         <SearchPageTabs movies={movies} shows={tv} people={people} />
       </Box>
-      <Suspense fallback={<SearchingIndicatorSkeleton />}>
-        <SearchResult />
-      </Suspense>
+      <SearchResult />
     </Container>
   );
 }

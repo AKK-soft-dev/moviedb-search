@@ -37,21 +37,12 @@ import {
   forwardRef,
 } from "react";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import { useDataQuery, useDataQueryMagic } from "react-data-query";
+import { useDataQuery } from "react-data-query";
 import { useRouter } from "next/navigation";
 import MyMenu from "./utils/MyMenu";
 import MyDrawer from "./utils/MyDrawer";
 import menus from "@/utils/menus";
-
-const StyledListItemButton = styled(ListItemButton)<
-  ListItemButtonProps & { href: string }
->(({ theme }) => ({
-  paddingTop: theme.spacing(2),
-  paddingBottom: theme.spacing(2),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.secondary.dark, 0.2),
-  },
-}));
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 
 const ExpandMoreIcon = styled(MuiExpandMoreIcon)<{ open: boolean }>(
   ({ open, theme }) => ({
@@ -125,12 +116,12 @@ export default function Navbar() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const openMenu = Boolean(menuAnchorEl && menuAnchorEl.el);
+  const { openLoadingIndicator } = useLoadingIndicatorToggler();
 
-  const { data: isSearching } = useDataQuery(searchIndicatorKey, undefined, {
+  const { data: isLoading } = useDataQuery(searchIndicatorKey, undefined, {
     initialData: false,
     autoFetchEnabled: false,
   });
-  const { setQueryData } = useDataQueryMagic();
 
   const toggleSearchBox = () => {
     setOpenSearchBox((prev) => !prev);
@@ -242,7 +233,7 @@ export default function Navbar() {
       <Box
         sx={{
           position: "absolute",
-          display: isSearching ? "block" : "none",
+          display: isLoading ? "block" : "none",
           top: 0,
           left: 0,
           right: 0,
@@ -273,7 +264,7 @@ export default function Navbar() {
             setQuery(newValue);
             if (newValue) {
               setOpenSearchBox(false);
-              setQueryData(searchIndicatorKey, () => true);
+              openLoadingIndicator();
               router.push(`/search?query=${newValue}`);
             }
           }}

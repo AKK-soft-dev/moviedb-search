@@ -4,8 +4,9 @@ import usePaginatedSearchQuery from "@/utils/usePaginatedSearchQuery";
 import { Box, Pagination } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/BSGridItem";
+import { useSearchParams } from "next/navigation";
 
-type PanelType = "movie" | "person" | "tv";
+export type PanelType = "movie" | "person" | "tv";
 type PanelProps = {
   type: PanelType;
   ItemDisplayComponent: React.ElementType;
@@ -15,7 +16,13 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
   function Panel(props: TabPanelProps) {
     const { data, value, index, ...other } = props;
     const { results, total_pages } = data;
-    const [page, setPage] = useState(1);
+    const searchParams = useSearchParams();
+    const pageInSearchParams = parseInt(searchParams.get("page") || "1");
+    const forInSearchParams = searchParams.get("for");
+
+    const [page, setPage] = useState(
+      forInSearchParams === type ? pageInSearchParams : 1
+    );
 
     const handlePageChange = (
       _event: React.ChangeEvent<unknown>,
@@ -24,8 +31,8 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
       setPage(value);
     };
 
-    const resetPage = useCallback(() => {
-      setPage(1);
+    const resetPage = useCallback((page: number) => {
+      setPage(page);
     }, []);
 
     const { data: dataResults, paginatedCurrentPage } = usePaginatedSearchQuery(

@@ -1,13 +1,12 @@
 "use client";
-import { searchIndicatorKey } from "@/components/Navbar";
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import { useEffect } from "react";
-import { useDataQueryMagic } from "react-data-query";
 
 export default function FetchedDetector() {
-  const { setQueryData } = useDataQueryMagic();
+  const { closeLoadingIndicator } = useLoadingIndicatorToggler();
 
   useEffect(() => {
-    setQueryData(searchIndicatorKey, () => false);
+    closeLoadingIndicator();
   });
 
   return <></>;
