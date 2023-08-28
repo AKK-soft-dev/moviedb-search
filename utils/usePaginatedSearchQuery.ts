@@ -74,7 +74,7 @@ export default function usePaginatedSearchQuery(
           if (e.name !== "AbortError") {
             enqueueSnackbar(e.message, {
               variant: "error",
-              anchorOrigin: { vertical: "bottom", horizontal: "right" },
+              anchorOrigin: { vertical: "top", horizontal: "right" },
             });
             // reset to previous page if fetch failed
             resetPage(prevPage.current);
