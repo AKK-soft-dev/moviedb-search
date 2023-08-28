@@ -9,11 +9,11 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   return {
-    title: "Person Name",
+    title: "TV Show Name",
   };
 };
 
-export default function Movies() {
+export default function TVShow() {
   notFound();
-  return <h1>This is person page!</h1>;
+  return <h1>This is TV Show page!</h1>;
 }

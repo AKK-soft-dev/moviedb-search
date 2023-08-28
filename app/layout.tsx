@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import FloatingFilterButton from "@/components/utils/FloatingFilterButton";
 import MyDataQueryProvider from "@/context/MyDataQueryProvider";
 import SnackbarProviderClient from "@/context/SnackbarProviderClient";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
@@ -37,11 +38,14 @@ export default function RootLayout({
       <body className={roboto.className}>
         <MyDataQueryProvider>
           <ThemeRegistry options={{ key: "mui", prepend: false }}>
-            <Navbar />
-            <SnackbarProviderClient>
-              {children}
-              <FloatingFilterButton />
-            </SnackbarProviderClient>
+            <Box minHeight="100vh" display="flex" flexDirection="column">
+              <Navbar />
+              <SnackbarProviderClient>
+                {children}
+                <FloatingFilterButton />
+              </SnackbarProviderClient>
+              <Footer />
+            </Box>
           </ThemeRegistry>
         </MyDataQueryProvider>
       </body>

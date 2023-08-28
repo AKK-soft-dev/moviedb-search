@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 type Props = {
   params: { id: string };
   // searchParams: { [key: string]: string | string[] | undefined }
@@ -12,6 +13,7 @@ export const generateMetadata = async ({
   };
 };
 
-export default function Movies() {
+export default function Movie() {
+  notFound();
   return <h1>This is movie page!</h1>;
 }
