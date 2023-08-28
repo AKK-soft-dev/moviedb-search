@@ -26,7 +26,7 @@ export default function usePaginatedSearchQuery(
 
   useEffect(() => {
     const cacheKey = [searchType, currentQuery, page];
-    setQueryData(cacheKey, () => helperData);
+    setQueryData(cacheKey, () => helperData); // cache data on first mount
   }, []);
 
   useEffect(() => {

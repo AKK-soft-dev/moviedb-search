@@ -1,7 +1,6 @@
 "use client";
 import { Box, Tabs, Tab, Badge, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useDataQueryMagic } from "react-data-query";
 import { Suspense } from "react";
 import SearchingIndicatorSkeleton from "@/components/skeletons/LoadingCategorizedPageSkeleton";
 import LiveTVIcon from "@mui/icons-material/LiveTv";
@@ -11,6 +10,8 @@ import withPanel from "./withPanel";
 import MovieItem from "@/components/utils/MovieItem";
 import TVShowItem from "@/components/utils/TVShowItem";
 import PersonItem from "@/components/utils/PersonItem";
+import { useSearchParams } from "next/navigation";
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 
 type DataType = {
   results: any[];
@@ -29,6 +30,8 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
+const tabs = ["movie", "tv", "person"];
 
 const PeoplePanel = withPanel({
   type: "person",
@@ -52,17 +55,19 @@ export default function SearchPageTabs({
   shows: DataType;
   people: DataType;
 }) {
-  const [value, setValue] = useState(0);
-  const { setQueryData } = useDataQueryMagic();
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const searchParams = useSearchParams();
+  const forTab = searchParams.get("for") || "movie";
+  const [tab, setTab] = useState<number>(
+    tabs.findIndex((tab) => tab === forTab) || 0
+  );
+  const { closeLoadingIndicator } = useLoadingIndicatorToggler();
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTab(newValue);
   };
 
+  // Close loading indicator on first /search page load and on query changes
   useEffect(() => {
-    setQueryData("search-indicator", () => {
-      return false;
-    });
+    closeLoadingIndicator();
   });
 
   return (
@@ -71,8 +76,8 @@ export default function SearchPageTabs({
         variant="scrollable"
         scrollButtons
         allowScrollButtonsMobile
-        value={value}
-        onChange={handleChange}
+        value={tab}
+        onChange={handleTabChange}
         aria-label="basic tabs example"
       >
         <Tab
@@ -108,9 +113,9 @@ export default function SearchPageTabs({
       </Tabs>
       <Suspense fallback={<SearchingIndicatorSkeleton />}>
         <Box sx={{ mt: 2 }}>
-          <MoviesPanel data={movies} value={value} index={0} />
-          <TVShowsPanel data={shows} value={value} index={1} />
-          <PeoplePanel data={people} value={value} index={2} />
+          <MoviesPanel data={movies} value={tab} index={0} />
+          <TVShowsPanel data={shows} value={tab} index={1} />
+          <PeoplePanel data={people} value={tab} index={2} />
         </Box>
       </Suspense>
     </Box>

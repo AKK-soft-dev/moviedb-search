@@ -80,9 +80,9 @@ function MyDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
       <Toolbar />
       <Box>
         {Object.keys(menus).map((menu) => {
-          const active = new RegExp(mainSegment, "i").test(
-            menu.replace(" ", "")
-          );
+          const active =
+            mainSegment &&
+            new RegExp(mainSegment, "i").test(menu.replace(" ", ""));
           return (
             <Accordion
               elevation={0}

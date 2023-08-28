@@ -24,6 +24,7 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
     const forInSearchParams = searchParams.get("for");
     const { enqueueSnackbar } = useSnackbar();
 
+    // If the 'for' search parameter doesn't exist, set the page to 1
     const [page, setPage] = useState(
       forInSearchParams === type ? pageInSearchParams : 1
     );

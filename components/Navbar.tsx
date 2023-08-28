@@ -200,8 +200,9 @@ export default function Navbar() {
             <Box sx={{ display: { xs: "none", md: "flex" }, columnGap: 2 }}>
               {Object.keys(menus).map((menu) => {
                 const active =
-                  (pathname === "/person" && menu === "People") ||
-                  new RegExp(mainSegment, "i").test(menu.replace(" ", ""));
+                  mainSegment &&
+                  ((pathname === "/person" && menu === "People") ||
+                    new RegExp(mainSegment, "i").test(menu.replace(" ", "")));
                 return (
                   <NavMenu
                     key={menu}

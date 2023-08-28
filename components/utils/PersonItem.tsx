@@ -34,6 +34,7 @@ export default function PersonItem({
           sx={{
             position: "relative",
             width: "100%",
+            backgroundColor: "background.paper",
             height: { xs: 170, sm: 200, md: 220, lg: 240, xl: 250 },
           }}
         >
@@ -53,7 +54,6 @@ export default function PersonItem({
               justifyContent="center"
               alignItems="center"
               sx={{
-                background: (theme) => theme.palette.background.paper,
                 color: "text.primary",
               }}
             >
