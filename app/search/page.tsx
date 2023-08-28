@@ -16,7 +16,6 @@ export default async function SearchPage({
 }: {
   searchParams: { [key: string]: string };
 }) {
-  console.log("searching");
   const movies = await fetchData(
     `/search/movie?query=${searchParams?.query}&include_adult=false&language=en-US&page=1`
   ).then((res) => res.json());

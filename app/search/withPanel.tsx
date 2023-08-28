@@ -28,12 +28,12 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
       setPage(1);
     }, []);
 
-    const dataResults = usePaginatedSearchQuery(
+    const { data: dataResults, paginatedCurrentPage } = usePaginatedSearchQuery(
       page,
       type,
       results,
       resetPage
-    ) as any[];
+    );
 
     return (
       <div
@@ -55,7 +55,7 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
           {total_pages > 1 && (
             <Box display="flex" justifyContent="center" my={2}>
               <Pagination
-                page={page}
+                page={paginatedCurrentPage}
                 onChange={handlePageChange}
                 count={total_pages > 500 ? 500 : total_pages}
                 showLastButton

@@ -1,7 +1,6 @@
 import fetchData from "@/config/fetch";
-import { Box, Container, Typography } from "@mui/material";
 import type { Metadata } from "next";
-import PopularMovieDataDisplay from "./PopularMovieDataDisplay";
+import PopularMovies from "./PopularMovies";
 import FetchedDetector from "@/components/utils/FetchedDetector";
 
 export const metadata: Metadata = {
@@ -20,21 +19,9 @@ export default async function PopularMoviesPage({
     `/movie/popular?language=en-US&page=${searchParams.page || 1}`
   ).then((res) => res.json());
   return (
-    <Container>
-      <Box my={2} textAlign="center">
-        <Typography
-          variant="h5"
-          component="h1"
-          display="inline"
-          sx={{
-            backgroundImage: `linear-gradient(transparent 83%, rgb(55, 125, 255) 10%)`,
-          }}
-        >
-          Popular Movies
-        </Typography>
-      </Box>
-      <PopularMovieDataDisplay data={movies} />
+    <>
+      <PopularMovies data={movies} />
       <FetchedDetector />
-    </Container>
+    </>
   );
 }

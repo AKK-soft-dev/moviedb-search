@@ -2,7 +2,7 @@ import fetchData from "@/config/fetch";
 import { Box, Container, Typography } from "@mui/material";
 import type { Metadata } from "next";
 import FetchedDetector from "@/components/utils/FetchedDetector";
-import UpcomingMovieDataDisplay from "./UpcomingMovieDataDisplay";
+import UpcomingMovies from "./UpcomingMovies";
 import formatDate from "@/utils/format-date";
 
 export const metadata: Metadata = {
@@ -32,21 +32,9 @@ export default async function UpcomingMoviesPage({
     }
   ).then((res) => res.json());
   return (
-    <Container>
-      <Box my={2} textAlign="center">
-        <Typography
-          variant="h5"
-          component="h1"
-          display="inline"
-          sx={{
-            backgroundImage: `linear-gradient(transparent 83%, rgb(55, 125, 255) 10%)`,
-          }}
-        >
-          Upcoming Movies
-        </Typography>
-      </Box>
-      <UpcomingMovieDataDisplay data={movies} />
+    <>
+      <UpcomingMovies data={movies} />
       <FetchedDetector />
-    </Container>
+    </>
   );
 }

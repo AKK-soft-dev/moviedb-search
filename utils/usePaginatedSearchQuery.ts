@@ -9,8 +9,9 @@ export default function usePaginatedSearchQuery(
   searchType: "movie" | "tv" | "person",
   helperData: any,
   resetPage: () => void
-) {
+): { data: any[]; paginatedCurrentPage: number } {
   const [data, setData] = useState(helperData);
+  const [paginatedCurrentPage, setPaginatedCurrentPage] = useState(page);
   const searchParams = useSearchParams();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -45,6 +46,7 @@ export default function usePaginatedSearchQuery(
       // Prevent fetching from server if the data is already in cache
       if (dataCache) {
         setData(dataCache);
+        setPaginatedCurrentPage(page);
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         return;
       }
@@ -57,6 +59,7 @@ export default function usePaginatedSearchQuery(
           setData(data.results);
           setQueryData(cacheKey, data.results);
           setQueryData(searchIndicatorKey, () => false);
+          setPaginatedCurrentPage(page);
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         })
         .catch((e: Error) => {
@@ -75,5 +78,5 @@ export default function usePaginatedSearchQuery(
     };
   }, [currentQuery, searchType, page, resetPage, setQueryData, getQueryData]);
 
-  return data;
+  return { data, paginatedCurrentPage };
 }
