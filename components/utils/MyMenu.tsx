@@ -10,6 +10,8 @@ import {
 import Link from "next/link";
 import { MenuType } from "../Navbar";
 import menus from "@/utils/menus";
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import { usePathname } from "next/navigation";
 
 const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   ...theme.typography.body2,
@@ -34,6 +36,12 @@ type MyMenuProps = {
 };
 
 function MyMenu({ open, anchorEl, onClose, mainMenu }: MyMenuProps) {
+  const { openLoadingIndicator } = useLoadingIndicatorToggler();
+  const pathname = usePathname();
+  const handleClick = (shouldLoad: boolean) => {
+    onClose();
+    shouldLoad && openLoadingIndicator();
+  };
   return (
     <Popover
       open={open}
@@ -69,9 +77,9 @@ function MyMenu({ open, anchorEl, onClose, mainMenu }: MyMenuProps) {
                 component={Link}
                 href={link}
                 sx={{ textDecoration: "none" }}
-                onClick={onClose}
+                onClick={() => handleClick(link !== pathname)}
               >
-                <ListItemButton>
+                <ListItemButton selected={link === pathname}>
                   <Typography variant="body2" color="text.primary">
                     {name}
                   </Typography>

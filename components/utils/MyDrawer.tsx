@@ -14,6 +14,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { MenuType } from "../Navbar";
 import menus from "@/utils/menus";
 import Link from "next/link";
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import { usePathname } from "next/navigation";
 
 const drawerWidth = 260;
 
@@ -54,6 +56,12 @@ const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
 }));
 
 function MyDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { openLoadingIndicator } = useLoadingIndicatorToggler();
+  const pathname = usePathname();
+  const handleClick = (shouldLoad: boolean) => {
+    onClose();
+    shouldLoad && openLoadingIndicator();
+  };
   return (
     <Drawer
       PaperProps={{ elevation: 0 }}
@@ -84,12 +92,9 @@ function MyDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
                   component={Link}
                   href={link}
                   sx={{ color: "text.primary", textDecoration: "none" }}
-                  onClick={onClose}
+                  onClick={() => handleClick(link !== pathname)}
                 >
-                  <ListItemButton
-                    selected={name === "E-Learning"}
-                    sx={{ mb: 2 }}
-                  >
+                  <ListItemButton selected={link === pathname} sx={{ mb: 2 }}>
                     <Typography variant="body2">{name}</Typography>
                   </ListItemButton>
                 </Box>

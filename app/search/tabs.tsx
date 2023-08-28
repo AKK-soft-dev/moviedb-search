@@ -3,7 +3,7 @@ import { Box, Tabs, Tab, Badge, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useDataQueryMagic } from "react-data-query";
 import { Suspense } from "react";
-import SearchingIndicatorSkeleton from "@/components/skeletons/SearchingIndicatorSkeleton";
+import SearchingIndicatorSkeleton from "@/components/skeletons/LoadingCategorizedPageSkeleton";
 import LiveTVIcon from "@mui/icons-material/LiveTv";
 import MovieIcon from "@mui/icons-material/LocalMovies";
 import PeopleIcon from "@mui/icons-material/Group";
