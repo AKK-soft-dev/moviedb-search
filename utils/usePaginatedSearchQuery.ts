@@ -34,6 +34,7 @@ export default function usePaginatedSearchQuery(
       prevQuery.current = currentQuery;
       prevPage.current = 1;
       resetPage();
+      setPaginatedCurrentPage(1);
       setData(helperData);
       setQueryData(cacheKey, helperData);
     } else if (
