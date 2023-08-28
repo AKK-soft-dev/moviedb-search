@@ -1,10 +1,12 @@
 import { useCallback, useState } from "react";
 import { TabPanelProps } from "./tabs";
 import usePaginatedSearchQuery from "@/utils/usePaginatedSearchQuery";
-import { Box, Pagination } from "@mui/material";
+import { Box, Button, Pagination } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/BSGridItem";
 import { useSearchParams } from "next/navigation";
+import LinkIcon from "@mui/icons-material/Link";
+import { useSnackbar } from "notistack";
 
 export type PanelType = "movie" | "person" | "tv";
 type PanelProps = {
@@ -17,8 +19,10 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
     const { data, value, index, ...other } = props;
     const { results, total_pages } = data;
     const searchParams = useSearchParams();
+    const query = searchParams.get("query");
     const pageInSearchParams = parseInt(searchParams.get("page") || "1");
     const forInSearchParams = searchParams.get("for");
+    const { enqueueSnackbar } = useSnackbar();
 
     const [page, setPage] = useState(
       forInSearchParams === type ? pageInSearchParams : 1
@@ -29,6 +33,16 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
       value: number
     ) => {
       setPage(value);
+    };
+
+    const copyLink = () => {
+      navigator.clipboard.writeText(
+        `${location.origin}/search?query=${query}&for=${type}&page=${page}`
+      );
+      enqueueSnackbar("Copied", {
+        variant: "success",
+        anchorOrigin: { vertical: "bottom", horizontal: "right" },
+      });
     };
 
     const resetPage = useCallback((page: number) => {
@@ -73,6 +87,16 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
               />
             </Box>
           )}
+          <Box mt={5}>
+            <Button
+              fullWidth
+              variant="contained"
+              startIcon={<LinkIcon sx={{ transform: "rotate(-50deg)" }} />}
+              onClick={copyLink}
+            >
+              Copy sharable link
+            </Button>
+          </Box>
         </Box>
       </div>
     );
