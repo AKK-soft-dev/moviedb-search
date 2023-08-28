@@ -14,7 +14,7 @@ export default function NotFoundData() {
         </Box>
         <Box textAlign="center">
           <Typography variant="h5" component="p">
-            Sorry! We couldn't find anything!
+            Sorry! We couldn&apos;t find anything!
           </Typography>
         </Box>
       </Box>

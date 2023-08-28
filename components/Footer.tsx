@@ -6,7 +6,7 @@ export default function Footer() {
       <Container>
         <Box py={2}>
           <Typography textAlign="center" variant="body2">
-            &copy; 2023 Aung Ko Ko. All rights reserved!
+            &#169; 2023 Aung Ko Ko. All rights reserved!
           </Typography>
         </Box>
       </Container>
