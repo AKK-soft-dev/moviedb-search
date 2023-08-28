@@ -58,6 +58,7 @@ const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
 function MyDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { openLoadingIndicator } = useLoadingIndicatorToggler();
   const pathname = usePathname();
+  const mainSegment = pathname.split("/")[1];
   const handleClick = (shouldLoad: boolean) => {
     onClose();
     shouldLoad && openLoadingIndicator();
@@ -65,6 +66,7 @@ function MyDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <Drawer
       PaperProps={{ elevation: 0 }}
+      keepMounted
       sx={{
         width: drawerWidth,
         "& .MuiPaper-root": {
@@ -77,31 +79,48 @@ function MyDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
     >
       <Toolbar />
       <Box>
-        {Object.keys(menus).map((menu, i) => (
-          <Accordion elevation={0} key={menu}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Box display="flex" alignItems="center" columnGap={1}>
-                {menus[menu as MenuType]?.icon}
-                <StyledTypography variant="body1">{menu}</StyledTypography>
-              </Box>
-            </AccordionSummary>
-            <AccordionDetails sx={{ py: 0 }}>
-              {menus[menu as MenuType]?.subMenus?.map(({ name, link }) => (
-                <Box
-                  key={name}
-                  component={Link}
-                  href={link}
-                  sx={{ color: "text.primary", textDecoration: "none" }}
-                  onClick={() => handleClick(link !== pathname)}
-                >
-                  <ListItemButton selected={link === pathname} sx={{ mb: 2 }}>
-                    <Typography variant="body2">{name}</Typography>
-                  </ListItemButton>
+        {Object.keys(menus).map((menu) => {
+          const active = new RegExp(mainSegment, "i").test(
+            menu.replace(" ", "")
+          );
+          return (
+            <Accordion
+              elevation={0}
+              key={menu}
+              sx={{
+                ...(active && {
+                  color: "primary.main",
+                }),
+              }}
+            >
+              <AccordionSummary
+                expandIcon={
+                  <ExpandMoreIcon color={active ? "primary" : "inherit"} />
+                }
+              >
+                <Box display="flex" alignItems="center" columnGap={1}>
+                  {menus[menu as MenuType]?.icon}
+                  <StyledTypography variant="body1">{menu}</StyledTypography>
                 </Box>
-              ))}
-            </AccordionDetails>
-          </Accordion>
-        ))}
+              </AccordionSummary>
+              <AccordionDetails sx={{ py: 0 }}>
+                {menus[menu as MenuType]?.subMenus?.map(({ name, link }) => (
+                  <Box
+                    key={name}
+                    component={Link}
+                    href={link}
+                    sx={{ color: "text.primary", textDecoration: "none" }}
+                    onClick={() => handleClick(link !== pathname)}
+                  >
+                    <ListItemButton selected={link === pathname} sx={{ mb: 2 }}>
+                      <Typography variant="body2">{name}</Typography>
+                    </ListItemButton>
+                  </Box>
+                ))}
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
       </Box>
     </Drawer>
   );

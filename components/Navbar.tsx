@@ -38,7 +38,7 @@ import {
 } from "react";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { useDataQuery } from "react-data-query";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import MyMenu from "./utils/MyMenu";
 import MyDrawer from "./utils/MyDrawer";
 import menus from "@/utils/menus";
@@ -48,7 +48,6 @@ const ExpandMoreIcon = styled(MuiExpandMoreIcon)<{ open: boolean }>(
   ({ open, theme }) => ({
     fontSize: "1.4rem",
     marginLeft: "2px",
-    color: theme.palette.text.primary,
     transition: theme.transitions.create("all"),
     ...(open && {
       transform: "rotate(180deg)",
@@ -92,7 +91,7 @@ const NavMenu = forwardRef<HTMLDivElement, NavMenuProps>((props, ref) => {
       >
         {children}
       </Typography>
-      <ExpandMoreIcon open={active} />
+      <ExpandMoreIcon open={active} color="inherit" />
     </Box>
   );
 });
@@ -117,6 +116,8 @@ export default function Navbar() {
   const router = useRouter();
   const openMenu = Boolean(menuAnchorEl && menuAnchorEl.el);
   const { openLoadingIndicator } = useLoadingIndicatorToggler();
+  const pathname = usePathname();
+  const mainSegment = pathname.split("/")[1];
 
   const { data: isLoading } = useDataQuery(searchIndicatorKey, undefined, {
     initialData: false,
@@ -197,17 +198,17 @@ export default function Navbar() {
             </Box>
 
             <Box sx={{ display: { xs: "none", md: "flex" }, columnGap: 2 }}>
-              {Object.keys(menus).map((menu, i) => {
+              {Object.keys(menus).map((menu) => {
+                const active =
+                  (pathname === "/person" && menu === "People") ||
+                  new RegExp(mainSegment, "i").test(menu.replace(" ", ""));
                 return (
                   <NavMenu
                     key={menu}
                     active={!!(menuAnchorEl && menuAnchorEl.menuName === menu)}
                     onClick={(e) => handleMenuOpen(e, menu as MenuType)}
-                    typographySx={{
-                      ...(i === 0 && {
-                        color: "text.primary",
-                        fontWeight: 700,
-                      }),
+                    containerSx={{
+                      ...(active && { color: "primary.main" }),
                     }}
                   >
                     {menu}
