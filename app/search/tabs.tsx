@@ -12,6 +12,7 @@ import TVShowItem from "@/components/utils/TVShowItem";
 import PersonItem from "@/components/utils/PersonItem";
 import { useSearchParams } from "next/navigation";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import SearchInfo from "./search-info";
 
 type DataType = {
   results: any[];
@@ -74,7 +75,6 @@ export default function SearchPageTabs({
     <Box>
       <Tabs
         variant="scrollable"
-        scrollButtons
         allowScrollButtonsMobile
         value={tab}
         onChange={handleTabChange}
@@ -111,6 +111,7 @@ export default function SearchPageTabs({
           {...a11yProps(2)}
         />
       </Tabs>
+      <SearchInfo />
       <Suspense fallback={<SearchingIndicatorSkeleton />}>
         <Box sx={{ mt: 2 }}>
           <MoviesPanel data={movies} value={tab} index={0} />

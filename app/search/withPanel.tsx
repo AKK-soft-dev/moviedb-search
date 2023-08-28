@@ -7,6 +7,7 @@ import BSGridItem from "@/components/utils/BSGridItem";
 import { useSearchParams } from "next/navigation";
 import LinkIcon from "@mui/icons-material/Link";
 import { useSnackbar } from "notistack";
+import NotFoundData from "@/components/utils/NotFoundData";
 
 export type PanelType = "movie" | "person" | "tv";
 type PanelProps = {
@@ -37,13 +38,16 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
     };
 
     const copyLink = () => {
-      navigator.clipboard.writeText(
-        `${location.origin}/search?query=${query}&for=${type}&page=${page}`
-      );
-      enqueueSnackbar("Copied", {
-        variant: "success",
-        anchorOrigin: { vertical: "bottom", horizontal: "right" },
-      });
+      navigator.clipboard
+        .writeText(
+          `${location.origin}/search?query=${query}&for=${type}&page=${page}`
+        )
+        .then(() => {
+          enqueueSnackbar("Copied", {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        });
     };
 
     const resetPage = useCallback((page: number) => {
@@ -57,6 +61,8 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
       resetPage
     );
 
+    const dataNotFound = !dataResults || dataResults.length < 1;
+
     return (
       <div
         role="tabpanel"
@@ -67,13 +73,18 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
         {...other}
       >
         <Box>
-          <BSGridContainer>
-            {dataResults?.map((dataResult) => (
-              <BSGridItem key={dataResult.id}>
-                <ItemDisplayComponent data={dataResult} />
-              </BSGridItem>
-            ))}
-          </BSGridContainer>
+          {dataNotFound ? (
+            <NotFoundData />
+          ) : (
+            <BSGridContainer>
+              {dataResults?.map((dataResult) => (
+                <BSGridItem key={dataResult.id}>
+                  <ItemDisplayComponent data={dataResult} />
+                </BSGridItem>
+              ))}
+            </BSGridContainer>
+          )}
+
           {total_pages > 1 && (
             <Box display="flex" justifyContent="center" my={2}>
               <Pagination
@@ -88,16 +99,18 @@ export default function withPanel({ type, ItemDisplayComponent }: PanelProps) {
               />
             </Box>
           )}
-          <Box mt={5}>
-            <Button
-              fullWidth
-              variant="contained"
-              startIcon={<LinkIcon sx={{ transform: "rotate(-50deg)" }} />}
-              onClick={copyLink}
-            >
-              Copy sharable link
-            </Button>
-          </Box>
+          {!dataNotFound && (
+            <Box mt={5} mb={3}>
+              <Button
+                fullWidth
+                variant="contained"
+                startIcon={<LinkIcon sx={{ transform: "rotate(-50deg)" }} />}
+                onClick={copyLink}
+              >
+                Copy sharable link
+              </Button>
+            </Box>
+          )}
         </Box>
       </div>
     );

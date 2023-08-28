@@ -5,6 +5,7 @@ import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/BSGridItem";
 import { useRouter, useSearchParams } from "next/navigation";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import NotFoundData from "./NotFoundData";
 
 type DataType = {
   results: any[];
@@ -64,9 +65,11 @@ export default function withCategorizedPage({
       );
     };
 
+    const dataNotFound = !results || results.length < 1;
+
     return (
       <Container>
-        <Box my={2} textAlign="center">
+        <Box mt={2} mb={4} textAlign="center">
           <Typography
             variant="h5"
             component="h1"
@@ -79,13 +82,18 @@ export default function withCategorizedPage({
           </Typography>
         </Box>
         <Box>
-          <BSGridContainer>
-            {results?.map((dataResult) => (
-              <BSGridItem key={dataResult.id}>
-                <ItemDisplayComponent data={dataResult} />
-              </BSGridItem>
-            ))}
-          </BSGridContainer>
+          {dataNotFound ? (
+            <NotFoundData />
+          ) : (
+            <BSGridContainer>
+              {results?.map((dataResult) => (
+                <BSGridItem key={dataResult.id}>
+                  <ItemDisplayComponent data={dataResult} />
+                </BSGridItem>
+              ))}
+            </BSGridContainer>
+          )}
+
           {total_pages > 1 && (
             <Box display="flex" justifyContent="center" my={2}>
               <Pagination

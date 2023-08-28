@@ -1,7 +1,6 @@
 import { useDataQueryMagic } from "react-data-query";
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { searchIndicatorKey } from "@/components/Navbar";
 import { useSnackbar } from "notistack";
 import useLoadingIndicatorToggler from "./useLoadingIndicatorToggler";
 
@@ -79,7 +78,7 @@ export default function usePaginatedSearchQuery(
             });
             // reset to previous page if fetch failed
             resetPage(prevPage.current);
-            setQueryData(searchIndicatorKey, () => false);
+            closeLoadingIndicator();
           }
         });
     }

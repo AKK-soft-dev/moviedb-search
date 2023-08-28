@@ -1,4 +1,3 @@
-import SearchResult from "./search-result";
 import fetchData from "@/config/fetch";
 import { Box, Container } from "@mui/material";
 import SearchPageTabs from "./tabs";
@@ -42,7 +41,6 @@ export default async function SearchPage({
       <Box position="relative">
         <SearchPageTabs movies={movies} shows={tv} people={people} />
       </Box>
-      <SearchResult />
     </Container>
   );
 }
