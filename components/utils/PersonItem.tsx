@@ -16,7 +16,9 @@ export default function PersonItem({
   data: { id, profile_path, name, original_name, known_for_department },
 }: PersonItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${profile_path}`;
-  const personLink = `/person/${id}-${name.toLowerCase().replaceAll(" ", "-")}`;
+  const personLink = `/person-detail/${id}-${name
+    .toLowerCase()
+    .replaceAll(" ", "-")}`;
   return (
     <Box mb={4}>
       <Box

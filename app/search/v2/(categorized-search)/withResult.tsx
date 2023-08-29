@@ -1,87 +1,59 @@
-"use client";
-import { useState } from "react";
-import { Box, Pagination, Container, Typography } from "@mui/material";
+import { ResultProps } from "./search-types";
+import { Box, Button, Pagination } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/BSGridItem";
 import { useRouter, useSearchParams } from "next/navigation";
+import LinkIcon from "@mui/icons-material/Link";
+import { useSnackbar } from "notistack";
+import NotFoundData from "@/components/utils/NotFoundData";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
-import NotFoundData from "./NotFoundData";
 
-type DataType = {
-  results: any[];
-  total_results: number;
-  total_pages: number;
-};
-
-interface PageDataDisplayProps {
-  data: DataType;
-}
-
-type MoviePageType = {
-  type: "movie";
-  category: "popular" | "top-rated" | "now-playing" | "upcoming";
-};
-
-type TvPageType = {
-  type: "tvshow";
-  category: "popular" | "top-rated" | "airing-today" | "on-the-air";
-};
-
-type PersonPageType = {
-  type: "person";
-  category: "popular";
-};
-
-export type PageHocProps = {
-  title: string;
-  pageType: MoviePageType | TvPageType | PersonPageType;
+type ResultType = "movie" | "person" | "tv";
+type ResultHOCProps = {
+  type: ResultType;
   ItemDisplayComponent: React.ElementType;
 };
 
-export default function withCategorizedPage({
-  title,
-  pageType,
+export default function withResult({
+  type,
   ItemDisplayComponent,
-}: PageHocProps) {
-  function CategorizedPage({ data }: PageDataDisplayProps) {
+}: ResultHOCProps) {
+  function Panel(props: ResultProps) {
+    const { data } = props;
     const { results, total_pages } = data;
     const searchParams = useSearchParams();
+    const query = searchParams.get("query");
     const pageInSearchParams = parseInt(searchParams.get("page") || "1");
-    const [page, setPage] = useState(pageInSearchParams);
-    const router = useRouter();
-    const { type, category } = pageType;
+    const { enqueueSnackbar } = useSnackbar();
     const { openLoadingIndicator } = useLoadingIndicatorToggler();
+
+    const router = useRouter();
 
     const handlePageChange = (
       _event: React.ChangeEvent<unknown>,
       value: number
     ) => {
       openLoadingIndicator();
-      setPage(value);
+      router.push(`/search/v2/${type}?query=${query}&page=${value}`);
+    };
 
-      router.push(
-        `/${
-          category === "popular" ? type : `${type}/${category}`
-        }?page=${value}`
-      );
+    const copyLink = () => {
+      navigator.clipboard
+        .writeText(
+          `${location.origin}/search/v2/${type}?query=${query}&page=${pageInSearchParams}`
+        )
+        .then(() => {
+          enqueueSnackbar("Copied", {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        });
     };
 
     const dataNotFound = !results || results.length < 1;
 
     return (
-      <Container>
-        <Box mt={2} mb={4} textAlign="center">
-          <Typography
-            variant="h5"
-            component="h1"
-            display="inline"
-            sx={{
-              backgroundImage: `linear-gradient(transparent 83%, rgb(55, 125, 255) 10%)`,
-            }}
-          >
-            {title}
-          </Typography>
-        </Box>
+      <Box>
         <Box>
           {dataNotFound ? (
             <NotFoundData />
@@ -109,12 +81,22 @@ export default function withCategorizedPage({
               />
             </Box>
           )}
+          {!dataNotFound && (
+            <Box mt={5} mb={3}>
+              <Button
+                fullWidth
+                variant="contained"
+                startIcon={<LinkIcon sx={{ transform: "rotate(-50deg)" }} />}
+                onClick={copyLink}
+              >
+                Copy sharable link
+              </Button>
+            </Box>
+          )}
         </Box>
-      </Container>
+      </Box>
     );
   }
-  CategorizedPage.displayName = `${pageType.category[0].toUpperCase()}${pageType.category.slice(
-    1
-  )}Page`;
-  return CategorizedPage;
+  Panel.displayName = `${type[0].toUpperCase()}${type.slice(1)}Panel`;
+  return Panel;
 }

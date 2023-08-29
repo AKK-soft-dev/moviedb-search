@@ -11,6 +11,7 @@ import FloatingFilterButton from "@/components/utils/FloatingFilterButton";
 import MyDataQueryProvider from "@/context/MyDataQueryProvider";
 import SnackbarProviderClient from "@/context/SnackbarProviderClient";
 import Footer from "@/components/Footer";
+import { BrowserRouter, Routes } from "@/components/routers";
 
 export const metadata: Metadata = {
   title: {
@@ -39,8 +40,8 @@ export default function RootLayout({
         <MyDataQueryProvider>
           <ThemeRegistry options={{ key: "mui", prepend: false }}>
             <Box minHeight="100vh" display="flex" flexDirection="column">
-              <Navbar />
               <SnackbarProviderClient>
+                <Navbar />
                 {children}
                 <FloatingFilterButton />
               </SnackbarProviderClient>

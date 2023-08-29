@@ -35,42 +35,11 @@ export default function usePaginatedSearchQuery(
   }, []);
 
   useEffect(() => {
-    const onPopState = (event: PopStateEvent) => {
-      prevPage.current = pageInSearchParams;
-      prevQuery.current = currentQuery;
-      updateTab(forInSearchParams);
-      resetPage(pageInSearchParams);
-      setPaginatedCurrentPage(pageInSearchParams);
-    };
-    window.addEventListener("popstate", onPopState);
-
-    return () => {
-      window.removeEventListener("popstate", onPopState);
-    };
-  }, [currentQuery, pageInSearchParams, forInSearchParams]);
-
-  useEffect(() => {
     const abortController = new AbortController();
     const cacheKey = [searchType, currentQuery, page];
 
     const cacheData = (data: any) => {
       setQueryData(cacheKey, data);
-    };
-
-    const updateBrowsingHistory = ({
-      page,
-      currentQuery,
-      searchType,
-    }: {
-      page: number;
-      currentQuery: string;
-      searchType: string;
-    }) => {
-      history.pushState(
-        { page, currentQuery, searchType },
-        "",
-        `${location.origin}/search?query=${currentQuery}&for=${searchType}&page=${page}`
-      );
     };
     // If the previous query and current query are different, set the page to 1 and set new movies coming from server
     if (prevQuery.current !== currentQuery) {
@@ -91,11 +60,6 @@ export default function usePaginatedSearchQuery(
         prevPage.current = page;
         setData(dataCache);
         setPaginatedCurrentPage(page);
-        updateBrowsingHistory({
-          page,
-          currentQuery: currentQuery!,
-          searchType,
-        });
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         return;
       }
@@ -109,11 +73,6 @@ export default function usePaginatedSearchQuery(
           cacheData(data.results);
           closeLoadingIndicator();
           setPaginatedCurrentPage(page);
-          updateBrowsingHistory({
-            page,
-            currentQuery: currentQuery!,
-            searchType,
-          });
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
           prevPage.current = page;
         })

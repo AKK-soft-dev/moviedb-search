@@ -18,7 +18,9 @@ export default function MovieItem({
   data: { id, poster_path, title, original_title, vote_average, release_date },
 }: MovieItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
-  const movieLink = `/movie/${id}-${title.toLowerCase().replaceAll(" ", "-")}`;
+  const movieLink = `/movie-detail/${id}-${title
+    .toLowerCase()
+    .replaceAll(" ", "-")}`;
   return (
     <Box mb={4}>
       <Box

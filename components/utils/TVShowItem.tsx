@@ -18,7 +18,9 @@ export default function MovieItem({
   data: { id, poster_path, name, original_name, vote_average, first_air_date },
 }: TVShowItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
-  const tvShowLink = `/tvshow/${id}-${name.toLowerCase().replaceAll(" ", "-")}`;
+  const tvShowLink = `/tvshow-detail/${id}-${name
+    .toLowerCase()
+    .replaceAll(" ", "-")}`;
   return (
     <Box mb={4}>
       <Box

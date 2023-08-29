@@ -1,8 +1,6 @@
 "use client";
 import { Box, Tabs, Tab, Badge, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
-import { Suspense } from "react";
-import SearchingIndicatorSkeleton from "@/components/skeletons/LoadingCategorizedPageSkeleton";
+import { useEffect } from "react";
 import LiveTVIcon from "@mui/icons-material/LiveTv";
 import MovieIcon from "@mui/icons-material/LocalMovies";
 import PeopleIcon from "@mui/icons-material/Group";
@@ -13,6 +11,7 @@ import PersonItem from "@/components/utils/PersonItem";
 import { useSearchParams } from "next/navigation";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import SearchInfo from "./search-info";
+import useTab from "@/utils/useTab";
 
 type DataType = {
   results: any[];
@@ -31,8 +30,6 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
-const tabs = ["movie", "tv", "person"];
 
 const PeoplePanel = withPanel({
   type: "person",
@@ -58,12 +55,12 @@ export default function SearchPageTabs({
 }) {
   const searchParams = useSearchParams();
   const forTab = searchParams.get("for") || "movie";
-  const [tab, setTab] = useState<number>(
-    tabs.findIndex((tab) => tab === forTab) || 0
-  );
+  const { activeTab, updateTab } = useTab(forTab);
+
   const { closeLoadingIndicator } = useLoadingIndicatorToggler();
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTab(newValue);
+    updateTab(newValue);
   };
 
   // Close loading indicator on first /search page load and on query changes
@@ -76,7 +73,7 @@ export default function SearchPageTabs({
       <Tabs
         variant="scrollable"
         allowScrollButtonsMobile
-        value={tab}
+        value={activeTab}
         onChange={handleTabChange}
         aria-label="basic tabs example"
       >
@@ -112,13 +109,11 @@ export default function SearchPageTabs({
         />
       </Tabs>
       <SearchInfo />
-      <Suspense fallback={<SearchingIndicatorSkeleton />}>
-        <Box sx={{ mt: 2 }}>
-          <MoviesPanel data={movies} value={tab} index={0} />
-          <TVShowsPanel data={shows} value={tab} index={1} />
-          <PeoplePanel data={people} value={tab} index={2} />
-        </Box>
-      </Suspense>
+      <Box sx={{ mt: 2 }}>
+        <MoviesPanel data={movies} value={activeTab!} index={0} />
+        <TVShowsPanel data={shows} value={activeTab!} index={1} />
+        <PeoplePanel data={people} value={activeTab!} index={2} />
+      </Box>
     </Box>
   );
 }

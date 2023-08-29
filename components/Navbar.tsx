@@ -125,6 +125,9 @@ export default function Navbar() {
   });
 
   const toggleSearchBox = () => {
+    if (!pathname.includes("/search")) {
+      setQuery("");
+    }
     setOpenSearchBox((prev) => !prev);
   };
 
@@ -202,7 +205,9 @@ export default function Navbar() {
                 const active =
                   mainSegment &&
                   ((pathname === "/person" && menu === "People") ||
-                    new RegExp(mainSegment, "i").test(menu.replace(" ", "")));
+                    new RegExp(mainSegment, "i").test(
+                      menu.replace(" ", "").toLowerCase()
+                    ));
                 return (
                   <NavMenu
                     key={menu}
@@ -267,7 +272,7 @@ export default function Navbar() {
             if (newValue) {
               setOpenSearchBox(false);
               openLoadingIndicator();
-              router.push(`/search?query=${newValue}`);
+              router.push(`/search/v2?query=${newValue}`);
             }
           }}
           onInputChange={(_e, newInput) => {
