@@ -4,6 +4,7 @@ import { Box, Button, Pagination } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/BSGridItem";
 import { useRouter, useSearchParams } from "next/navigation";
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 
 export type SectionType = "movie" | "person" | "tv";
 type SectionProps = {
@@ -21,8 +22,8 @@ export default function withResultSection({
     const searchParams = useSearchParams();
     const query = searchParams.get("query");
     const router = useRouter();
+    const { openLoadingIndicator } = useLoadingIndicatorToggler();
 
-    // If the 'for' search parameter doesn't exist, set the page to 1
     const [page] = useState(1);
 
     const handlePageChange = (
@@ -30,6 +31,7 @@ export default function withResultSection({
       value: number
     ) => {
       router.push(`/search/v2/${type}?query=${query}&page=${value}`);
+      openLoadingIndicator();
     };
 
     return (
