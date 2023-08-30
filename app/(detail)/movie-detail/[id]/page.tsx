@@ -1,7 +1,9 @@
 import fetchData from "@/config/fetch";
 import type { Metadata } from "next";
+import { Box } from "@mui/material";
 import { notFound } from "next/navigation";
 import { MovieDetailType } from "../movie-type";
+import FetchedDetector from "@/components/utils/FetchedDetector";
 type Props = {
   params: { id: string };
 };
@@ -53,5 +55,10 @@ export default async function Movie({ params: { id } }: Props) {
   const movie: MovieDetailType = await fetchData(`/movie/${movieID}`).then(
     (res) => res.json()
   );
-  return <h1>{movie.title}</h1>;
+  return (
+    <Box>
+      <h1>{movie.title}</h1>
+      <FetchedDetector />
+    </Box>
+  );
 }

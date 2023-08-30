@@ -1,3 +1,4 @@
+import FetchedDetector from "@/components/utils/FetchedDetector";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 type Props = {
@@ -15,5 +16,10 @@ export const generateMetadata = async ({
 
 export default function TVShow() {
   notFound();
-  return <h1>This is TV Show page!</h1>;
+  return (
+    <h1>
+      This is TV Show page!
+      <FetchedDetector />
+    </h1>
+  );
 }
