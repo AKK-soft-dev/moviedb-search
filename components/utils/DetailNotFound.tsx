@@ -1,7 +1,7 @@
 import { Box, Typography, Container, Skeleton } from "@mui/material";
 import { useState } from "react";
 
-export default function NotFoundData() {
+export default function DetailNotFound({ message }: { message: string }) {
   const [loaded, setLoaded] = useState(false);
   return (
     <Container>
@@ -14,7 +14,7 @@ export default function NotFoundData() {
           >
             <Box
               component="img"
-              src="/thumb-down.gif"
+              src="/target.gif"
               alt="Icon by lordicon.com"
               sx={{ objectFit: "cover", width: 1, height: 1 }}
               onLoad={() => setLoaded(true)}
@@ -34,7 +34,7 @@ export default function NotFoundData() {
         </Box>
         <Box textAlign="center">
           <Typography variant="h5" component="p">
-            Sorry! We couldn&apos;t find anything!
+            {message}
           </Typography>
         </Box>
       </Box>

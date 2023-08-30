@@ -7,6 +7,7 @@ import PersonItem from "@/components/utils/PersonItem";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import SearchInfo from "./search-info";
 import withResultSection from "./withResultSection";
+import NotFoundData from "@/components/utils/NotFoundData";
 
 type DataType = {
   results: any[];
@@ -53,6 +54,12 @@ export default function SearchResults({
   const totalMovies = movies.total_results;
   const totalTvShows = shows.total_results;
   const totalPeople = people.total_results;
+
+  const notFoundAll = !moviesFound && !tvShowsFound && !peopleFound;
+
+  if (notFoundAll) {
+    return <NotFoundData />;
+  }
 
   return (
     <Box>

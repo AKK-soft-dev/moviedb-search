@@ -156,7 +156,9 @@ export default function Navbar() {
   useEffect(() => {
     const abortController = new AbortController();
     setLoading(true);
-    fetch(`/api/search?query=${inputQuery}`, { signal: abortController.signal })
+    fetch(`/api/search?query=${deferredQuery}`, {
+      signal: abortController.signal,
+    })
       .then((res) => {
         return res.json();
       })
