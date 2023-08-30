@@ -64,8 +64,8 @@ export default function MovieItem({
               <ImageNotSupportedIcon fontSize="large" />
             </Box>
           )}
-          <Box component="div" className="imdb-wrapper">
-            <Typography className="imdb" variant="body2" component="span">
+          <Box component="div" className="user_score-wrapper">
+            <Typography className="user_score" variant="body2" component="span">
               {vote_average.toFixed(1)}
             </Typography>
           </Box>

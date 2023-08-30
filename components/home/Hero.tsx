@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDataQueryMagic } from "react-data-query";
 import { searchIndicatorKey } from "../Navbar";
+import GradientBackground from "../utils/GradientBackground";
 
 export default function Hero({
   backgroundImageUrl,
@@ -41,17 +42,13 @@ export default function Hero({
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Box
+      <GradientBackground
         sx={{
-          minHeight: 300,
-          backgroundImage: `linear-gradient(to right, ${alpha(
-            defaultBackground,
-            0.8
-          )} 0%, ${alpha(defaultBackground, 0.8)} 100%)`,
           textAlign: "center",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          minHeight: 300,
         }}
       >
         <Container fixed>
@@ -82,7 +79,7 @@ export default function Hero({
             />
           </Box>
         </Container>
-      </Box>
+      </GradientBackground>
     </Box>
   );
 }
