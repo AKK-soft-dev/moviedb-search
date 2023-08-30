@@ -1,0 +1,7 @@
+Movie Credits
+
+for cast -> search with character
+
+for crew -> {
+    for department -> search with department
+}

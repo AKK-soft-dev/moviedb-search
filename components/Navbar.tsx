@@ -155,20 +155,28 @@ export default function Navbar() {
 
   useEffect(() => {
     const abortController = new AbortController();
-    setLoading(true);
-    fetch(`/api/search?query=${deferredQuery}`, {
-      signal: abortController.signal,
-    })
-      .then((res) => {
-        return res.json();
+
+    if (deferredQuery) {
+      setLoading(true);
+      fetch(`/api/search?query=${deferredQuery}`, {
+        signal: abortController.signal,
       })
-      .then((data) => {
-        const options = data.results.map(
-          (res: { name?: string; title?: string }) => res.name || res.title
-        );
-        setOptions(Array.from(new Set(options)));
-        setLoading(false);
-      });
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          const options = data.results.map(
+            (res: { name?: string; title?: string }) => res.name || res.title
+          );
+          setOptions(Array.from(new Set(options)));
+          setLoading(false);
+        })
+        .catch((err: Error) => {
+          if (err.name !== "AbortError") {
+            // handle error here
+          }
+        });
+    }
 
     return () => {
       abortController.abort();

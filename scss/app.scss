@@ -19,6 +19,76 @@ $gutters: (
 
 @import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
 
+$blue-trans-background: linear-gradient(
+    45deg,
+    rgb(67, 95, 221) 0%,
+    rgb(67, 95, 221) 22%,
+    rgb(80, 115, 203) 22%,
+    rgb(80, 115, 203) 48%,
+    rgb(92, 135, 185) 48%,
+    rgb(92, 135, 185) 73%,
+    rgb(105, 156, 167) 73%,
+    rgb(105, 156, 167) 77%,
+    rgb(118, 176, 149) 77%,
+    rgb(118, 176, 149) 87%,
+    rgb(130, 196, 131) 87%,
+    rgb(130, 196, 131) 89%,
+    rgb(143, 216, 113) 89%,
+    rgb(143, 216, 113) 100%
+  ),
+  linear-gradient(
+    90deg,
+    rgb(67, 95, 221) 0%,
+    rgb(67, 95, 221) 22%,
+    rgb(80, 115, 203) 22%,
+    rgb(80, 115, 203) 48%,
+    rgb(92, 135, 185) 48%,
+    rgb(92, 135, 185) 73%,
+    rgb(105, 156, 167) 73%,
+    rgb(105, 156, 167) 77%,
+    rgb(118, 176, 149) 77%,
+    rgb(118, 176, 149) 87%,
+    rgb(130, 196, 131) 87%,
+    rgb(130, 196, 131) 89%,
+    rgb(143, 216, 113) 89%,
+    rgb(143, 216, 113) 100%
+  ),
+  linear-gradient(
+    67.5deg,
+    rgb(67, 95, 221) 0%,
+    rgb(67, 95, 221) 22%,
+    rgb(80, 115, 203) 22%,
+    rgb(80, 115, 203) 48%,
+    rgb(92, 135, 185) 48%,
+    rgb(92, 135, 185) 73%,
+    rgb(105, 156, 167) 73%,
+    rgb(105, 156, 167) 77%,
+    rgb(118, 176, 149) 77%,
+    rgb(118, 176, 149) 87%,
+    rgb(130, 196, 131) 87%,
+    rgb(130, 196, 131) 89%,
+    rgb(143, 216, 113) 89%,
+    rgb(143, 216, 113) 100%
+  ),
+  linear-gradient(
+    157.5deg,
+    rgb(67, 95, 221) 0%,
+    rgb(67, 95, 221) 22%,
+    rgb(80, 115, 203) 22%,
+    rgb(80, 115, 203) 48%,
+    rgb(92, 135, 185) 48%,
+    rgb(92, 135, 185) 73%,
+    rgb(105, 156, 167) 73%,
+    rgb(105, 156, 167) 77%,
+    rgb(118, 176, 149) 77%,
+    rgb(118, 176, 149) 87%,
+    rgb(130, 196, 131) 87%,
+    rgb(130, 196, 131) 89%,
+    rgb(143, 216, 113) 89%,
+    rgb(143, 216, 113) 100%
+  ),
+  linear-gradient(90deg, rgb(195, 223, 84), rgb(118, 43, 234)) !important;
+
 .wrapper {
   position: relative;
   width: 100%;
@@ -32,75 +102,7 @@ $gutters: (
 
 .wrapper::-webkit-scrollbar-thumb {
   border-radius: 41px;
-  background-image: linear-gradient(
-      45deg,
-      rgb(67, 95, 221) 0%,
-      rgb(67, 95, 221) 22%,
-      rgb(80, 115, 203) 22%,
-      rgb(80, 115, 203) 48%,
-      rgb(92, 135, 185) 48%,
-      rgb(92, 135, 185) 73%,
-      rgb(105, 156, 167) 73%,
-      rgb(105, 156, 167) 77%,
-      rgb(118, 176, 149) 77%,
-      rgb(118, 176, 149) 87%,
-      rgb(130, 196, 131) 87%,
-      rgb(130, 196, 131) 89%,
-      rgb(143, 216, 113) 89%,
-      rgb(143, 216, 113) 100%
-    ),
-    linear-gradient(
-      90deg,
-      rgb(67, 95, 221) 0%,
-      rgb(67, 95, 221) 22%,
-      rgb(80, 115, 203) 22%,
-      rgb(80, 115, 203) 48%,
-      rgb(92, 135, 185) 48%,
-      rgb(92, 135, 185) 73%,
-      rgb(105, 156, 167) 73%,
-      rgb(105, 156, 167) 77%,
-      rgb(118, 176, 149) 77%,
-      rgb(118, 176, 149) 87%,
-      rgb(130, 196, 131) 87%,
-      rgb(130, 196, 131) 89%,
-      rgb(143, 216, 113) 89%,
-      rgb(143, 216, 113) 100%
-    ),
-    linear-gradient(
-      67.5deg,
-      rgb(67, 95, 221) 0%,
-      rgb(67, 95, 221) 22%,
-      rgb(80, 115, 203) 22%,
-      rgb(80, 115, 203) 48%,
-      rgb(92, 135, 185) 48%,
-      rgb(92, 135, 185) 73%,
-      rgb(105, 156, 167) 73%,
-      rgb(105, 156, 167) 77%,
-      rgb(118, 176, 149) 77%,
-      rgb(118, 176, 149) 87%,
-      rgb(130, 196, 131) 87%,
-      rgb(130, 196, 131) 89%,
-      rgb(143, 216, 113) 89%,
-      rgb(143, 216, 113) 100%
-    ),
-    linear-gradient(
-      157.5deg,
-      rgb(67, 95, 221) 0%,
-      rgb(67, 95, 221) 22%,
-      rgb(80, 115, 203) 22%,
-      rgb(80, 115, 203) 48%,
-      rgb(92, 135, 185) 48%,
-      rgb(92, 135, 185) 73%,
-      rgb(105, 156, 167) 73%,
-      rgb(105, 156, 167) 77%,
-      rgb(118, 176, 149) 77%,
-      rgb(118, 176, 149) 87%,
-      rgb(130, 196, 131) 87%,
-      rgb(130, 196, 131) 89%,
-      rgb(143, 216, 113) 89%,
-      rgb(143, 216, 113) 100%
-    ),
-    linear-gradient(90deg, rgb(195, 223, 84), rgb(118, 43, 234)) !important;
+  background-image: $blue-trans-background;
   background-blend-mode: overlay, overlay, overlay, overlay, normal !important;
 }
 
@@ -140,3 +142,57 @@ $gutters: (
   right: 0;
   width: 100%;
 }
+
+// You need to update these colors whenever you change the theme
+body {
+  scrollbar-color: #222b45; // background paper
+  &::-webkit-scrollbar {
+    background-color: #222b45; // background paper
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background-color: rgb(55, 125, 255); // primary main
+    min-height: 10px;
+    border: solid 1px rgb(255, 225, 2); // secondary main
+  }
+  // &::-webkit-scrollbar-thumb:focus {
+  //   background-color: #222b45;
+  // }
+  // &::-webkit-scrollbar-thumb:active {
+  //   background-color: #222b45;
+  // }
+  // &::-webkit-scrollbar-thumb:hover {
+  //   background-color: #222b45;
+  // }
+  &::-webkit-scrollbar-corner {
+    background-color: #222b45; // background paper
+  }
+}
+
+// scrollbar-color: red;
+//   &::-webkit-scrollbar,
+//   & *::-webkit-scrollbar {
+//     background-color: red;
+//   }
+//   &::-webkit-scrollbar-thumb,
+//   & *::-webkit-scrollbar-thumb {
+//     border-radius: 12px;
+//     background-color: #222b45;
+//     min-height: 50px;
+//   }
+//   &::-webkit-scrollbar-thumb:focus,
+//   & *::-webkit-scrollbar-thumb:focus {
+//     background-color: #222b45;
+//   }
+//   &::-webkit-scrollbar-thumb:active,
+//   & *::-webkit-scrollbar-thumb:active {
+//     background-color: #222b45;
+//   }
+//   &::-webkit-scrollbar-thumb:hover,
+//   & *::-webkit-scrollbar-thumb:hover {
+//     background-color: #222b45;
+//   }
+//   &::-webkit-scrollbar-corner,
+//   & *::-webkit-scrollbar-corner {
+//     background-color: #222b45;
+//   }

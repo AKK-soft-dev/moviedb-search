@@ -1,5 +1,5 @@
 import { roboto } from "@/fonts/fonts";
-import { PaletteMode, ThemeOptions } from "@mui/material";
+import { PaletteMode, ThemeOptions, darkScrollbar } from "@mui/material";
 
 export const getDesignTokens = (mode: PaletteMode): ThemeOptions => {
   const darkMode = mode === "dark";

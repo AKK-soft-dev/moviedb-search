@@ -59,7 +59,7 @@ export default function ThemeRegistry({
   return (
     <CacheProvider value={cache}>
       <ThemeContextProvider>
-        <CssBaseline />
+        <CssBaseline enableColorScheme />
         {children}
       </ThemeContextProvider>
     </CacheProvider>

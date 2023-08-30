@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import Link from "next/link";
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 
 type MovieItemProps = {
   data: {
@@ -17,6 +18,7 @@ type MovieItemProps = {
 export default function MovieItem({
   data: { id, poster_path, title, original_title, vote_average, release_date },
 }: MovieItemProps) {
+  const { openLoadingIndicator } = useLoadingIndicatorToggler();
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
   const movieLink = `/movie-detail/${id}-${title
     .toLowerCase()
@@ -33,6 +35,7 @@ export default function MovieItem({
         }}
       >
         <Box
+          onClick={openLoadingIndicator}
           component={Link}
           href={movieLink}
           sx={{
