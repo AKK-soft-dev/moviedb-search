@@ -3,7 +3,7 @@ import { TabPanelProps } from "./tabs";
 import usePaginatedSearchQuery from "@/utils/usePaginatedSearchQuery";
 import { Box, Button, Pagination } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
-import BSGridItem from "@/components/utils/BSGridItem";
+import BSGridItem from "@/components/utils/items/BSGridItem";
 import { useSearchParams } from "next/navigation";
 import LinkIcon from "@mui/icons-material/Link";
 import { useSnackbar } from "notistack";

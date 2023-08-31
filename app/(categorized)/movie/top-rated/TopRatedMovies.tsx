@@ -1,5 +1,5 @@
 "use client";
-import MovieItem from "@/components/utils/MovieItem";
+import MovieItem from "@/components/utils/items/MovieItem";
 import withCategorizedPage from "@/components/utils/withCategorizedPage";
 
 const TopRatedMovies = withCategorizedPage({

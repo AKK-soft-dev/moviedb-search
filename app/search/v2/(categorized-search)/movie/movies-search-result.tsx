@@ -2,7 +2,7 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import withResult from "../withResult";
-import MovieItem from "@/components/utils/MovieItem";
+import MovieItem from "@/components/utils/items/MovieItem";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import SearchInfo from "../../search-info";
 import { DataType } from "../search-types";

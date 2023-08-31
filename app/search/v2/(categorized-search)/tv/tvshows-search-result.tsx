@@ -5,7 +5,7 @@ import withResult from "../withResult";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import SearchInfo from "../../search-info";
 import { DataType } from "../search-types";
-import TVShowItem from "@/components/utils/TVShowItem";
+import TVShowItem from "@/components/utils/items/TVShowItem";
 
 const TVShowsResult = withResult({
   type: "tv",

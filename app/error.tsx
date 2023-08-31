@@ -1,4 +1,5 @@
 "use client";
+import FetchedDetector from "@/components/utils/FetchedDetector";
 import { Container, Box, Typography, Button } from "@mui/material";
 
 export default function ErrorBoundary({
@@ -30,6 +31,7 @@ export default function ErrorBoundary({
           </Button>
         </Box>
       </Box>
+      <FetchedDetector />
     </Container>
   );
 }

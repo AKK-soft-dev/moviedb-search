@@ -1,14 +1,26 @@
 import fetchData from "@/config/fetch";
 import type { Metadata } from "next";
-import { Box, Container, Typography, IconButton, Button } from "@mui/material";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+import {
+  Box,
+  Container,
+  Typography,
+  IconButton,
+  Button,
+  Chip,
+} from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { notFound } from "next/navigation";
 import { MovieDetailType } from "../movie-type";
 import FetchedDetector from "@/components/utils/FetchedDetector";
 import GradientBackground from "@/components/utils/GradientBackground";
 import Media from "../../Media";
-import CustomTooltip from "@/components/utils/CustomTooltip";
+import AddToWatchListButton from "@/components/utils/AddToWatchListButton";
+import { CreditsType, CrewType } from "@/components/utils/Credits";
+import Casts, { CastsType } from "@/components/utils/Casts";
+import Recommendations from "@/components/recommendations/Recommendations";
+import { Suspense } from "react";
+import SingleRowSkeleton from "@/components/skeletons/SingleRowSkeleton";
+import StreamRecommendations from "@/components/recommendations/StreamRecommendations";
 
 type Props = {
   params: { id: string };
@@ -56,6 +68,8 @@ export const generateMetadata = async ({
   };
 };
 
+export const revalidate = 1800;
+
 export default async function Movie({ params: { id } }: Props) {
   const movieID = id.split("-")[0];
   const {
@@ -65,11 +79,30 @@ export default async function Movie({ params: { id } }: Props) {
     tagline,
     overview,
     vote_average,
-  }: MovieDetailType = await fetchData(`/movie/${movieID}`, {
-    next: {
-      revalidate: 1800,
-    },
-  }).then((res) => res.json());
+    runtime,
+    genres,
+    release_date,
+    budget,
+  }: MovieDetailType = await fetchData(`/movie/${movieID}`).then((res) =>
+    res.json()
+  );
+
+  const credits: CreditsType = await fetchData(
+    `/movie/${movieID}/credits?language=en-US`
+  ).then((res) => res.json());
+
+  const casts: CastsType = credits.cast;
+  const director: CrewType | undefined = credits.crew.find(
+    (c) => c.job === "Director"
+  );
+
+  let duration = "N/A";
+  if (runtime) {
+    const t = (runtime / 60).toString();
+    const hour = parseInt(t);
+    const minute = runtime % 60;
+    duration = `${hour ? hour + "h" : ""} ${minute ? minute + "m" : ""}`;
+  }
 
   return (
     <Box position="relative">
@@ -81,6 +114,8 @@ export default async function Movie({ params: { id } }: Props) {
           backgroundImage: `url(https://image.tmdb.org/t/p/w1280${backdrop_path})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
+          borderBottom: "solid 1px",
+          borderBottomColor: "primary.main",
         }}
       >
         <GradientBackground
@@ -92,7 +127,7 @@ export default async function Movie({ params: { id } }: Props) {
           }}
         >
           <Container>
-            <Box>
+            <Box my={{ xs: 0, md: 2 }}>
               <Box component="div" className="row g-5">
                 <Box
                   component="div"
@@ -105,7 +140,7 @@ export default async function Movie({ params: { id } }: Props) {
                   <Media
                     poster_path={poster_path}
                     alt={title}
-                    sx={{ mt: { xs: 2, md: 0 } }}
+                    sx={{ my: { xs: 2, md: 0 } }}
                   />
                 </Box>
                 <Box component="div" className="col-12 col-md">
@@ -113,39 +148,45 @@ export default async function Movie({ params: { id } }: Props) {
                     <Typography variant="h4" fontWeight={700}>
                       {title}
                     </Typography>
+
                     <Box
                       display="flex"
                       alignItems="center"
-                      columnGap={2}
+                      columnGap={1}
                       my={1}
                     >
-                      <CustomTooltip title="User score">
-                        <Box
-                          component="div"
-                          className="user_score-wrapper"
-                          sx={{ position: "relative" }}
-                        >
-                          <Typography
-                            className="user_score"
-                            variant="body2"
-                            component="span"
-                            sx={{ typography: "h6" }}
-                          >
-                            {vote_average?.toFixed(1)}
-                          </Typography>
-                        </Box>
-                      </CustomTooltip>
+                      <Typography variant="body2">
+                        {release_date} •{" "}
+                        {budget && `$${budget?.toLocaleString()}`}
+                      </Typography>
+                      {genres?.map((genre) => (
+                        <Chip
+                          size="small"
+                          key={genre.id}
+                          label={genre.name}
+                          variant="outlined"
+                        />
+                      ))}
+                    </Box>
 
-                      <CustomTooltip title="Add to watch list">
-                        <IconButton color="primary">
-                          <BookmarkIcon />
-                        </IconButton>
-                      </CustomTooltip>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      columnGap={1}
+                      my={2}
+                    >
+                      <Chip
+                        label={vote_average?.toFixed(1)}
+                        color="secondary"
+                      />
+                      <Chip label={duration} color="primary" />
+
+                      <AddToWatchListButton />
 
                       <Button
                         startIcon={<PlayArrowIcon />}
+                        color="inherit"
                         variant="outlined"
-                        size="small"
                       >
                         Play Trailer
                       </Button>
@@ -159,6 +200,9 @@ export default async function Movie({ params: { id } }: Props) {
                       <Typography color="action.active" fontWeight={300}>
                         {overview}
                       </Typography>
+                      <Box my={2}>
+                        <Typography>Director : {director?.name}</Typography>
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
@@ -167,6 +211,14 @@ export default async function Movie({ params: { id } }: Props) {
           </Container>
         </GradientBackground>
       </Box>
+
+      <Casts casts={casts} />
+
+      <Recommendations>
+        <Suspense fallback={<SingleRowSkeleton />}>
+          <StreamRecommendations type="movie" id={movieID} />
+        </Suspense>
+      </Recommendations>
       <FetchedDetector />
     </Box>
   );

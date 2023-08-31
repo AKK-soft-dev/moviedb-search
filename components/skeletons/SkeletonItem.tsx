@@ -1,5 +1,5 @@
 import { Box, Skeleton } from "@mui/material";
-import BSGridItem from "../utils/BSGridItem";
+import BSGridItem from "../utils/items/BSGridItem";
 
 export default function MovieSkeletonItem() {
   return (

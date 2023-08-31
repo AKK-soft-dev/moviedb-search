@@ -14,16 +14,16 @@ export default function Media({ poster_path, alt, sx }: MediaProps) {
     <Box
       sx={{
         position: "relative",
-        width: 200,
+        width: { xs: 170, md: 240 },
         backgroundColor: "background.paper",
-        height: 298,
+        height: { xs: 250, md: 360 },
         ...sx,
       }}
     >
       {poster_path ? (
         <Image
           src={imgSrc}
-          style={{ objectFit: "cover" }}
+          style={{ objectFit: "cover", borderRadius: 6 }}
           alt={alt}
           title={alt}
           fill

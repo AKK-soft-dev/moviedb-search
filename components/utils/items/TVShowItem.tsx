@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import Link from "next/link";
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 
 type TVShowItemProps = {
   data: {
@@ -21,6 +22,7 @@ export default function MovieItem({
   const tvShowLink = `/tvshow-detail/${id}-${name
     .toLowerCase()
     .replaceAll(" ", "-")}`;
+  const { openLoadingIndicator } = useLoadingIndicatorToggler();
   return (
     <Box mb={4}>
       <Box
@@ -33,6 +35,7 @@ export default function MovieItem({
         }}
       >
         <Box
+          onClick={openLoadingIndicator}
           component={Link}
           href={tvShowLink}
           sx={{

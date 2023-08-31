@@ -1,5 +1,5 @@
 "use client";
-import PersonItem from "@/components/utils/PersonItem";
+import PersonItem from "@/components/utils/items/PersonItem";
 import withCategorizedPage from "@/components/utils/withCategorizedPage";
 
 const PopularPeople = withCategorizedPage({

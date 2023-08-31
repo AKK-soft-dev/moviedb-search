@@ -1,5 +1,6 @@
 import { Box, Typography, Container, Skeleton } from "@mui/material";
 import { useState } from "react";
+import FetchedDetector from "./FetchedDetector";
 
 export default function DetailNotFound({ message }: { message: string }) {
   const [loaded, setLoaded] = useState(false);
@@ -37,6 +38,7 @@ export default function DetailNotFound({ message }: { message: string }) {
             {message}
           </Typography>
         </Box>
+        <FetchedDetector />
       </Box>
     </Container>
   );

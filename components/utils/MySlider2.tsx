@@ -1,10 +1,13 @@
-import { Box } from "@mui/material";
+"use client";
+import { Box, IconButton } from "@mui/material";
 import React, {
   forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
 } from "react";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForwardIos";
 import BSGridContainer from "./BSGridContainer";
 
 type MySliderProps = {
@@ -48,8 +51,8 @@ const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
     );
 
     useEffect(() => {
-      const wrapper = wrapperRef.current;
       const gridContainer = gridContainerRef.current;
+      const wrapper = wrapperRef.current;
       // console.log({ nextElSelector, prevElSelector, wrapper, gridContainer });
 
       if (prevElSelector && nextElSelector && wrapper && gridContainer) {
@@ -59,7 +62,7 @@ const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
           gridContainer.children[0].getBoundingClientRect().width;
 
         const handleMove = (type: "prev" | "next") => {
-          wrapper.scrollBy({
+          wrapper?.scrollBy({
             left: type === "prev" ? -childItemWidth : childItemWidth,
             behavior: "smooth",
           });
@@ -79,23 +82,26 @@ const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
     }, [prevElSelector, nextElSelector]);
 
     return (
-      <Box
-        ref={wrapperRef}
-        component="div"
-        className={`wrapper ${yelredScrollbar ? "yelred" : ""}`}
-        sx={{
-          transition: "all 0.3s ease",
-          "&::-webkit-scrollbar": {
-            height: { xs: 5, md: 14, lg: 20 },
-          },
-          "&::-webkit-scrollbar-thumb": {
-            borderRadius: { md: "solid 3px transparent" },
-          },
-        }}
-      >
-        <BSGridContainer noWrap ref={gridContainerRef}>
-          {children}
-        </BSGridContainer>
+      <Box>
+        <Box
+          ref={wrapperRef}
+          component="div"
+          className={`wrapper ${yelredScrollbar ? "yelred" : ""}`}
+          sx={{
+            position: "relative",
+            transition: "all 0.3s ease",
+            "&::-webkit-scrollbar": {
+              height: { xs: 5, md: 14, lg: 16 },
+            },
+            "&::-webkit-scrollbar-thumb": {
+              borderRadius: { md: "solid 3px transparent" },
+            },
+          }}
+        >
+          <BSGridContainer noWrap ref={gridContainerRef}>
+            {children}
+          </BSGridContainer>
+        </Box>
       </Box>
     );
   }

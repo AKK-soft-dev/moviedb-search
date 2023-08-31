@@ -1,10 +1,10 @@
 "use client";
-import MovieItem from "@/components/utils/MovieItem";
+import MovieItem from "@/components/utils/items/MovieItem";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import { PopularContext } from "./Popular";
 import MySlider2, { MySliderHandler } from "@/components/utils/MySlider2";
-import SliderItem from "@/components/utils/SliderItem";
+import SliderItem from "@/components/utils/items/SliderItem";
 
 export default function PopularDataDisplay({
   data: initialData,

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Box, Pagination, Container, Typography } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
-import BSGridItem from "@/components/utils/BSGridItem";
+import BSGridItem from "@/components/utils/items/BSGridItem";
 import { useRouter, useSearchParams } from "next/navigation";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import NotFoundData from "./NotFoundData";

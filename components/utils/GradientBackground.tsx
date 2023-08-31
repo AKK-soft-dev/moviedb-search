@@ -12,7 +12,7 @@ export default function GradientBackground({
 }) {
   const theme = useTheme();
   const defaultBackground = theme.palette.background.default;
-  const alphaValue = darker ? 0.95 : 0.8;
+  const alphaValue = darker ? 0.85 : 0.8;
   return (
     <Box
       sx={{

@@ -1,5 +1,5 @@
 "use client";
-import TVShowItem from "@/components/utils/TVShowItem";
+import TVShowItem from "@/components/utils/items/TVShowItem";
 import withCategorizedPage from "@/components/utils/withCategorizedPage";
 
 const OnTheAirTVShows = withCategorizedPage({

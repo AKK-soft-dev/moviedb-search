@@ -5,7 +5,7 @@ import withResult from "../withResult";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import SearchInfo from "../../search-info";
 import { DataType } from "../search-types";
-import PersonItem from "@/components/utils/PersonItem";
+import PersonItem from "@/components/utils/items/PersonItem";
 
 const PeopleResult = withResult({
   type: "person",
