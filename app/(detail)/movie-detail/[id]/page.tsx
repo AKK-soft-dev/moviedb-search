@@ -1,13 +1,6 @@
 import fetchData from "@/config/fetch";
 import type { Metadata } from "next";
-import {
-  Box,
-  Container,
-  Typography,
-  IconButton,
-  Button,
-  Chip,
-} from "@mui/material";
+import { Box, Container, Typography, Button, Chip } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { notFound } from "next/navigation";
 import { MovieDetailType } from "../movie-type";
@@ -83,6 +76,8 @@ export default async function Movie({ params: { id } }: Props) {
     genres,
     release_date,
     budget,
+    original_language,
+    status,
   }: MovieDetailType = await fetchData(`/movie/${movieID}`).then((res) =>
     res.json()
   );
@@ -103,6 +98,8 @@ export default async function Movie({ params: { id } }: Props) {
     const minute = runtime % 60;
     duration = `${hour ? hour + "h" : ""} ${minute ? minute + "m" : ""}`;
   }
+
+  console.log("generating page for", id);
 
   return (
     <Box position="relative">
@@ -149,16 +146,22 @@ export default async function Movie({ params: { id } }: Props) {
                       {title}
                     </Typography>
 
+                    <Box my={1}>
+                      <Typography variant="body2">
+                        {release_date?.replaceAll("-", "/")}{" "}
+                        {budget ? `• $${budget?.toLocaleString()}` : ""}{" "}
+                        {/* {original_language ? `• ${original_language}` : ""} */}
+                        {status ? `• ${status}` : ""}
+                      </Typography>
+                    </Box>
+
                     <Box
                       display="flex"
                       alignItems="center"
+                      flexWrap="wrap"
                       columnGap={1}
                       my={1}
                     >
-                      <Typography variant="body2">
-                        {release_date} •{" "}
-                        {budget && `$${budget?.toLocaleString()}`}
-                      </Typography>
                       {genres?.map((genre) => (
                         <Chip
                           size="small"
@@ -201,7 +204,9 @@ export default async function Movie({ params: { id } }: Props) {
                         {overview}
                       </Typography>
                       <Box my={2}>
-                        <Typography>Director : {director?.name}</Typography>
+                        <Typography>
+                          Director : {director?.name ? director.name : "N/A"}
+                        </Typography>
                       </Box>
                     </Box>
                   </Box>

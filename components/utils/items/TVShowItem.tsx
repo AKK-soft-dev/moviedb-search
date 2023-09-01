@@ -6,6 +6,7 @@ import Link from "next/link";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 
 type TVShowItemProps = {
+  defaultBg?: boolean;
   data: {
     id: number;
     poster_path: string;
@@ -16,6 +17,7 @@ type TVShowItemProps = {
   };
 };
 export default function MovieItem({
+  defaultBg,
   data: { id, poster_path, name, original_name, vote_average, first_air_date },
 }: TVShowItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
@@ -41,7 +43,9 @@ export default function MovieItem({
           sx={{
             position: "relative",
             width: "100%",
-            backgroundColor: "background.paper",
+            backgroundColor: defaultBg
+              ? "background.default"
+              : "background.paper",
             height: { xs: 170, sm: 200, md: 220, lg: 240, xl: 250 },
           }}
         >

@@ -37,9 +37,9 @@ export default function MovieItem({
         }}
       >
         <Box
-          onClick={openLoadingIndicator}
           component={Link}
           href={movieLink}
+          onClick={openLoadingIndicator}
           sx={{
             position: "relative",
             width: "100%",
@@ -77,6 +77,7 @@ export default function MovieItem({
             </Typography>
           </Box>
         </Box>
+
         <Box sx={{ mt: 1, width: 1 }}>
           <Typography variant="body1" noWrap>
             {title}

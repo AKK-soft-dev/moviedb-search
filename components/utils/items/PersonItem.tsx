@@ -5,6 +5,7 @@ import Link from "next/link";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 
 type PersonItemProps = {
+  defaultBg?: boolean;
   data: {
     id: number;
     profile_path: string;
@@ -14,6 +15,7 @@ type PersonItemProps = {
   };
 };
 export default function PersonItem({
+  defaultBg,
   data: { id, profile_path, name, original_name, known_for_department },
 }: PersonItemProps) {
   const imgSrc = `https://image.tmdb.org/t/p/w300${profile_path}`;
@@ -39,7 +41,9 @@ export default function PersonItem({
           sx={{
             position: "relative",
             width: "100%",
-            backgroundColor: "background.paper",
+            backgroundColor: defaultBg
+              ? "background.default"
+              : "background.paper",
             height: { xs: 170, sm: 200, md: 220, lg: 240, xl: 250 },
           }}
         >
