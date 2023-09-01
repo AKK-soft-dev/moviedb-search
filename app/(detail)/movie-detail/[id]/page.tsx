@@ -55,7 +55,7 @@ export const generateMetadata = async ({
       title: movieTitle,
       description: movieDescription,
       images: backdropPath
-        ? `https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`
+        ? `https://image.tmdb.org/t/p/w1280/${backdropPath}`
         : "/opengraph-image.png",
     },
   };
@@ -76,7 +76,7 @@ export default async function Movie({ params: { id } }: Props) {
     genres,
     release_date,
     budget,
-    original_language,
+    spoken_languages,
     status,
   }: MovieDetailType = await fetchData(`/movie/${movieID}`).then((res) =>
     res.json()
@@ -150,8 +150,12 @@ export default async function Movie({ params: { id } }: Props) {
                       <Typography variant="body2">
                         {release_date?.replaceAll("-", "/")}{" "}
                         {budget ? `• $${budget?.toLocaleString()}` : ""}{" "}
-                        {/* {original_language ? `• ${original_language}` : ""} */}
-                        {status ? `• ${status}` : ""}
+                        {status ? `• ${status}` : ""}{" "}
+                        {spoken_languages && spoken_languages.length > 0
+                          ? `• ${spoken_languages
+                              .map((sp) => sp.english_name)
+                              .join(", ")}`
+                          : ""}
                       </Typography>
                     </Box>
 
@@ -217,7 +221,7 @@ export default async function Movie({ params: { id } }: Props) {
         </GradientBackground>
       </Box>
 
-      <Casts casts={casts} />
+      <Casts casts={casts} id={id} type="movie" />
 
       <Recommendations>
         <Suspense fallback={<SingleRowSkeleton />}>
