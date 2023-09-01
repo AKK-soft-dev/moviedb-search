@@ -1,3 +1,32 @@
+type LastEpisodeToAirType = {
+  id: number;
+  name: string;
+  overview: string | null;
+  vote_average: number | null;
+  vote_count: number | null;
+  air_date: string | null;
+  episode_number: number;
+  episode_type: string;
+  production_code: string | null;
+  runtime: null;
+  season_number: number;
+  show_id: number; // same as tv show id
+  still_path: string | null;
+};
+
+export type SeasonType = {
+  air_date: string | null;
+  episode_count: number;
+  id: 8888;
+  name: string;
+  overview: string | null;
+  poster_path: string | null;
+  season_number: number;
+  vote_average: number;
+};
+
+export type SeasonsType = Array<SeasonType>;
+
 export type TVShowDetailType = {
   adult: boolean;
   backdrop_path: string | null;
@@ -12,27 +41,13 @@ export type TVShowDetailType = {
   first_air_date: string | null;
   genres: Array<{ id: number; name: string }> | null;
   homepage: string | null;
-  id: 2734;
-  in_production: true;
+  id: number;
+  in_production: boolean;
   languages: string[] | null;
   last_air_date: string | null;
-  last_episode_to_air: {
-    id: number;
-    name: string | null;
-    overview: string | null;
-    vote_average: number | null;
-    vote_count: number | null;
-    air_date: string | null;
-    episode_number: number;
-    episode_type: string;
-    production_code: string | null;
-    runtime: null;
-    season_number: number;
-    show_id: number; // same as tv show id
-    still_path: string | null;
-  };
+  last_episode_to_air: LastEpisodeToAirType;
   name: string;
-  next_episode_to_air: null;
+  next_episode_to_air: null; // need to define this type
   networks: Array<{
     id: number;
     logo_path: string | null;
@@ -57,18 +72,7 @@ export type TVShowDetailType = {
     iso_3166_1: string;
     name: string;
   }> | null;
-  seasons: [
-    {
-      air_date: number | null;
-      episode_count: number;
-      id: 8888;
-      name: string;
-      overview: string | null;
-      poster_path: string | null;
-      season_number: number;
-      vote_average: number;
-    }
-  ];
+  seasons: SeasonsType;
   spoken_languages: Array<{
     english_name: string;
     iso_639_1: string;

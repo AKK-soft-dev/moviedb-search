@@ -4,14 +4,19 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 
 export default function Recommendations({
+  bgDefault,
   children,
 }: {
+  bgDefault?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <Box
       component="section"
-      sx={{ backgroundColor: "background.paper", py: 5 }}
+      sx={{
+        backgroundColor: bgDefault ? "background.default" : "background.paper",
+        py: 5,
+      }}
     >
       <Container>
         <Box

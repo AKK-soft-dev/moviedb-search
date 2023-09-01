@@ -56,10 +56,14 @@ const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
       // console.log({ nextElSelector, prevElSelector, wrapper, gridContainer });
 
       if (prevElSelector && nextElSelector && wrapper && gridContainer) {
-        const prevButton = document.querySelector(prevElSelector);
-        const nextButton = document.querySelector(nextElSelector);
-        const childItemWidth =
-          gridContainer.children[0]?.getBoundingClientRect().width;
+        const prevButton = document.querySelector(
+          prevElSelector
+        ) as HTMLElement;
+        const nextButton = document.querySelector(
+          nextElSelector
+        ) as HTMLElement;
+        const firstChild = gridContainer.children[0];
+        const childItemWidth = firstChild?.getBoundingClientRect().width;
 
         const handleMove = (type: "prev" | "next") => {
           wrapper?.scrollBy({

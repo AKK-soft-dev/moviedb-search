@@ -34,13 +34,12 @@ export type CastsType = Array<CastType>;
 export default function Casts({
   casts: castsData,
   id,
-  type,
 }: {
   casts: CastsType;
   id: string;
-  type: "movie" | "tv";
 }) {
-  const casts = castsData?.slice(0, 14);
+  const maxCastsToShow = 14;
+  const casts = castsData?.slice(0, maxCastsToShow);
   const castLink = `${id}/cast`;
   return (
     <Container component="section" sx={{ my: 5 }}>
@@ -78,29 +77,32 @@ export default function Casts({
               <CastItem data={cast} />
             </SliderItem>
           ))}
-          <SliderItem>
-            <Box
-              sx={{
-                height: { xs: 170, sm: 200, md: 220, lg: 240, xl: 250 },
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                border: 1,
-                borderColor: (theme) => alpha(theme.palette.text.primary, 0.3),
-              }}
-            >
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <Button
-                  LinkComponent={Link}
-                  href={castLink}
-                  endIcon={<ArrowForwardIcon />}
-                  color="inherit"
-                >
-                  View More
-                </Button>
+          {castsData.length > maxCastsToShow && (
+            <SliderItem>
+              <Box
+                sx={{
+                  height: { xs: 170, sm: 200, md: 220, lg: 240, xl: 250 },
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: 1,
+                  borderColor: (theme) =>
+                    alpha(theme.palette.text.primary, 0.3),
+                }}
+              >
+                <Box display="flex" justifyContent="center" alignItems="center">
+                  <Button
+                    LinkComponent={Link}
+                    href={castLink}
+                    endIcon={<ArrowForwardIcon />}
+                    color="inherit"
+                  >
+                    View More
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          </SliderItem>
+            </SliderItem>
+          )}
         </MySlider2>
       ) : (
         <Typography>There is no casts to show!</Typography>

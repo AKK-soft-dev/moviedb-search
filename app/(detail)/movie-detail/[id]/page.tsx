@@ -99,8 +99,6 @@ export default async function Movie({ params: { id } }: Props) {
     duration = `${hour ? hour + "h" : ""} ${minute ? minute + "m" : ""}`;
   }
 
-  console.log("generating page for", id);
-
   return (
     <Box position="relative">
       <Box
@@ -203,10 +201,14 @@ export default async function Movie({ params: { id } }: Props) {
                       {tagline}
                     </Typography>
                     <Box my={2}>
-                      <Typography variant="h6">Overview</Typography>
-                      <Typography color="action.active" fontWeight={300}>
-                        {overview}
-                      </Typography>
+                      {overview && (
+                        <>
+                          <Typography variant="h6">Overview</Typography>
+                          <Typography color="action.active" fontWeight={300}>
+                            {overview}
+                          </Typography>
+                        </>
+                      )}
                       <Box my={2}>
                         <Typography>
                           Director : {director?.name ? director.name : "N/A"}
@@ -221,7 +223,7 @@ export default async function Movie({ params: { id } }: Props) {
         </GradientBackground>
       </Box>
 
-      <Casts casts={casts} id={id} type="movie" />
+      <Casts casts={casts} id={id} />
 
       <Recommendations>
         <Suspense fallback={<SingleRowSkeleton />}>

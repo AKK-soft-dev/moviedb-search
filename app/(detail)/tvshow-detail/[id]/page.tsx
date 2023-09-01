@@ -7,13 +7,14 @@ import FetchedDetector from "@/components/utils/FetchedDetector";
 import GradientBackground from "@/components/utils/GradientBackground";
 import Media from "../../Media";
 import AddToWatchListButton from "@/components/utils/AddToWatchListButton";
-import { CreditsType, CrewType } from "@/components/utils/Credits";
+import { CreditsType } from "@/components/utils/Credits";
 import Casts, { CastsType } from "@/components/utils/Casts";
 import Recommendations from "@/components/recommendations/Recommendations";
 import { Suspense } from "react";
 import SingleRowSkeleton from "@/components/skeletons/SingleRowSkeleton";
 import StreamRecommendations from "@/components/recommendations/StreamRecommendations";
-import { TVShowDetailType } from "../tvshow-type";
+import { SeasonType, TVShowDetailType } from "../tvshow-type";
+import LastSeason from "../LastSeason";
 
 type Props = {
   params: { id: string };
@@ -72,9 +73,10 @@ export default async function TVShow({ params: { id } }: Props) {
     tagline,
     overview,
     vote_average,
-    episode_run_time,
     created_by,
     genres,
+    number_of_seasons,
+    seasons,
     first_air_date,
     last_air_date,
     spoken_languages,
@@ -88,8 +90,7 @@ export default async function TVShow({ params: { id } }: Props) {
   ).then((res) => res.json());
 
   const casts: CastsType = credits.cast;
-
-  console.log("generating page for", id);
+  const lastSeason = seasons && seasons[seasons.length - 1];
 
   return (
     <Box position="relative">
@@ -141,6 +142,9 @@ export default async function TVShow({ params: { id } }: Props) {
                         {first_air_date?.replaceAll("-", "/")} -{" "}
                         {last_air_date?.replaceAll("-", "/")}{" "}
                         {status ? `• ${status}` : ""}{" "}
+                        {number_of_seasons
+                          ? `• ${number_of_seasons} Seasons`
+                          : ""}{" "}
                         {spoken_languages && spoken_languages.length > 0
                           ? `• ${spoken_languages
                               .map((sp: any) => sp.english_name)
@@ -153,7 +157,7 @@ export default async function TVShow({ params: { id } }: Props) {
                       display="flex"
                       alignItems="center"
                       flexWrap="wrap"
-                      columnGap={1}
+                      gap={1}
                       my={1}
                     >
                       {genres?.map((genre) => (
@@ -192,10 +196,14 @@ export default async function TVShow({ params: { id } }: Props) {
                       {tagline}
                     </Typography>
                     <Box my={2}>
-                      <Typography variant="h6">Overview</Typography>
-                      <Typography color="action.active" fontWeight={300}>
-                        {overview}
-                      </Typography>
+                      {overview && (
+                        <>
+                          <Typography variant="h6">Overview</Typography>
+                          <Typography color="action.active" fontWeight={300}>
+                            {overview}
+                          </Typography>
+                        </>
+                      )}
                       <Box my={2}>
                         <Typography>
                           Creator(s) :{" "}
@@ -213,9 +221,11 @@ export default async function TVShow({ params: { id } }: Props) {
         </GradientBackground>
       </Box>
 
-      <Casts casts={casts} id={id} type="tv" />
+      <Casts casts={casts} id={id} />
 
-      <Recommendations>
+      <LastSeason tvShowId={id} data={lastSeason} />
+
+      <Recommendations bgDefault>
         <Suspense fallback={<SingleRowSkeleton />}>
           <StreamRecommendations type="tv" id={tvShowId} />
         </Suspense>
