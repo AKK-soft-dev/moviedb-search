@@ -1,7 +1,6 @@
 import fetchData from "@/config/fetch";
 import type { Metadata } from "next";
-import { Box, Container, Typography, Button, Chip } from "@mui/material";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { Box, Container, Typography, Chip } from "@mui/material";
 import { notFound } from "next/navigation";
 import FetchedDetector from "@/components/utils/FetchedDetector";
 import GradientBackground from "@/components/utils/GradientBackground";
@@ -15,6 +14,7 @@ import SingleRowSkeleton from "@/components/skeletons/SingleRowSkeleton";
 import StreamRecommendations from "@/components/recommendations/StreamRecommendations";
 import { SeasonType, TVShowDetailType } from "../tvshow-type";
 import LastSeason from "../LastSeason";
+import PlayTrailerButton from "@/components/utils/PlayTrailerButton";
 
 type Props = {
   params: { id: string };
@@ -90,7 +90,7 @@ export default async function TVShow({ params: { id } }: Props) {
   ).then((res) => res.json());
 
   const casts: CastsType = credits.cast;
-  const lastSeason = seasons && seasons[seasons.length - 1];
+  const lastSeason = seasons && seasons.findLast((season) => season.air_date);
 
   return (
     <Box position="relative">
@@ -183,13 +183,7 @@ export default async function TVShow({ params: { id } }: Props) {
 
                       <AddToWatchListButton />
 
-                      <Button
-                        startIcon={<PlayArrowIcon />}
-                        color="inherit"
-                        variant="outlined"
-                      >
-                        Play Trailer
-                      </Button>
+                      <PlayTrailerButton />
                     </Box>
 
                     <Typography color="text.secondary" my={2}>
@@ -223,7 +217,7 @@ export default async function TVShow({ params: { id } }: Props) {
 
       <Casts casts={casts} id={id} />
 
-      <LastSeason tvShowId={id} data={lastSeason} />
+      <LastSeason tvShowId={id} tvShowName={name} data={lastSeason!} />
 
       <Recommendations bgDefault>
         <Suspense fallback={<SingleRowSkeleton />}>

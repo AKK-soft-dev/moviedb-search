@@ -8,9 +8,11 @@ import { RecommendationsType } from "./StreamRecommendations";
 
 export default function RecommendationsDataDisplay({
   type,
+  defaultBg,
   data: { results },
 }: {
   type: RecommendationsType;
+  defaultBg?: boolean;
   data: { results: any[] };
 }) {
   return (
@@ -23,9 +25,9 @@ export default function RecommendationsDataDisplay({
           {results?.map((data) => (
             <SliderItem key={data.id}>
               {type === "movie" ? (
-                <MovieItem data={data} defaultBg />
+                <MovieItem data={data} defaultBg={defaultBg} />
               ) : (
-                <TVShowItem data={data} defaultBg />
+                <TVShowItem data={data} defaultBg={defaultBg} />
               )}
             </SliderItem>
           ))}

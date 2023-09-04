@@ -38,7 +38,7 @@ export type TVShowDetailType = {
     profile_path: string | null;
   }>;
   episode_run_time: number[] | null;
-  first_air_date: string | null;
+  first_air_date: string;
   genres: Array<{ id: number; name: string }> | null;
   homepage: string | null;
   id: number;

@@ -21,5 +21,5 @@ export function formatDisplayDate(
   }).format(date);
   const day = date.getDate();
 
-  return `${monthName} ${day} ${year}`;
+  return `${monthName} ${day}, ${year}`;
 }

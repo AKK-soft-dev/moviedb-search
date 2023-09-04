@@ -4,9 +4,11 @@ import RecommendationsDataDisplay from "./RecommendationsDataDisplay";
 export type RecommendationsType = "movie" | "tv";
 export default async function StreamRecommendations({
   id,
+  defaultBgForImgBeforeLoaded,
   type,
 }: {
   id: number | string;
+  defaultBgForImgBeforeLoaded?: boolean;
   type: RecommendationsType;
 }) {
   const res = await fetchData(
@@ -14,5 +16,11 @@ export default async function StreamRecommendations({
   );
   const recommendations = await res.json();
 
-  return <RecommendationsDataDisplay type={type} data={recommendations} />;
+  return (
+    <RecommendationsDataDisplay
+      type={type}
+      data={recommendations}
+      defaultBg={defaultBgForImgBeforeLoaded}
+    />
+  );
 }

@@ -1,7 +1,6 @@
 import fetchData from "@/config/fetch";
 import type { Metadata } from "next";
-import { Box, Container, Typography, Button, Chip } from "@mui/material";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { Box, Container, Typography, Chip } from "@mui/material";
 import { notFound } from "next/navigation";
 import { MovieDetailType } from "../movie-type";
 import FetchedDetector from "@/components/utils/FetchedDetector";
@@ -14,6 +13,7 @@ import Recommendations from "@/components/recommendations/Recommendations";
 import { Suspense } from "react";
 import SingleRowSkeleton from "@/components/skeletons/SingleRowSkeleton";
 import StreamRecommendations from "@/components/recommendations/StreamRecommendations";
+import PlayTrailerButton from "@/components/utils/PlayTrailerButton";
 
 type Props = {
   params: { id: string };
@@ -188,13 +188,7 @@ export default async function Movie({ params: { id } }: Props) {
 
                       <AddToWatchListButton />
 
-                      <Button
-                        startIcon={<PlayArrowIcon />}
-                        color="inherit"
-                        variant="outlined"
-                      >
-                        Play Trailer
-                      </Button>
+                      <PlayTrailerButton />
                     </Box>
 
                     <Typography color="text.secondary" my={2}>
@@ -227,7 +221,11 @@ export default async function Movie({ params: { id } }: Props) {
 
       <Recommendations>
         <Suspense fallback={<SingleRowSkeleton />}>
-          <StreamRecommendations type="movie" id={movieID} />
+          <StreamRecommendations
+            type="movie"
+            id={movieID}
+            defaultBgForImgBeforeLoaded
+          />
         </Suspense>
       </Recommendations>
       <FetchedDetector />
