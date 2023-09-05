@@ -1,6 +1,15 @@
 "use client";
-import { Typography } from "@mui/material";
+import { Typography, styled } from "@mui/material";
 import { useMemo, useState } from "react";
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  display: "inline-block",
+  color: theme.palette.primary.main,
+  cursor: "pointer",
+  "&:hover": {
+    textDecoration: "underline",
+  },
+}));
 
 export default function ReadMoreLess({
   content,
@@ -22,20 +31,12 @@ export default function ReadMoreLess({
           (exceedMaxLength ? (
             <>
               {content.slice(0, totalContentLengthToDisplay)}...
-              <Typography
+              <StyledTypography
                 variant="body1"
                 onClick={() => setReadMore(true)}
-                sx={{
-                  display: "inline-block",
-                  color: "primary.main",
-                  cursor: "pointer",
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
-                }}
               >
                 Read more
-              </Typography>
+              </StyledTypography>
             </>
           ) : (
             content
@@ -52,20 +53,12 @@ export default function ReadMoreLess({
           (exceedMaxLength ? (
             <>
               {content}{" "}
-              <Typography
+              <StyledTypography
                 variant="body1"
                 onClick={() => setReadMore(false)}
-                sx={{
-                  display: "inline-block",
-                  color: "primary.main",
-                  cursor: "pointer",
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
-                }}
               >
                 Read less
-              </Typography>
+              </StyledTypography>
             </>
           ) : (
             content
