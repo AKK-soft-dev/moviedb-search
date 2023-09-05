@@ -4,9 +4,8 @@ import { notFound } from "next/navigation";
 import fetchData from "@/config/fetch";
 import { Box, Typography, Container, Divider } from "@mui/material";
 import SeasonOverviewItem from "../../SeasonOveriewItem";
-import Link from "next/link";
 import FetchedDetector from "@/components/utils/FetchedDetector";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import BackLink from "../../BackLink";
 
 type Props = {
   params: { id: string };
@@ -59,24 +58,7 @@ export default async function Seasons({ params: { id } }: Props) {
           <Typography variant="h4" mb={1} fontWeight={700}>
             {name} ({new Date(first_air_date).getFullYear()}){" "}
           </Typography>
-          <Box display="inline-block">
-            <Typography
-              component={Link}
-              href={`/tvshow-detail/${id}`}
-              display="flex"
-              alignItems="center"
-              columnGap={1}
-              color="primary"
-              sx={{
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              <ArrowBackIcon />
-              Back to main
-            </Typography>
-          </Box>
+          <BackLink href={`/tvshow-detail/${id}`}>Back to main</BackLink>
         </Box>
         <Box my={4}>
           {seasons

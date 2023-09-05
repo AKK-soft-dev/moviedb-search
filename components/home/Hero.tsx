@@ -26,7 +26,7 @@ export default function Hero({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setQueryData(searchIndicatorKey, () => true);
-    router.push(`/search?query=${query}`);
+    router.push(`/search/v2?query=${query}`);
   };
   return (
     <Box

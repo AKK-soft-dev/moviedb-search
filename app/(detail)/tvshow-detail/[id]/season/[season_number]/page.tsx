@@ -2,12 +2,10 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import fetchData from "@/config/fetch";
 import { Box, Typography, Container, Grid } from "@mui/material";
-import Link from "next/link";
 import FetchedDetector from "@/components/utils/FetchedDetector";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { SeasonDetailType } from "../season-type";
 import EpisodeOverviewItem from "../../../EpisodeOverviewItem";
-import { TVShowDetailType } from "../../../tvshow-type";
+import BackLink from "../../../BackLink";
 
 type Props = {
   params: { id: string; season_number: string };
@@ -93,29 +91,14 @@ export default async function Seasons({
           <Typography variant="h4" mb={1} fontWeight={700}>
             {name} ({new Date(air_date).getFullYear()}){" "}
           </Typography>
-          <Box display="inline-block">
-            <Typography
-              component={Link}
-              href={`/tvshow-detail/${id}/seasons`}
-              display="flex"
-              alignItems="center"
-              columnGap={1}
-              color="primary"
-              sx={{
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              <ArrowBackIcon />
-              Back to season list
-            </Typography>
-          </Box>
+          <BackLink href={`/tvshow-detail/${id}/seasons`}>
+            Back to season list
+          </BackLink>
         </Box>
         <Box my={4}>
-          <Grid container spacing={{ xs: 1, md: 2 }}>
+          <Grid container spacing={{ xs: 2, md: 1 }}>
             {episodes?.map((episode) => (
-              <Grid item xs={12} md={6} lg={4} key={episode.id}>
+              <Grid item xs={12} md={6} lg={4} xl={3} key={episode.id}>
                 <EpisodeOverviewItem seasonName={name} data={episode} />
               </Grid>
             ))}

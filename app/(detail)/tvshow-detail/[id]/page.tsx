@@ -12,7 +12,7 @@ import Recommendations from "@/components/recommendations/Recommendations";
 import { Suspense } from "react";
 import SingleRowSkeleton from "@/components/skeletons/SingleRowSkeleton";
 import StreamRecommendations from "@/components/recommendations/StreamRecommendations";
-import { SeasonType, TVShowDetailType } from "../tvshow-type";
+import { TVShowDetailType } from "../tvshow-type";
 import LastSeason from "../LastSeason";
 import PlayTrailerButton from "@/components/utils/PlayTrailerButton";
 

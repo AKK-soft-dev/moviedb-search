@@ -1,10 +1,12 @@
 "use client";
 import { Button } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 export default function FloatingFilterButton() {
   return (
     <Button
+      onClick={() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" })}
       variant="contained"
       className="animate__animated animate__heartBeat animate__delay-3s"
       sx={{
@@ -18,7 +20,7 @@ export default function FloatingFilterButton() {
         borderBottomRightRadius: 0,
       }}
     >
-      <TuneIcon />
+      <KeyboardArrowUpIcon />
     </Button>
   );
 }

@@ -1,27 +1,23 @@
-import { formatDisplayDate } from "@/utils/format-date";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import Link from "next/link";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import { CreditMovieType } from "./combined-credits-types";
 
-export type MovieItemDataType = {
-  id: number;
-  poster_path: string;
-  title: string;
-  original_title: string;
-  vote_average: number;
-  release_date: string;
-};
-
-export type MovieItemProps = {
-  defaultBg?: boolean;
-  data: MovieItemDataType;
-};
-export default function MovieItem({
-  defaultBg,
-  data: { id, poster_path, title, original_title, vote_average, release_date },
-}: MovieItemProps) {
+export default function CombinedCreditMovieItem({
+  data: {
+    id,
+    poster_path,
+    title,
+    original_title,
+    vote_average,
+    release_date,
+    character,
+  },
+}: {
+  data: CreditMovieType;
+}) {
   const { openLoadingIndicator } = useLoadingIndicatorToggler();
   const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
   const movieLink = `/movie-detail/${id}-${title
@@ -45,9 +41,7 @@ export default function MovieItem({
           sx={{
             position: "relative",
             width: "100%",
-            backgroundColor: defaultBg
-              ? "background.default"
-              : "background.paper",
+            backgroundColor: "background.paper",
             height: { xs: 170, sm: 200, md: 220, lg: 240, xl: 250 },
           }}
         >
@@ -82,13 +76,9 @@ export default function MovieItem({
 
         <Box sx={{ mt: 1, width: 1 }}>
           <Typography variant="body1" noWrap>
-            {title}
+            ({release_date.split("-")[0]}) {title}
           </Typography>
-          {release_date && (
-            <Typography variant="body2">
-              {formatDisplayDate(release_date)}
-            </Typography>
-          )}
+          <Typography variant="body2">as {character}</Typography>
         </Box>
       </Box>
     </Box>

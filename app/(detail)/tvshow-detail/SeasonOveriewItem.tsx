@@ -9,6 +9,7 @@ import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import { formatDisplayDate } from "@/utils/format-date";
 import PlayTrailerButton from "@/components/utils/PlayTrailerButton";
 import { useState } from "react";
+import ReadMoreLess from "@/components/utils/ReadMoreLess";
 
 export default function SeasonOverviewItem({
   tvShowId,
@@ -37,61 +38,6 @@ export default function SeasonOverviewItem({
   )}`;
   const { openLoadingIndicator } = useLoadingIndicatorToggler();
   const [readMore, setReadMore] = useState(false);
-
-  const overviewLength = overview?.length || 0;
-  const exceedMaxLength = overviewLength > 170;
-
-  const overviewWithReadMore = (
-    <>
-      {overview &&
-        (exceedMaxLength ? (
-          <>
-            {overview.slice(0, 150)}...
-            <Typography
-              variant="body1"
-              onClick={() => setReadMore(true)}
-              sx={{
-                display: "inline-block",
-                cursor: "pointer",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              Read more
-            </Typography>
-          </>
-        ) : (
-          overview
-        ))}
-    </>
-  );
-
-  const overviewWithReadLess = (
-    <>
-      {overview &&
-        (exceedMaxLength ? (
-          <>
-            {overview}{" "}
-            <Typography
-              variant="body1"
-              onClick={() => setReadMore(false)}
-              sx={{
-                display: "inline-block",
-                cursor: "pointer",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              Read less
-            </Typography>
-          </>
-        ) : (
-          overview
-        ))}
-    </>
-  );
 
   return (
     <Box my={2}>
@@ -169,11 +115,15 @@ export default function SeasonOverviewItem({
               </Typography>
             )}
             <Typography color="action.active" fontWeight={300}>
-              {overview
-                ? readMore
-                  ? overviewWithReadLess
-                  : overviewWithReadMore
-                : !showPremiereDesc && premiereDesc}
+              {overview ? (
+                <ReadMoreLess
+                  maxLengthLimit={170}
+                  totalContentLengthToDisplay={150}
+                  content={overview}
+                />
+              ) : (
+                !showPremiereDesc && premiereDesc
+              )}
             </Typography>
             <PlayTrailerButton sx={{ mt: 1 }} />
           </Box>

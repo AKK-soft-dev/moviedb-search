@@ -5,18 +5,19 @@ import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import Link from "next/link";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 
-type TVShowItemProps = {
-  defaultBg?: boolean;
-  data: {
-    id: number;
-    poster_path: string;
-    name: string;
-    original_name: string;
-    vote_average: number;
-    first_air_date: string;
-  };
+export type TVShowItemDataType = {
+  id: number;
+  poster_path: string;
+  name: string;
+  original_name: string;
+  vote_average: number;
+  first_air_date: string;
 };
-export default function MovieItem({
+export type TVShowItemProps = {
+  defaultBg?: boolean;
+  data: TVShowItemDataType;
+};
+export default function TVShowItem({
   defaultBg,
   data: { id, poster_path, name, original_name, vote_average, first_air_date },
 }: TVShowItemProps) {

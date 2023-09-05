@@ -12,6 +12,7 @@ import { formatDisplayDate } from "@/utils/format-date";
 import { EpisodeType } from "./[id]/season/season-type";
 import PlayTrailerButton from "@/components/utils/PlayTrailerButton";
 import { useState } from "react";
+import ReadMoreLess from "@/components/utils/ReadMoreLess";
 
 export default function EpisodeOverviewItem({
   seasonName,
@@ -41,61 +42,6 @@ export default function EpisodeOverviewItem({
     duration = `${hour ? hour + "h" : ""} ${minute ? minute + "m" : ""}`;
   }
 
-  const overviewLength = overview?.length || 0;
-  const exceedMaxLength = overviewLength > 150;
-
-  const overviewWithReadMore = (
-    <>
-      {overview &&
-        (exceedMaxLength ? (
-          <>
-            {overview.slice(0, 130)}...
-            <Typography
-              variant="body1"
-              onClick={() => setReadMore(true)}
-              sx={{
-                display: "inline-block",
-                cursor: "pointer",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              Read more
-            </Typography>
-          </>
-        ) : (
-          overview
-        ))}
-    </>
-  );
-
-  const overviewWithReadLess = (
-    <>
-      {overview &&
-        (exceedMaxLength ? (
-          <>
-            {overview}{" "}
-            <Typography
-              variant="body1"
-              onClick={() => setReadMore(false)}
-              sx={{
-                display: "inline-block",
-                cursor: "pointer",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              Read less
-            </Typography>
-          </>
-        ) : (
-          overview
-        ))}
-    </>
-  );
-
   return (
     <Card sx={{ height: 1 }}>
       {still_path ? (
@@ -103,7 +49,7 @@ export default function EpisodeOverviewItem({
           image={imgSrc}
           sx={{
             height: { xs: 220, sm: 300, md: 220 },
-            backgroundColor: "background.default",
+            backgroundColor: "background.paper",
           }}
         />
       ) : (
@@ -112,8 +58,6 @@ export default function EpisodeOverviewItem({
           justifyContent="center"
           alignItems="center"
           sx={{
-            border: 2,
-            borderColor: "background.paper",
             backgroundColor: "background.default",
             color: "text.primary",
             height: { xs: 220, sm: 300, md: 220 },
@@ -141,11 +85,15 @@ export default function EpisodeOverviewItem({
         </Box>
         <PlayTrailerButton sx={{ my: 1 }} />
         <Typography color="action.active" fontWeight={300}>
-          {overview
-            ? readMore
-              ? overviewWithReadLess
-              : overviewWithReadMore
-            : premiereDesc}
+          {overview ? (
+            <ReadMoreLess
+              content={overview}
+              maxLengthLimit={150}
+              totalContentLengthToDisplay={130}
+            />
+          ) : (
+            premiereDesc
+          )}
         </Typography>
       </CardContent>
     </Card>

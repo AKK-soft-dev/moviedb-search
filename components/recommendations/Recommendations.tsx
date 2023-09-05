@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, IconButton, Container, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackIos";
 
@@ -36,19 +36,13 @@ export default function Recommendations({
           >
             Recommended
           </Typography>
-          <Box>
-            <Button
-              startIcon={<ArrowBackIcon />}
-              className="recommendations-prev"
-            >
-              Prev
-            </Button>
-            <Button
-              endIcon={<ArrowForwardIcon />}
-              className="recommendations-next"
-            >
-              Next
-            </Button>
+          <Box display="flex" columnGap={1}>
+            <IconButton color="primary" className="recommendations-prev">
+              <ArrowBackIcon />
+            </IconButton>
+            <IconButton color="primary" className="recommendations-next">
+              <ArrowForwardIcon />
+            </IconButton>
           </Box>
         </Box>
         {children}
