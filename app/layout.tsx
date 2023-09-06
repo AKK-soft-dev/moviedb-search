@@ -11,7 +11,6 @@ import FloatingFilterButton from "@/components/utils/FloatingFilterButton";
 import MyDataQueryProvider from "@/context/MyDataQueryProvider";
 import SnackbarProviderClient from "@/context/SnackbarProviderClient";
 import Footer from "@/components/Footer";
-import { BrowserRouter, Routes } from "@/components/routers";
 
 export const metadata: Metadata = {
   title: {
