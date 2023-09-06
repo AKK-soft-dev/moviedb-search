@@ -17,10 +17,12 @@ import ReadMoreLess from "@/components/utils/ReadMoreLess";
 export default function EpisodeOverviewItem({
   seasonName,
   data: {
+    show_id,
     name,
     overview,
     air_date,
     vote_average,
+    season_number,
     episode_number,
     still_path,
     runtime,
@@ -33,7 +35,6 @@ export default function EpisodeOverviewItem({
   const premiereDesc = `Episode ${episode_number} of ${seasonName} premiered on ${formatDisplayDate(
     air_date!
   )}`;
-  const [readMore, setReadMore] = useState(false);
   let duration = "N/A";
   if (runtime) {
     const t = (runtime / 60).toString();
@@ -58,7 +59,7 @@ export default function EpisodeOverviewItem({
           justifyContent="center"
           alignItems="center"
           sx={{
-            backgroundColor: "background.default",
+            backgroundColor: "background.paper",
             color: "text.primary",
             height: { xs: 220, sm: 300, md: 220 },
           }}
@@ -83,7 +84,12 @@ export default function EpisodeOverviewItem({
             {formatDisplayDate(air_date)} {runtime ? `• ${duration}` : ""}
           </Typography>
         </Box>
-        <PlayTrailerButton sx={{ my: 1 }} />
+        <PlayTrailerButton
+          buttonProps={{
+            sx: { my: 1 },
+          }}
+          url={`/api/trailer/tvshow/${show_id}/season/${season_number}/episode/${episode_number}`}
+        />
         <Typography color="action.active" fontWeight={300}>
           {overview ? (
             <ReadMoreLess

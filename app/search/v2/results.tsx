@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import MovieItem from "@/components/utils/items/MovieItem";
 import TVShowItem from "@/components/utils/items/TVShowItem";
 import PersonItem from "@/components/utils/items/PersonItem";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import SearchInfo from "./search-info";
 import withResultSection from "./withResultSection";
 import NotFoundData from "@/components/utils/NotFoundData";
@@ -40,13 +39,6 @@ export default function SearchResults({
   shows: DataType;
   people: DataType;
 }) {
-  const { closeLoadingIndicator } = useLoadingIndicatorToggler();
-
-  // Close loading indicator on first /search page load and on query changes
-  useEffect(() => {
-    closeLoadingIndicator();
-  });
-
   const moviesFound = movies.results && movies.results.length > 0;
   const tvShowsFound = shows.results && shows.results.length > 0;
   const peopleFound = people.results && people.results.length > 0;

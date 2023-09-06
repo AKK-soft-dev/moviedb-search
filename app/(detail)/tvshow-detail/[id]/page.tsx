@@ -46,7 +46,7 @@ export const generateMetadata = async ({
 
   const tvShowName = tvShow.name;
   const tvShowDescription =
-    tvShow?.overview || tvShow?.tagline || "TV Show description";
+    tvShow?.overview || tvShow?.tagline || `Explore about ${tvShow.name}`;
   const backdropPath = tvShow.backdrop_path;
 
   return {
@@ -183,7 +183,9 @@ export default async function TVShow({ params: { id } }: Props) {
 
                       <AddToWatchListButton />
 
-                      <PlayTrailerButton />
+                      <PlayTrailerButton
+                        url={`/api/trailer/tvshow/${tvShowId}`}
+                      />
                     </Box>
 
                     <Typography color="text.secondary" my={2}>

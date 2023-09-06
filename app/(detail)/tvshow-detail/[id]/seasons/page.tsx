@@ -25,8 +25,7 @@ export const generateMetadata = async ({
   );
 
   const tvShowName = tvShow.name;
-  const tvShowDescription =
-    tvShow?.overview || tvShow?.tagline || "TV Show description";
+  const tvShowDescription = `Explore all seasons of ${tvShowName}`;
   const backdropPath = tvShow.backdrop_path;
 
   return {

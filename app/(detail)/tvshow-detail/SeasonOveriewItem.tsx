@@ -125,7 +125,12 @@ export default function SeasonOverviewItem({
                 !showPremiereDesc && premiereDesc
               )}
             </Typography>
-            <PlayTrailerButton sx={{ mt: 1 }} />
+            <PlayTrailerButton
+              url={`/api/trailer/tvshow/${tvShowId}/season/${season_number}`}
+              buttonProps={{
+                sx: { mt: 1 },
+              }}
+            />
           </Box>
         </Box>
       </Box>

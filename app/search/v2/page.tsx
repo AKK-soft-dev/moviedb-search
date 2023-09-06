@@ -2,6 +2,7 @@ import fetchData from "@/config/fetch";
 import { Box, Container } from "@mui/material";
 import { Metadata } from "next";
 import SearchResults from "./results";
+import FetchedDetector from "@/components/utils/FetchedDetector";
 
 export const metadata: Metadata = {
   title: "Search",
@@ -31,6 +32,7 @@ export default async function SearchPage({
   return (
     <Container>
       <SearchResults movies={movies} shows={tv} people={people} />
+      <FetchedDetector />
     </Container>
   );
 }

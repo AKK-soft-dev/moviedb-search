@@ -188,7 +188,9 @@ export default async function Movie({ params: { id } }: Props) {
 
                       <AddToWatchListButton />
 
-                      <PlayTrailerButton />
+                      <PlayTrailerButton
+                        url={`/api/trailer/movie/${movieID}`}
+                      />
                     </Box>
 
                     <Typography color="text.secondary" my={2}>
