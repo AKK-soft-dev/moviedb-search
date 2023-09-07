@@ -186,7 +186,18 @@ export default async function Movie({ params: { id } }: Props) {
                       />
                       <Chip label={duration} color="primary" />
 
-                      <AddToWatchListButton />
+                      <AddToWatchListButton
+                        mediaId={movieID}
+                        data={{
+                          media_type: "movie",
+                          payload: {
+                            movie_id: movieID,
+                            title,
+                            poster_path,
+                            release_date,
+                          },
+                        }}
+                      />
 
                       <PlayTrailerButton
                         url={`/api/trailer/movie/${movieID}`}

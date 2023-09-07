@@ -1,0 +1,133 @@
+import { FetcherType, useDataQuery, useDataQueryMagic } from "react-data-query";
+import { useCallback } from "react";
+import {
+  WatchListMovieType,
+  WatchListTVShowType,
+} from "@/app/api/watchlist/watchlist-types";
+import { useSession } from "next-auth/react";
+
+type CreatorType = {
+  _id: string;
+  username: string;
+  email: string;
+  image: string;
+};
+
+type MovieType = Omit<WatchListMovieType, "creator"> & {
+  _id: string;
+  creator: CreatorType;
+};
+
+type TVShowType = Omit<WatchListTVShowType, "creator"> & {
+  _id: string;
+  creator: CreatorType;
+};
+
+type WatchListResponseType = {
+  movies: Array<MovieType>;
+  tvShows: Array<TVShowType>;
+};
+
+const fetcher: FetcherType = (context) => {
+  return fetch(`/api/watchlist/${context.dataQueryKey[1]}`).then((res) =>
+    res.json()
+  );
+};
+
+export default function useWatchList() {
+  const { setQueryData, getQueryData } = useDataQueryMagic();
+  const { data: session } = useSession();
+  const user: any = session?.user;
+  const userId = user?.id;
+
+  const watchListKey = ["WatchListMovieDBSearch", userId].toString();
+
+  const getWatchList: () => WatchListResponseType | null = () => {
+    const watchList = getQueryData(watchListKey);
+    // !watchList && invalidateQuery(watchListKey);
+    return watchList;
+  };
+
+  const { data: watchList, isFetching } =
+    useDataQuery<WatchListResponseType | null>(watchListKey, fetcher, {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+      autoFetchEnabled: !getWatchList() && !!userId,
+    });
+
+  const setWatchList = useCallback((data: WatchListResponseType | null) => {
+    setQueryData(watchListKey, () => data);
+  }, []);
+
+  const addMovieToWatchList = useCallback((movie: MovieType) => {
+    const watchLists = getWatchList();
+    if (watchLists && watchLists.movies && watchLists.tvShows) {
+      setQueryData(
+        watchListKey,
+        (prevData: WatchListResponseType): WatchListResponseType => ({
+          ...prevData,
+          movies: [...prevData.movies, movie],
+        })
+      );
+      return true;
+    }
+    return false;
+  }, []);
+
+  const addTVShowToWatchList = useCallback((tvShow: TVShowType) => {
+    if (watchList && watchList.movies && watchList.tvShows) {
+      setQueryData(
+        watchListKey,
+        (prevData: WatchListResponseType): WatchListResponseType => ({
+          ...prevData,
+          tvShows: [...prevData.tvShows, tvShow],
+        })
+      );
+      return true;
+    }
+    return false;
+  }, []);
+
+  const checkIfMovieExistInWatchList = useCallback(
+    (movieId: string) => {
+      const movies = watchList && watchList.movies;
+
+      if (movies) {
+        return !!movies.find(
+          ({ movie_id, creator: { _id } }) =>
+            movie_id === parseInt(movieId) && _id === userId
+        );
+      }
+
+      return false;
+    },
+    [watchList, userId]
+  );
+
+  const checkIfTVShowExistInWatchList = useCallback(
+    (tvShowId: string) => {
+      const tvShows = watchList && watchList.tvShows;
+
+      if (tvShows) {
+        return !!tvShows.find(
+          (tvShow) =>
+            tvShow.tvshow_id === parseInt(tvShowId) &&
+            tvShow.creator._id === userId
+        );
+      }
+
+      return false;
+    },
+    [watchList, userId]
+  );
+
+  return {
+    watchList,
+    isLoadingWatchList: isFetching,
+    setWatchList,
+    addMovieToWatchList,
+    addTVShowToWatchList,
+    checkIfMovieExistInWatchList,
+    checkIfTVShowExistInWatchList,
+  };
+}

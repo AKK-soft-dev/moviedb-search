@@ -11,7 +11,7 @@ import FloatingFilterButton from "@/components/utils/FloatingFilterButton";
 import MyDataQueryProvider from "@/context/MyDataQueryProvider";
 import SnackbarProviderClient from "@/context/SnackbarProviderClient";
 import Footer from "@/components/Footer";
-import { BrowserRouter, Routes } from "@/components/routers";
+import NextAuthProvider from "@/components/NextAuthProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -39,14 +39,16 @@ export default function RootLayout({
       <body className={roboto.className}>
         <MyDataQueryProvider>
           <ThemeRegistry options={{ key: "mui", prepend: false }}>
-            <Box minHeight="100vh" display="flex" flexDirection="column">
-              <SnackbarProviderClient>
-                <Navbar />
-                {children}
-                <FloatingFilterButton />
-              </SnackbarProviderClient>
-              <Footer />
-            </Box>
+            <NextAuthProvider>
+              <Box minHeight="100vh" display="flex" flexDirection="column">
+                <SnackbarProviderClient>
+                  <Navbar />
+                  {children}
+                  <FloatingFilterButton />
+                </SnackbarProviderClient>
+                <Footer />
+              </Box>
+            </NextAuthProvider>
           </ThemeRegistry>
         </MyDataQueryProvider>
       </body>

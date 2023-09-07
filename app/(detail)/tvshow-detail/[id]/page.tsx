@@ -181,7 +181,18 @@ export default async function TVShow({ params: { id } }: Props) {
                         color="secondary"
                       />
 
-                      <AddToWatchListButton />
+                      <AddToWatchListButton
+                        mediaId={tvShowId}
+                        data={{
+                          media_type: "tvshow",
+                          payload: {
+                            tvshow_id: tvShowId,
+                            first_air_date,
+                            name,
+                            poster_path,
+                          },
+                        }}
+                      />
 
                       <PlayTrailerButton
                         url={`/api/trailer/tvshow/${tvShowId}`}

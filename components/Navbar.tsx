@@ -6,14 +6,7 @@ import {
   Toolbar,
   Typography,
   Container,
-  Drawer,
   styled,
-  TypographyProps,
-  List,
-  ListItemButton,
-  ListItemButtonProps,
-  ListItemIcon,
-  alpha,
   TextField,
   CircularProgress,
   LinearProgress,
@@ -21,9 +14,9 @@ import {
 } from "@mui/material";
 import { MouseEventHandler } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import LiveTVIcon from "@mui/icons-material/LiveTv";
-import MovieIcon from "@mui/icons-material/LocalMovies";
-import PeopleIcon from "@mui/icons-material/Group";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 import SearchIcon from "@mui/icons-material/Search";
@@ -43,6 +36,8 @@ import MyMenu from "./utils/MyMenu";
 import MyDrawer from "./utils/MyDrawer";
 import menus from "@/utils/menus";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import CustomTooltip from "./utils/CustomTooltip";
+import { useSession, getProviders, signOut, signIn } from "next-auth/react";
 
 const ExpandMoreIcon = styled(MuiExpandMoreIcon)<{ open: boolean }>(
   ({ open, theme }) => ({
@@ -118,6 +113,21 @@ export default function Navbar() {
   const { openLoadingIndicator } = useLoadingIndicatorToggler();
   const pathname = usePathname();
   const mainSegment = pathname.split("/")[1];
+
+  const [providers, setProviders] = useState<any>(null);
+  const { data: session } = useSession();
+
+  const user = session?.user;
+
+  useEffect(() => {
+    const initProviders = async () => {
+      const response = await getProviders();
+
+      setProviders(response);
+    };
+
+    initProviders();
+  }, []);
 
   const { data: isLoading } = useDataQuery(searchIndicatorKey, undefined, {
     initialData: false,
@@ -241,6 +251,26 @@ export default function Navbar() {
           </Box>
 
           <Box sx={{ flex: "0 0 auto" }}>
+            {user ? (
+              <>
+                <CustomTooltip title="Login">
+                  <IconButton onClick={() => signOut()}>
+                    <LogoutIcon />
+                  </IconButton>
+                </CustomTooltip>
+                <CustomTooltip title="Watch lists">
+                  <IconButton>
+                    <BookmarkIcon />
+                  </IconButton>
+                </CustomTooltip>
+              </>
+            ) : (
+              <CustomTooltip title="Log in">
+                <IconButton onClick={() => signIn()}>
+                  <LoginIcon />
+                </IconButton>
+              </CustomTooltip>
+            )}
             <IconButton onClick={toggleSearchBox}>
               {openSearchBox ? <CloseIcon /> : <SearchIcon />}
             </IconButton>
