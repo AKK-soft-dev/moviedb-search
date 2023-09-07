@@ -11,7 +11,10 @@ import FloatingFilterButton from "@/components/utils/FloatingFilterButton";
 import MyDataQueryProvider from "@/context/MyDataQueryProvider";
 import SnackbarProviderClient from "@/context/SnackbarProviderClient";
 import Footer from "@/components/Footer";
+<<<<<<< HEAD
 import NextAuthProvider from "@/components/NextAuthProvider";
+=======
+>>>>>>> 041d2222496ac2662c55bddf225898e821df62a7
 
 export const metadata: Metadata = {
   title: {
