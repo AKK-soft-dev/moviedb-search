@@ -150,6 +150,7 @@ export default function PlayTrailerButton({
                           aspectRatio: "16/9",
                           backgroundColor: "background.default",
                         }}
+                        loading="lazy"
                         src={`https://www.youtube.com/embed/${key}?cc_load_policy=1&cc_lang_pref=en`}
                         title="YouTube video player"
                         frameBorder="0"

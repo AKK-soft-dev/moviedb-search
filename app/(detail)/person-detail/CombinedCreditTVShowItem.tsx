@@ -75,9 +75,9 @@ export default function CombinedCreditTVShowItem({
         </Box>
         <Box sx={{ mt: 1, width: 1 }}>
           <Typography variant="body1" noWrap>
-            ({first_air_date.split("-")[0]}) {name}
+            {first_air_date ? <>({first_air_date.split("-")[0]})</> : ""} {name}
           </Typography>
-          <Typography variant="body2">as {character}</Typography>
+          <Typography variant="body2">as {character && "---"}</Typography>
         </Box>
       </Box>
     </Box>
