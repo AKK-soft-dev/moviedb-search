@@ -54,7 +54,7 @@ export default function TVShowItem({
             <Image
               src={imgSrc}
               style={{ objectFit: "cover" }}
-              alt={original_name}
+              alt={name}
               title={name}
               fill
             />

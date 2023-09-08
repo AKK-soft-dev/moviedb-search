@@ -55,7 +55,7 @@ export default function MovieItem({
             <Image
               src={imgSrc}
               style={{ objectFit: "cover" }}
-              alt={original_title}
+              alt={title}
               title={title}
               fill
             />

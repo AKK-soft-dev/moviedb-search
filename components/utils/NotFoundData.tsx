@@ -1,7 +1,7 @@
 import { Box, Typography, Container, Skeleton } from "@mui/material";
 import { useState } from "react";
 
-export default function NotFoundData() {
+export default function NotFoundData({ message }: { message?: string }) {
   const [loaded, setLoaded] = useState(false);
   return (
     <Container>
@@ -34,7 +34,7 @@ export default function NotFoundData() {
         </Box>
         <Box textAlign="center">
           <Typography variant="h5" component="p">
-            Sorry! We couldn&apos;t find anything!
+            {message || <>Sorry! We couldn&apos;t find anything!</>}
           </Typography>
         </Box>
       </Box>

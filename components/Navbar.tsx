@@ -15,10 +15,10 @@ import {
   MenuItem,
   Skeleton,
   Chip,
+  Badge,
 } from "@mui/material";
 import { MouseEventHandler } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CloseIcon from "@mui/icons-material/Close";
@@ -42,6 +42,8 @@ import menus from "@/utils/menus";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import CustomTooltip from "./utils/CustomTooltip";
 import { useSession, getProviders, signOut, signIn } from "next-auth/react";
+import WatchListLinkButton from "./WatchListLinkButton";
+import useAuthStatus from "@/utils/useAuthStatus";
 
 const ExpandMoreIcon = styled(MuiExpandMoreIcon)<{ open: boolean }>(
   ({ open, theme }) => ({
@@ -107,7 +109,8 @@ export default function Navbar() {
   const [query, setQuery] = useState<string | null>(null);
   const [inputQuery, setInputQuery] = useState<string | undefined>("");
   const [loading, setLoading] = useState(false);
-  const [authenticating, setAuthenticating] = useState(true);
+  // const [authenticating, setAuthenticating] = useState(true);
+  const { authenticating, setAuthenticated } = useAuthStatus();
   const [menuAnchorEl, setMenuAnchorEl] = useState<{
     el: HTMLElement;
     menuName: MenuType;
@@ -132,7 +135,7 @@ export default function Navbar() {
       const response = await getProviders();
 
       setProviders(response);
-      setAuthenticating(false);
+      setAuthenticated();
     };
 
     initProviders();
@@ -274,6 +277,7 @@ export default function Navbar() {
               columnGap: 1,
             }}
           >
+            {user && <WatchListLinkButton />}
             {!user && !authenticating && (
               <Chip
                 color="primary"
@@ -319,7 +323,6 @@ export default function Navbar() {
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                   sx={{
                     "& .MuiPaper-root": {
-                      mt: 1,
                       borderTopRightRadius: 0,
                       borderTopLeftRadius: 0,
                       borderTop: 3,
@@ -327,18 +330,6 @@ export default function Navbar() {
                     },
                   }}
                 >
-                  <MenuItem onClick={handleProfileMenuClose}>
-                    <Typography
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        columnGap: 1,
-                      }}
-                      variant="body2"
-                    >
-                      <BookmarkIcon fontSize="inherit" /> Watch list
-                    </Typography>
-                  </MenuItem>
                   <MenuItem onClick={() => signOut()}>
                     <Typography
                       sx={{

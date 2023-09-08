@@ -78,7 +78,7 @@ export default function CombinedCreditMovieItem({
           <Typography variant="body1" noWrap>
             {release_date ? <>({release_date.split("-")[0]})</> : ""} {title}
           </Typography>
-          <Typography variant="body2">as {character && "---"}</Typography>
+          <Typography variant="body2">as {character || "---"}</Typography>
         </Box>
       </Box>
     </Box>

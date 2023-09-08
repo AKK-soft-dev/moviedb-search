@@ -13,12 +13,12 @@ type CreatorType = {
   image: string;
 };
 
-type MovieType = Omit<WatchListMovieType, "creator"> & {
+export type MovieType = Omit<WatchListMovieType, "creator"> & {
   _id: string;
   creator: CreatorType;
 };
 
-type TVShowType = Omit<WatchListTVShowType, "creator"> & {
+export type TVShowType = Omit<WatchListTVShowType, "creator"> & {
   _id: string;
   creator: CreatorType;
 };
@@ -52,6 +52,7 @@ export default function useWatchList() {
     {
       cacheTime: Infinity,
       staleTime: Infinity,
+      refetchOnWindowFocus: false,
       autoFetchEnabled: !getWatchList() && !!userId,
     }
   );
