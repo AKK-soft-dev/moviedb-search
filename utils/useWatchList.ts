@@ -40,53 +40,69 @@ export default function useWatchList() {
   const user: any = session?.user;
   const userId = user?.id;
 
-  const watchListKey = ["WatchListMovieDBSearch", userId].toString();
+  const watchListKey = ["WatchListMovieDBSearch", userId];
 
-  const getWatchList: () => WatchListResponseType | null = () => {
-    const watchList = getQueryData(watchListKey);
-    // !watchList && invalidateQuery(watchListKey);
-    return watchList;
-  };
+  const getWatchList: () => WatchListResponseType | null = useCallback(() => {
+    return getQueryData(watchListKey);
+  }, [getQueryData]);
 
-  const { data: watchList, isFetching } =
-    useDataQuery<WatchListResponseType | null>(watchListKey, fetcher, {
+  const { data: watchList, isFetching } = useDataQuery<WatchListResponseType>(
+    watchListKey,
+    fetcher,
+    {
       cacheTime: Infinity,
       staleTime: Infinity,
       autoFetchEnabled: !getWatchList() && !!userId,
-    });
+    }
+  );
 
-  const setWatchList = useCallback((data: WatchListResponseType | null) => {
-    setQueryData(watchListKey, () => data);
-  }, []);
+  const setWatchList = useCallback(
+    (data: WatchListResponseType | null) => {
+      setQueryData(watchListKey, () => data);
+    },
+    [watchListKey]
+  );
 
-  const addMovieToWatchList = useCallback((movie: MovieType) => {
-    const watchLists = getWatchList();
-    if (watchLists && watchLists.movies && watchLists.tvShows) {
+  const addMovieToWatchList = useCallback(
+    (movie: MovieType) => {
       setQueryData(
         watchListKey,
-        (prevData: WatchListResponseType): WatchListResponseType => ({
-          ...prevData,
-          movies: [...prevData.movies, movie],
-        })
+        (prevData: WatchListResponseType | null): WatchListResponseType => {
+          return prevData
+            ? {
+                ...prevData,
+                movies: [...prevData.movies, movie],
+              }
+            : {
+                movies: [movie],
+                tvShows: [],
+              };
+        }
       );
-      return true;
-    }
-    return false;
-  }, []);
+    },
+    [setQueryData, watchListKey]
+  );
 
-  const addTVShowToWatchList = useCallback((tvShow: TVShowType) => {
-    if (watchList && watchList.movies && watchList.tvShows) {
+  const addTVShowToWatchList = useCallback(
+    (tvShow: TVShowType) => {
       setQueryData(
         watchListKey,
-        (prevData: WatchListResponseType): WatchListResponseType => ({
-          ...prevData,
-          tvShows: [...prevData.tvShows, tvShow],
-        })
+        (prevData: WatchListResponseType | null): WatchListResponseType => {
+          return prevData
+            ? {
+                ...prevData,
+                tvShows: [...prevData.tvShows, tvShow],
+              }
+            : {
+                movies: [],
+                tvShows: [tvShow],
+              };
+        }
       );
-      return true;
-    }
-    return false;
-  }, []);
+      return false;
+    },
+    [setQueryData, watchListKey]
+  );
 
   const checkIfMovieExistInWatchList = useCallback(
     (movieId: string) => {

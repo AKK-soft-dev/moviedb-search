@@ -16,6 +16,9 @@ const WatchListTVShowSchema = new Schema({
   poster_path: {
     type: String,
   },
+  vote_average: {
+    type: Number,
+  },
   first_air_date: {
     type: String,
   },

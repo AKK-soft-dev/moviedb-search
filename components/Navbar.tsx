@@ -11,6 +11,10 @@ import {
   CircularProgress,
   LinearProgress,
   SxProps,
+  Menu,
+  MenuItem,
+  Skeleton,
+  Chip,
 } from "@mui/material";
 import { MouseEventHandler } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -103,10 +107,14 @@ export default function Navbar() {
   const [query, setQuery] = useState<string | null>(null);
   const [inputQuery, setInputQuery] = useState<string | undefined>("");
   const [loading, setLoading] = useState(false);
+  const [authenticating, setAuthenticating] = useState(true);
   const [menuAnchorEl, setMenuAnchorEl] = useState<{
     el: HTMLElement;
     menuName: MenuType;
   } | null>(null);
+  const [profileImageEl, setProfileImageEL] = useState<HTMLImageElement | null>(
+    null
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const openMenu = Boolean(menuAnchorEl && menuAnchorEl.el);
@@ -124,6 +132,7 @@ export default function Navbar() {
       const response = await getProviders();
 
       setProviders(response);
+      setAuthenticating(false);
     };
 
     initProviders();
@@ -157,6 +166,13 @@ export default function Navbar() {
     setMenuAnchorEl(null);
   };
 
+  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLImageElement>) => {
+    setProfileImageEL(event.currentTarget);
+  };
+
+  const handleProfileMenuClose = () => {
+    setProfileImageEL(null);
+  };
   useEffect(() => {
     openSearchBox && inputRef.current?.focus();
   }, [openSearchBox]);
@@ -250,30 +266,94 @@ export default function Navbar() {
             </Box>
           </Box>
 
-          <Box sx={{ flex: "0 0 auto" }}>
-            {user ? (
-              <>
-                <CustomTooltip title="Login">
-                  <IconButton onClick={() => signOut()}>
-                    <LogoutIcon />
-                  </IconButton>
-                </CustomTooltip>
-                <CustomTooltip title="Watch lists">
-                  <IconButton>
-                    <BookmarkIcon />
-                  </IconButton>
-                </CustomTooltip>
-              </>
-            ) : (
-              <CustomTooltip title="Log in">
-                <IconButton onClick={() => signIn()}>
-                  <LoginIcon />
-                </IconButton>
-              </CustomTooltip>
+          <Box
+            sx={{
+              flex: "0 0 auto",
+              display: "flex",
+              alignItems: "center",
+              columnGap: 1,
+            }}
+          >
+            {!user && !authenticating && (
+              <Chip
+                color="primary"
+                label="Sign in"
+                icon={<LoginIcon fontSize="small" />}
+                onClick={() => signIn()}
+              />
             )}
             <IconButton onClick={toggleSearchBox}>
               {openSearchBox ? <CloseIcon /> : <SearchIcon />}
             </IconButton>
+            {!user && authenticating && (
+              <Skeleton
+                width={35}
+                height={35}
+                variant="circular"
+                animation="wave"
+              />
+            )}
+            {user && (
+              <>
+                <Box
+                  component="img"
+                  src={user?.image!}
+                  alt="Profile"
+                  width={35}
+                  height={35}
+                  onClick={handleProfileMenuOpen}
+                  sx={{
+                    borderRadius: "50%",
+                    border: 2,
+                    p: 0.2,
+                    cursor: "pointer",
+                    borderColor: "primary.dark",
+                  }}
+                />
+                <Menu
+                  autoFocus={false}
+                  anchorEl={profileImageEl}
+                  open={Boolean(profileImageEl)}
+                  onClose={handleProfileMenuClose}
+                  transformOrigin={{ horizontal: "right", vertical: "top" }}
+                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                  sx={{
+                    "& .MuiPaper-root": {
+                      mt: 1,
+                      borderTopRightRadius: 0,
+                      borderTopLeftRadius: 0,
+                      borderTop: 3,
+                      borderColor: "primary.main",
+                    },
+                  }}
+                >
+                  <MenuItem onClick={handleProfileMenuClose}>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        columnGap: 1,
+                      }}
+                      variant="body2"
+                    >
+                      <BookmarkIcon fontSize="inherit" /> Watch list
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={() => signOut()}>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        columnGap: 1,
+                      }}
+                      variant="body2"
+                    >
+                      <LogoutIcon fontSize="inherit" /> Logout
+                    </Typography>
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
           </Box>
         </Toolbar>
       </Container>

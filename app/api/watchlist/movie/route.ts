@@ -23,6 +23,7 @@ export const POST = async (req: NextRequest) => {
     title,
     release_date,
     poster_path,
+    vote_average,
   }: WatchListMovieType = await req.json();
 
   try {
@@ -46,6 +47,7 @@ export const POST = async (req: NextRequest) => {
       title,
       release_date,
       poster_path,
+      vote_average,
     });
     const savedMovie = await newMovie.save();
     await savedMovie.populate("creator");

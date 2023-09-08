@@ -4,6 +4,7 @@ export type WatchListMovieType = {
   poster_path: string | null;
   title: string;
   release_date: string | null;
+  vote_average: number | null;
 };
 
 export type WatchListTVShowType = {
@@ -12,4 +13,5 @@ export type WatchListTVShowType = {
   poster_path: string | null;
   name: string;
   first_air_date: string | null;
+  vote_average: number | null;
 };

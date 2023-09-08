@@ -190,6 +190,7 @@ export default async function TVShow({ params: { id } }: Props) {
                             first_air_date,
                             name,
                             poster_path,
+                            vote_average,
                           },
                         }}
                       />

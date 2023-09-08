@@ -38,7 +38,6 @@ export default function AddToWatchListButton({
   const userId = user?.id;
   const { media_type, payload } = data;
   const {
-    watchList,
     isLoadingWatchList,
     checkIfMovieExistInWatchList,
     checkIfTVShowExistInWatchList,
@@ -53,7 +52,7 @@ export default function AddToWatchListButton({
       : checkIfTVShowExistInWatchList;
 
   const handleAdd = () => {
-    if (!checker(mediaId)) {
+    if (!checker(mediaId) && userId) {
       setLoading(true);
       fetch(`/api/watchlist/${media_type}`, {
         method: "POST",
@@ -74,16 +73,22 @@ export default function AddToWatchListButton({
   };
 
   const exists = checker(mediaId);
-  console.log({ exists, watchList });
   return (
-    <CustomTooltip title={`Add${exists ? "ed" : ""} to watch list`}>
+    <>
       {loading || isLoadingWatchList ? (
         <CircularProgress />
       ) : (
-        <IconButton color="primary" {...buttonProps} onClick={handleAdd}>
-          {exists ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-        </IconButton>
+        <CustomTooltip title={`Add${exists ? "ed" : ""} to watch list`}>
+          <IconButton
+            color="primary"
+            {...buttonProps}
+            onClick={handleAdd}
+            disabled={!userId}
+          >
+            {exists ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+          </IconButton>
+        </CustomTooltip>
       )}
-    </CustomTooltip>
+    </>
   );
 }

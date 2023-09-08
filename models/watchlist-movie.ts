@@ -16,6 +16,9 @@ const WatchListMovieSchema = new Schema({
   poster_path: {
     type: String,
   },
+  vote_average: {
+    type: Number,
+  },
   release_date: {
     type: String,
   },

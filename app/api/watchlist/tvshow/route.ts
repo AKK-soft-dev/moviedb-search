@@ -23,6 +23,7 @@ export const POST = async (req: NextRequest) => {
     name,
     first_air_date,
     poster_path,
+    vote_average,
   }: WatchListTVShowType = await req.json();
 
   try {
@@ -49,6 +50,7 @@ export const POST = async (req: NextRequest) => {
       name,
       first_air_date,
       poster_path,
+      vote_average,
     });
     const savedTVShow = await newTVShow.save();
     await savedTVShow.populate("creator");

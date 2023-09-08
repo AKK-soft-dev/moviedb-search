@@ -195,6 +195,7 @@ export default async function Movie({ params: { id } }: Props) {
                             title,
                             poster_path,
                             release_date,
+                            vote_average,
                           },
                         }}
                       />

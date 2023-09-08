@@ -17,7 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import Carousel from "react-material-ui-carousel";
 import { useState, useRef, useEffect } from "react";
-import { useDataQuery } from "react-data-query";
+import { FetcherType, useDataQuery } from "react-data-query";
 
 type TrailerResultType = {
   id: number;
@@ -48,6 +48,10 @@ function LoadingIndicator() {
   );
 }
 
+const fetcher: FetcherType = (context) => {
+  return fetch(context.dataQueryKey.toString()).then((res) => res.json());
+};
+
 export default function PlayTrailerButton({
   url,
   buttonProps,
@@ -62,7 +66,7 @@ export default function PlayTrailerButton({
 
   const { data, isFetching, refetch } = useDataQuery<TrailerResultType>(
     url,
-    () => fetch(url).then((res) => res.json()),
+    fetcher,
     {
       cacheTime: Infinity,
       staleTime: Infinity,
@@ -83,7 +87,13 @@ export default function PlayTrailerButton({
     <>
       <Button
         ref={btnRef}
-        startIcon={open ? <CloseIcon /> : <PlayArrowIcon />}
+        startIcon={
+          open ? (
+            <CloseIcon color="error" fontSize="large" />
+          ) : (
+            <PlayArrowIcon />
+          )
+        }
         color="inherit"
         variant="outlined"
         {...buttonProps}
@@ -110,6 +120,9 @@ export default function PlayTrailerButton({
                 alignItems: "center",
                 border: 1,
                 borderColor: "secondary.main",
+                boxShadow: 12,
+                borderRadius: 0,
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
               }}
             >
               <Box>
