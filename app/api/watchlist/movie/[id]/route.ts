@@ -31,10 +31,15 @@ export const DELETE = async (
     // Find the movie in watch list by ID and remove it
     await WatchListMovie.findByIdAndRemove(id);
 
-    return new Response("Movie in watch list deleted successfully", {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({ message: "Movie in watch list deleted successfully" }),
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
-    return new Response("Error deleting movie", { status: 500 });
+    return new Response(JSON.stringify({ message: "Error deleting movie" }), {
+      status: 500,
+    });
   }
 };

@@ -53,7 +53,7 @@ export const POST = async (req: NextRequest) => {
       vote_average,
     });
     const savedTVShow = await newTVShow.save();
-    await savedTVShow.populate("creator");
+    // await savedTVShow.populate("creator");
 
     return new Response(JSON.stringify(savedTVShow), { status: 201 });
   } catch (err) {

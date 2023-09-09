@@ -50,7 +50,7 @@ export const POST = async (req: NextRequest) => {
       vote_average,
     });
     const savedMovie = await newMovie.save();
-    await savedMovie.populate("creator");
+    // await savedMovie.populate("creator");
 
     return new Response(JSON.stringify(savedMovie), { status: 201 });
   } catch (err) {

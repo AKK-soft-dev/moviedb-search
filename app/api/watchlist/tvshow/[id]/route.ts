@@ -16,10 +16,15 @@ export const DELETE = async (
     // Find the tv show in watch list by ID and remove it
     await WatchListTVShow.findByIdAndRemove(id);
 
-    return new Response("TV show in watch list deleted successfully", {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({ message: "TV show in watch list deleted successfully" }),
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
-    return new Response("Error deleting tv show", { status: 500 });
+    return new Response(JSON.stringify({ message: "Error deleting tv show" }), {
+      status: 500,
+    });
   }
 };

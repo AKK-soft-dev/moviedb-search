@@ -1,8 +1,24 @@
-import { useState } from "react";
-import { Box, Pagination } from "@mui/material";
+import { useRef, useState } from "react";
+import {
+  Box,
+  IconButton,
+  Pagination,
+  Button,
+  DialogActions,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  Typography,
+  Backdrop,
+  CircularProgress,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/items/BSGridItem";
 import { PanelProps } from "./watchlist-types";
+import useWatchListItemDeleteMode from "./useWatchListDeleteMode";
+import useWatchList, { MovieType, TVShowType } from "@/utils/useWatchList";
 
 export type PanelType = "movie" | "tv";
 type Props = {
@@ -10,11 +26,23 @@ type Props = {
   ItemDisplayComponent: React.ElementType;
 };
 
+type ToDeleteType = {
+  mediaId: number | string;
+  media: MovieType | TVShowType;
+};
+
 export default function withPanel({ type, ItemDisplayComponent }: Props) {
   function Panel(props: PanelProps) {
     const { data, title } = props;
     const { panelData, panelType } = data;
     const [page, setPage] = useState(1);
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+    const [backdropOpen, setBackdropOpen] = useState(false);
+    const { deleteMode } = useWatchListItemDeleteMode();
+    const { deleteMovieFromWatchList, deleteTVShowFromWatchList } =
+      useWatchList();
+    const [toDeleteItem, setToDeleteItem] = useState<ToDeleteType | null>(null);
+    const toDeleteItemMedia = toDeleteItem?.media;
 
     const handlePageChange = (
       _event: React.ChangeEvent<unknown>,
@@ -24,6 +52,42 @@ export default function withPanel({ type, ItemDisplayComponent }: Props) {
       if (panelType === "movie") {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       }
+    };
+
+    console.log({ backdropOpen });
+    const handleConfirmDialogOpen = (toDelete: ToDeleteType) => {
+      if (!backdropOpen) {
+        setConfirmDialogOpen(true);
+        setToDeleteItem(toDelete);
+      }
+    };
+
+    const handleConfirmDialogClose = ({ confirm }: { confirm: boolean }) => {
+      setConfirmDialogOpen(false);
+
+      if (toDeleteItem && confirm) {
+        const { mediaId, media } = toDeleteItem;
+        handleDelete(mediaId, media);
+      }
+    };
+
+    const handleDelete = (
+      mediaId: string | number,
+      media: MovieType | TVShowType
+    ) => {
+      const deleteItem =
+        panelType === "movie"
+          ? deleteMovieFromWatchList
+          : deleteTVShowFromWatchList;
+
+      setBackdropOpen(true);
+      deleteItem({
+        watchListItemId: media._id,
+        mediaId: mediaId as number,
+        onSettled() {
+          setBackdropOpen(false);
+        },
+      });
     };
 
     const totalItemsPerPage = 10;
@@ -42,9 +106,33 @@ export default function withPanel({ type, ItemDisplayComponent }: Props) {
               panelType === "movie"
                 ? panelData[i].movie_id
                 : panelData[i].tvshow_id;
+
             return (
               <BSGridItem key={mediaId}>
-                <ItemDisplayComponent data={{ id: mediaId, ...data }} />
+                <Box sx={{ position: "relative" }}>
+                  {deleteMode && (
+                    <Box
+                      sx={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
+                    >
+                      <IconButton
+                        color="error"
+                        onClick={() =>
+                          handleConfirmDialogOpen({ mediaId, media: data })
+                        }
+                      >
+                        <DeleteIcon fontSize="large" sx={{ color: "red" }} />
+                      </IconButton>
+                    </Box>
+                  )}
+                  <Box
+                    sx={{
+                      pointerEvents: deleteMode ? "none" : "auto",
+                      opacity: deleteMode ? 0.7 : 1,
+                    }}
+                  >
+                    <ItemDisplayComponent data={{ id: mediaId, ...data }} />
+                  </Box>
+                </Box>
               </BSGridItem>
             );
           })}
@@ -64,6 +152,56 @@ export default function withPanel({ type, ItemDisplayComponent }: Props) {
             />
           </Box>
         )}
+        <Dialog
+          open={confirmDialogOpen}
+          onClose={handleConfirmDialogClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {toDeleteItemMedia && (
+                <>
+                  <Typography component="span" fontWeight={700}>
+                    {panelType === "movie"
+                      ? (toDeleteItemMedia as MovieType).title
+                      : (toDeleteItemMedia as TVShowType).name}
+                  </Typography>{" "}
+                  with user score{" "}
+                  <Typography component="span" fontWeight={700}>
+                    {toDeleteItemMedia?.vote_average?.toFixed(1)}
+                  </Typography>{" "}
+                  will be deleted from your watch list!
+                </>
+              )}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="outlined"
+              onClick={() => handleConfirmDialogClose({ confirm: false })}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => handleConfirmDialogClose({ confirm: true })}
+              autoFocus
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Backdrop
+          open={backdropOpen}
+          sx={{
+            color: "#fff",
+            zIndex: 2000,
+          }}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Box>
     );
   }

@@ -44,6 +44,8 @@ export default function AddToWatchListButton({
     checkIfTVShowExistInWatchList,
     addMovieToWatchList,
     addTVShowToWatchList,
+    deleteMovieFromWatchList,
+    deleteTVShowFromWatchList,
   } = useWatchList();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -55,39 +57,53 @@ export default function AddToWatchListButton({
       : checkIfTVShowExistInWatchList;
 
   const handleAdd = () => {
-    if (!checker(mediaId) && userId) {
-      setLoading(true);
-      fetch(`/api/watchlist/${media_type}`, {
-        method: "POST",
-        body: JSON.stringify(body),
-      })
-        .then((res) => {
-          if (!res.ok) {
-            return res.json().then((resData) => {
-              throw new Error(
-                `${res.status}: ${resData.message} \n Server Message: ${resData.serverMessage}`
-              );
-            });
-          }
-          return res.json();
-        })
-        .then((data) => {
-          const adder =
-            media_type === "movie" ? addMovieToWatchList : addTVShowToWatchList;
-          // if (!data.message) {
-
-          // }
-          adder(data);
-        })
-        .catch((err) => {
-          enqueueSnackbar((err as Error).message, {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-        })
-        .finally(() => {
-          setLoading(false);
+    if (userId) {
+      const exists = checker(mediaId);
+      if (exists) {
+        const deleteItem =
+          media_type === "movie"
+            ? deleteMovieFromWatchList
+            : deleteTVShowFromWatchList;
+        setLoading(true);
+        deleteItem({
+          mediaId: parseInt(mediaId),
+          onSettled() {
+            setLoading(false);
+          },
         });
+      } else {
+        setLoading(true);
+        fetch(`/api/watchlist/${media_type}`, {
+          method: "POST",
+          body: JSON.stringify(body),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              return res.json().then((resData) => {
+                throw new Error(
+                  `${res.status}: ${resData.message} \n Server Message: ${resData.serverMessage}`
+                );
+              });
+            }
+            return res.json();
+          })
+          .then((data) => {
+            const adder =
+              media_type === "movie"
+                ? addMovieToWatchList
+                : addTVShowToWatchList;
+            adder(data);
+          })
+          .catch((err) => {
+            enqueueSnackbar((err as Error).message, {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      }
     }
   };
 

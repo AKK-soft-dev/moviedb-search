@@ -1,11 +1,12 @@
 "use client";
 import {
   Box,
-  Container,
   alpha,
   Typography,
   CircularProgress,
+  Button,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MovieItem from "@/components/utils/items/MovieItem";
 import TVShowItem from "@/components/utils/items/TVShowItem";
 import FetchedDetector from "@/components/utils/FetchedDetector";
@@ -13,6 +14,8 @@ import withPanel from "./withPanel";
 import useWatchList from "@/utils/useWatchList";
 import NotFoundData from "@/components/utils/NotFoundData";
 import useAuthStatus from "@/utils/useAuthStatus";
+import { useState } from "react";
+import useWatchListItemDeleteMode from "./useWatchListDeleteMode";
 
 const MoviesPanel = withPanel({
   type: "movie",
@@ -26,6 +29,7 @@ const TVShowsPanel = withPanel({
 export default function WatchListPage() {
   const { watchList, isLoadingWatchList } = useWatchList();
   const { authenticating, authenticated, unauthenticated } = useAuthStatus();
+  const { deleteMode, toggleDeleteMode } = useWatchListItemDeleteMode();
 
   const movies = watchList && watchList.movies;
   const tvShows = watchList && watchList.tvShows;
@@ -37,53 +41,73 @@ export default function WatchListPage() {
 
   return (
     <Box>
-      {isLoadingWatchList || authenticating ? (
-        <Box
-          sx={{
-            my: 10,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        my={2}
+      >
+        <Typography variant="h5" fontWeight={700}>
+          Your Watch List
+        </Typography>
+        <Button
+          startIcon={<DeleteIcon />}
+          color="error"
+          variant={deleteMode ? "contained" : "outlined"}
+          onClick={toggleDeleteMode}
         >
+          Delete Mode
+        </Button>
+      </Box>
+      <Box>
+        {isLoadingWatchList || authenticating ? (
           <Box
             sx={{
+              my: 10,
               display: "flex",
-              flexDirection: "column",
               alignItems: "center",
-              rowGap: 1,
+              justifyContent: "center",
             }}
           >
-            <CircularProgress />
-            <Typography color="primary.main">
-              Loading your watch list...
-            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                rowGap: 1,
+              }}
+            >
+              <CircularProgress />
+              <Typography color="primary.main">
+                Loading your watch list...
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-      ) : needSignIn ? (
-        <NotFoundData message="Could not retrieve your watch list. Please sign in first!" />
-      ) : (
-        <Box sx={{ mt: 2 }}>
-          {moviesLength > 0 && (
-            <MoviesPanel
-              data={{ panelData: movies, panelType: "movie" }}
-              title={<Title>Movies ({moviesLength})</Title>}
-            />
-          )}
-          {tvShowsLength > 0 && (
-            <TVShowsPanel
-              data={{ panelData: tvShows, panelType: "tv" }}
-              title={<Title>TV Shows ({tvShowsLength}) </Title>}
-            />
-          )}
-        </Box>
-      )}
+        ) : needSignIn ? (
+          <NotFoundData message="Could not retrieve your watch list. Please sign in first!" />
+        ) : (
+          <Box sx={{ mt: 2 }}>
+            {moviesLength > 0 && (
+              <MoviesPanel
+                data={{ panelData: movies, panelType: "movie" }}
+                title={<Title>Movies ({moviesLength})</Title>}
+              />
+            )}
+            {tvShowsLength > 0 && (
+              <TVShowsPanel
+                data={{ panelData: tvShows, panelType: "tv" }}
+                title={<Title>TV Shows ({tvShowsLength}) </Title>}
+              />
+            )}
+          </Box>
+        )}
 
-      {dataEmpty && !isLoadingWatchList && authenticated && (
-        <NotFoundData message="Your watch list is empty!" />
-      )}
+        {dataEmpty && !isLoadingWatchList && authenticated && (
+          <NotFoundData message="Your watch list is empty!" />
+        )}
 
-      <FetchedDetector />
+        <FetchedDetector />
+      </Box>
     </Box>
   );
 }

@@ -5,6 +5,7 @@ import {
   WatchListTVShowType,
 } from "@/app/api/watchlist/watchlist-types";
 import { useSession } from "next-auth/react";
+import { useSnackbar } from "notistack";
 
 type CreatorType = {
   _id: string;
@@ -39,6 +40,8 @@ export default function useWatchList() {
   const { data: session } = useSession();
   const user: any = session?.user;
   const userId = user?.id;
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const watchListKey = ["WatchListMovieDBSearch", userId].toString();
 
@@ -110,10 +113,7 @@ export default function useWatchList() {
       const movies = watchList && watchList.movies;
 
       if (movies) {
-        return !!movies.find(
-          ({ movie_id, creator: { _id } }) =>
-            movie_id === parseInt(movieId) && _id === userId
-        );
+        return !!movies.find(({ movie_id }) => movie_id === parseInt(movieId));
       }
 
       return false;
@@ -127,9 +127,7 @@ export default function useWatchList() {
 
       if (tvShows) {
         return !!tvShows.find(
-          (tvShow) =>
-            tvShow.tvshow_id === parseInt(tvShowId) &&
-            tvShow.creator._id === userId
+          ({ tvshow_id }) => tvshow_id === parseInt(tvShowId)
         );
       }
 
@@ -137,6 +135,118 @@ export default function useWatchList() {
     },
     [watchList, userId]
   );
+
+  const deleteMovie = (movieId: number) => {
+    setQueryData(
+      watchListKey,
+      (prevData: WatchListResponseType | null): WatchListResponseType => {
+        const prevMovies = prevData?.movies;
+        if (prevMovies && Array.isArray(prevMovies)) {
+          return {
+            movies: prevMovies.filter((movie) => movie.movie_id !== movieId),
+            tvShows: prevData.tvShows || [],
+          };
+        }
+
+        return {
+          movies: prevMovies || [],
+          tvShows: prevData?.tvShows || [],
+        };
+      }
+    );
+  };
+
+  const deleteMovieFromWatchList = async ({
+    watchListItemId, // unique id in mongodb database
+    mediaId, // unique movie id of tmdb database
+    onSettled,
+  }: {
+    watchListItemId?: string;
+    mediaId: number;
+    onSettled?: () => void;
+  }) => {
+    try {
+      const res = await fetch(
+        `/api/watchlist/movie/${
+          watchListItemId ||
+          watchList?.movies.find((movie) => movie.movie_id === mediaId)?._id
+        }`,
+        {
+          method: "DELETE",
+        }
+      );
+      const ok = res.ok;
+      const d = await res.json();
+      if (!ok) {
+        throw new Error(d.message);
+      }
+      deleteMovie(mediaId);
+    } catch (err) {
+      enqueueSnackbar((err as Error).message, {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
+    } finally {
+      onSettled && onSettled();
+    }
+  };
+
+  const deleteTVShow = (tvShowId: number) => {
+    setQueryData(
+      watchListKey,
+      (prevData: WatchListResponseType | null): WatchListResponseType => {
+        const prevTVShows = prevData?.tvShows;
+        if (prevTVShows && Array.isArray(prevTVShows)) {
+          return {
+            tvShows: prevTVShows.filter(
+              (tvShow) => tvShow.tvshow_id !== tvShowId
+            ),
+            movies: prevData.movies || [],
+          };
+        }
+
+        return {
+          movies: prevTVShows || [],
+          tvShows: prevData?.tvShows || [],
+        };
+      }
+    );
+  };
+
+  const deleteTVShowFromWatchList = async ({
+    watchListItemId, // unique id in mongodb database
+    mediaId, // unique tvShow id in tmdb database
+    onSettled,
+  }: {
+    watchListItemId?: string;
+    mediaId: number;
+    onSettled?: () => void;
+  }) => {
+    try {
+      const res = await fetch(
+        `/api/watchlist/tvshow/${
+          watchListItemId ||
+          watchList?.tvShows.find((tvShow) => tvShow.tvshow_id === mediaId)?._id
+        }`,
+        {
+          method: "DELETE",
+        }
+      );
+      const ok = res.ok;
+      const d = await res.json();
+      if (!ok) {
+        throw new Error(d.message);
+      }
+      deleteTVShow(mediaId);
+    } catch (err) {
+      enqueueSnackbar((err as Error).message, {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
+    } finally {
+      onSettled && onSettled();
+    }
+  };
 
   return {
     watchList,
@@ -146,5 +256,7 @@ export default function useWatchList() {
     addTVShowToWatchList,
     checkIfMovieExistInWatchList,
     checkIfTVShowExistInWatchList,
+    deleteMovieFromWatchList,
+    deleteTVShowFromWatchList,
   };
 }
