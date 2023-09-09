@@ -1,8 +1,8 @@
 "use client";
-import { Typography, styled } from "@mui/material";
+import { Typography, TypographyProps, styled } from "@mui/material";
 import { useMemo, useState } from "react";
 
-const StyledTypography = styled(Typography)(({ theme }) => ({
+const StyledTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
   display: "inline-block",
   color: theme.palette.primary.main,
   cursor: "pointer",
@@ -33,6 +33,7 @@ export default function ReadMoreLess({
               {content.slice(0, totalContentLengthToDisplay)}...
               <StyledTypography
                 variant="body1"
+                component="span"
                 onClick={() => setReadMore(true)}
               >
                 Read more
@@ -55,6 +56,7 @@ export default function ReadMoreLess({
               {content}{" "}
               <StyledTypography
                 variant="body1"
+                component="span"
                 onClick={() => setReadMore(false)}
               >
                 Read less

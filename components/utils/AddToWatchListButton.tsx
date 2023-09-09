@@ -59,15 +59,24 @@ export default function AddToWatchListButton({
         body: JSON.stringify(body),
       })
         .then((res) => {
+          if (!res.ok) {
+            return res.json().then((resData) => {
+              throw new Error(`${res.status}: ${resData.message}`);
+            });
+          }
           return res.json();
         })
         .then((data) => {
           const adder =
             media_type === "movie" ? addMovieToWatchList : addTVShowToWatchList;
-          if (!data.message) {
-            adder(data);
-          }
+          // if (!data.message) {
+
+          // }
+          adder(data);
           setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err.message);
         });
     }
   };

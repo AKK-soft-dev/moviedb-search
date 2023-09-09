@@ -40,7 +40,7 @@ export default function useWatchList() {
   const user: any = session?.user;
   const userId = user?.id;
 
-  const watchListKey = ["WatchListMovieDBSearch", userId];
+  const watchListKey = ["WatchListMovieDBSearch", userId].toString();
 
   const getWatchList: () => WatchListResponseType | null = useCallback(() => {
     return getQueryData(watchListKey);

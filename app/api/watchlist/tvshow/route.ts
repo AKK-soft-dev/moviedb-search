@@ -58,7 +58,10 @@ export const POST = async (req: NextRequest) => {
     return new Response(JSON.stringify(savedTVShow), { status: 201 });
   } catch (err) {
     return new Response(
-      JSON.stringify({ message: "Failed to create new prompt!" }),
+      JSON.stringify({
+        message: "Failed to add tv show to watch list!",
+        serverMessage: (err as Error).message,
+      }),
       { status: 500 }
     );
   }

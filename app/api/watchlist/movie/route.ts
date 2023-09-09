@@ -55,7 +55,10 @@ export const POST = async (req: NextRequest) => {
     return new Response(JSON.stringify(savedMovie), { status: 201 });
   } catch (err) {
     return new Response(
-      JSON.stringify({ message: "Failed to add movie to watch list!" }),
+      JSON.stringify({
+        message: "Failed to add movie to watch list!",
+        serverMessage: (err as Error).message,
+      }),
       { status: 500 }
     );
   }
