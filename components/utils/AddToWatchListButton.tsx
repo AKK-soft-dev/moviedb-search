@@ -64,7 +64,9 @@ export default function AddToWatchListButton({
         .then((res) => {
           if (!res.ok) {
             return res.json().then((resData) => {
-              throw new Error(`${res.status}: ${resData.message}`);
+              throw new Error(
+                `${res.status}: ${resData.message} \n Server Message: ${resData.serverMessage}`
+              );
             });
           }
           return res.json();
