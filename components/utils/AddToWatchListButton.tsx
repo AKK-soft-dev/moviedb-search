@@ -10,6 +10,7 @@ import {
 } from "@/app/api/watchlist/watchlist-types";
 import { useSession } from "next-auth/react";
 import useWatchList from "@/utils/useWatchList";
+import { enqueueSnackbar, useSnackbar } from "notistack";
 
 type MovieType = {
   media_type: "movie";
@@ -45,6 +46,8 @@ export default function AddToWatchListButton({
     addTVShowToWatchList,
   } = useWatchList();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const body: WatchListMovieType | WatchListTVShowType = { userId, ...payload };
   const checker =
     media_type === "movie"
@@ -73,10 +76,15 @@ export default function AddToWatchListButton({
 
           // }
           adder(data);
-          setLoading(false);
         })
         .catch((err) => {
-          console.error(err.message);
+          enqueueSnackbar((err as Error).message, {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
