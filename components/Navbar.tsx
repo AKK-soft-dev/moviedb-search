@@ -40,7 +40,6 @@ import MyMenu from "./utils/MyMenu";
 import MyDrawer from "./utils/MyDrawer";
 import menus from "@/utils/menus";
 import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
-import CustomTooltip from "./utils/CustomTooltip";
 import { useSession, getProviders, signOut, signIn } from "next-auth/react";
 import WatchListLinkButton from "./WatchListLinkButton";
 import useAuthStatus from "@/utils/useAuthStatus";
@@ -110,7 +109,7 @@ export default function Navbar() {
   const [inputQuery, setInputQuery] = useState<string | undefined>("");
   const [loading, setLoading] = useState(false);
   // const [authenticating, setAuthenticating] = useState(true);
-  const { authenticating, setAuthenticated } = useAuthStatus();
+  const { authenticating } = useAuthStatus();
   const [menuAnchorEl, setMenuAnchorEl] = useState<{
     el: HTMLElement;
     menuName: MenuType;
@@ -135,7 +134,6 @@ export default function Navbar() {
       const response = await getProviders();
 
       setProviders(response);
-      setAuthenticated();
     };
 
     initProviders();

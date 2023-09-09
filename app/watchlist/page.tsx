@@ -11,16 +11,8 @@ import TVShowItem from "@/components/utils/items/TVShowItem";
 import FetchedDetector from "@/components/utils/FetchedDetector";
 import withPanel from "./withPanel";
 import useWatchList from "@/utils/useWatchList";
-import useAuthStatus from "@/utils/useAuthStatus";
-import { useSession } from "next-auth/react";
 import NotFoundData from "@/components/utils/NotFoundData";
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import useAuthStatus from "@/utils/useAuthStatus";
 
 const MoviesPanel = withPanel({
   type: "movie",
@@ -33,69 +25,66 @@ const TVShowsPanel = withPanel({
 
 export default function WatchListPage() {
   const { watchList, isLoadingWatchList } = useWatchList();
-  const { authenticating } = useAuthStatus();
+  const { authenticating, authenticated, unauthenticated } = useAuthStatus();
 
   const movies = watchList && watchList.movies;
   const tvShows = watchList && watchList.tvShows;
 
-  const { data: session } = useSession();
-  const user = session?.user;
-
   const moviesLength = movies?.length || 0;
   const tvShowsLength = tvShows?.length || 0;
   const dataEmpty = !moviesLength && !tvShowsLength;
-  const needSignIn = dataEmpty && !user && !authenticating;
+  const needSignIn = dataEmpty && unauthenticated && !authenticating;
 
   return (
-    <Container>
-      <Box>
-        {isLoadingWatchList || authenticating ? (
+    <Box>
+      {isLoadingWatchList || authenticating ? (
+        <Box
+          sx={{
+            my: 10,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Box
             sx={{
-              my: 10,
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              justifyContent: "center",
+              rowGap: 1,
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                rowGap: 1,
-              }}
-            >
-              <CircularProgress />
-              <Typography color="primary.main">
-                Loading your watch list...
-              </Typography>
-            </Box>
+            <CircularProgress />
+            <Typography color="primary.main">
+              Loading your watch list...
+            </Typography>
           </Box>
-        ) : needSignIn ? (
-          <NotFoundData message="Could not retrieve your watch list. Please sign in first!" />
-        ) : (
-          <Box sx={{ mt: 2 }}>
-            {moviesLength > 0 && (
-              <MoviesPanel
-                data={{ panelData: movies, panelType: "movie" }}
-                title={<Title>Movies ({moviesLength})</Title>}
-              />
-            )}
-            {tvShowsLength > 0 && (
-              <TVShowsPanel
-                data={{ panelData: tvShows, panelType: "tv" }}
-                title={<Title>TV Shows ({tvShowsLength}) </Title>}
-              />
-            )}
-          </Box>
-        )}
+        </Box>
+      ) : needSignIn ? (
+        <NotFoundData message="Could not retrieve your watch list. Please sign in first!" />
+      ) : (
+        <Box sx={{ mt: 2 }}>
+          {moviesLength > 0 && (
+            <MoviesPanel
+              data={{ panelData: movies, panelType: "movie" }}
+              title={<Title>Movies ({moviesLength})</Title>}
+            />
+          )}
+          {tvShowsLength > 0 && (
+            <TVShowsPanel
+              data={{ panelData: tvShows, panelType: "tv" }}
+              title={<Title>TV Shows ({tvShowsLength}) </Title>}
+            />
+          )}
+        </Box>
+      )}
 
-        {dataEmpty && !isLoadingWatchList && user && <NotFoundData />}
+      {dataEmpty && !isLoadingWatchList && authenticated && (
+        <NotFoundData message="Your watch list is empty!" />
+      )}
 
-        <FetchedDetector />
-      </Box>
-    </Container>
+      <FetchedDetector />
+    </Box>
   );
 }
 

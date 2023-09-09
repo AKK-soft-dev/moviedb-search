@@ -30,6 +30,7 @@
     "react-data-query": "^2.2.1",
     "react-dom": "18.2.0",
     "react-material-ui-carousel": "^3.4.2",
+    "react-spinners": "^0.13.8",
     "server-only": "^0.0.1",
     "sharp": "^0.32.4",
     "swiper": "^10.1.0",
