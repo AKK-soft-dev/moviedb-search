@@ -60,7 +60,8 @@ export default function FloatingFilterButton() {
     <>
       <Button
         onClick={toggleOpen}
-        color="secondary"
+        color="primary"
+        variant="contained"
         sx={{
           position: "fixed",
           top: "70%",
@@ -68,11 +69,11 @@ export default function FloatingFilterButton() {
           width: 50,
           height: 50,
           border: 1,
+          borderRight: 0,
           borderColor: "secondary.main",
           borderTopRightRadius: 0,
           borderBottomRightRadius: 0,
           overflow: "hidden",
-          backgroundColor: "background.default",
           "&::after": {
             position: "absolute",
             top: 0,
@@ -80,7 +81,7 @@ export default function FloatingFilterButton() {
             width: "100%",
             height: "100%",
             borderRadius: "50%",
-            animation: "ripple 1.6s infinite ease-in-out",
+            animation: "ripple 2s infinite ease-in-out",
             border: "1px solid currentColor",
             content: '""',
           },
@@ -91,7 +92,7 @@ export default function FloatingFilterButton() {
             width: "100%",
             height: "100%",
             borderRadius: "50%",
-            animation: "ripple 1.6s infinite 0.2s ease-in-out",
+            animation: "ripple 2s infinite 0.2s ease-in-out",
             border: "1px solid currentColor",
             content: '""',
           },
@@ -106,7 +107,7 @@ export default function FloatingFilterButton() {
             },
           },
           "& .MuiSvgIcon-root": {
-            animation: "rotating 3s linear infinite",
+            animation: "rotating 5s linear infinite",
           },
           "@keyframes rotating": {
             "0%": {
@@ -123,12 +124,12 @@ export default function FloatingFilterButton() {
       <Dialog
         open={open}
         TransitionComponent={Transition}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="filter-dialog-title"
+        aria-describedby="filter-dialog-description"
         PaperProps={{
           elevation: 0,
           sx: {
-            width: { xs: "95%", sm: "80%", md: "70%" },
+            width: { xs: "97%", sm: "85%", md: "70%" },
           },
         }}
       >
@@ -138,9 +139,10 @@ export default function FloatingFilterButton() {
           display="flex"
           alignItems="center"
           id="alert-dialog-title"
+          sx={{ fontWeight: 500 }}
         >
           <TuneIcon color="inherit" fontSize="large" sx={{ mr: 1 }} />{" "}
-          <span>Filter Your Search</span>
+          <span style={{ fontWeight: "inherit" }}>Filter Your Search</span>
         </DialogTitle>
         <Divider />
         <DialogContent>

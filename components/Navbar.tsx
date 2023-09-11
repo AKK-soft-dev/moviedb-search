@@ -206,7 +206,7 @@ export default function Navbar() {
         })
         .catch((err: Error) => {
           if (err.name !== "AbortError") {
-            // handle abort error here
+            setLoading(false);
           }
         });
     }
@@ -364,10 +364,8 @@ export default function Navbar() {
         <Autocomplete
           loading={loading}
           autoFocus
-          autoSelect
           freeSolo
           selectOnFocus
-          clearOnBlur
           handleHomeEndKeys
           options={options}
           value={query}

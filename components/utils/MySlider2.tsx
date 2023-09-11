@@ -37,12 +37,15 @@ const MySlider2 = forwardRef<MySliderHandler, MySliderProps>(
         fadeOut() {
           const gridContainer = gridContainerRef.current;
           if (gridContainer) {
+            gridContainer.style.pointerEvents = "none";
             gridContainer.style.opacity = "0.6";
           }
         },
         fadeIn() {
           const gridContainer = gridContainerRef.current;
+
           if (gridContainer) {
+            gridContainer.style.pointerEvents = "auto";
             gridContainer.style.opacity = "1";
           }
         },
