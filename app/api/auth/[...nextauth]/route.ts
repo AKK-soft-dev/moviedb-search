@@ -20,6 +20,9 @@ const handler = NextAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
   ],
+  theme: {
+    logo: "/icon.png",
+  },
   callbacks: {
     async session({ session, token }) {
       const user: any = session.user;

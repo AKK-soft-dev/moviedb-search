@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import fetchData from "@/config/fetch";
 import { Box, Typography, Container, Grid } from "@mui/material";
-import FetchedDetector from "@/components/utils/FetchedDetector";
+import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 import { SeasonDetailType } from "../season-type";
 import EpisodeOverviewItem from "../../../EpisodeOverviewItem";
 import BackLink from "../../../BackLink";

@@ -15,7 +15,8 @@ import {
   MenuItem,
   Skeleton,
   Chip,
-  Badge,
+  Backdrop,
+  useTheme,
 } from "@mui/material";
 import { MouseEventHandler } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -34,7 +35,6 @@ import {
   forwardRef,
 } from "react";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import { useDataQuery } from "react-data-query";
 import { usePathname, useRouter } from "next/navigation";
 import MyMenu from "./utils/MyMenu";
 import MyDrawer from "./utils/MyDrawer";
@@ -43,6 +43,7 @@ import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
 import { useSession, getProviders, signOut, signIn } from "next-auth/react";
 import WatchListLinkButton from "./WatchListLinkButton";
 import useAuthStatus from "@/utils/useAuthStatus";
+import useSearchFilter from "@/utils/useSearchFilter";
 
 const ExpandMoreIcon = styled(MuiExpandMoreIcon)<{ open: boolean }>(
   ({ open, theme }) => ({
@@ -126,6 +127,7 @@ export default function Navbar() {
 
   const [providers, setProviders] = useState<any>(null);
   const { data: session } = useSession();
+  const { searchFor, searchResultPage } = useSearchFilter();
 
   const user = session?.user;
 
@@ -138,11 +140,6 @@ export default function Navbar() {
 
     initProviders();
   }, []);
-
-  const { data: isLoading } = useDataQuery(searchIndicatorKey, undefined, {
-    initialData: false,
-    autoFetchEnabled: false,
-  });
 
   const toggleSearchBox = () => {
     if (!pathname.includes("/search")) {
@@ -179,15 +176,21 @@ export default function Navbar() {
   }, [openSearchBox]);
 
   const deferredQuery = useDeferredValue<string | undefined>(inputQuery);
+  const prevDeferredQuery = useRef(deferredQuery);
 
   useEffect(() => {
     const abortController = new AbortController();
 
-    if (deferredQuery) {
+    if (prevDeferredQuery.current !== deferredQuery) {
       setLoading(true);
-      fetch(`/api/search?query=${deferredQuery}`, {
-        signal: abortController.signal,
-      })
+      fetch(
+        `/api/search${
+          searchFor === "all" ? "" : `/${searchFor}`
+        }?query=${deferredQuery}`,
+        {
+          signal: abortController.signal,
+        }
+      )
         .then((res) => {
           return res.json();
         })
@@ -208,7 +211,7 @@ export default function Navbar() {
     return () => {
       abortController.abort();
     };
-  }, [deferredQuery]);
+  }, [deferredQuery, searchFor]);
 
   return (
     <AppBar position="sticky" sx={{ top: 0 }} elevation={1}>
@@ -346,17 +349,7 @@ export default function Navbar() {
           </Box>
         </Toolbar>
       </Container>
-      <Box
-        sx={{
-          position: "absolute",
-          display: isLoading ? "block" : "none",
-          top: 0,
-          left: 0,
-          right: 0,
-        }}
-      >
-        <LinearProgress />
-      </Box>
+
       <Box
         component="div"
         className="search-box"
@@ -381,7 +374,15 @@ export default function Navbar() {
             if (newValue) {
               setOpenSearchBox(false);
               openLoadingIndicator();
-              router.push(`/search/v2?query=${newValue}`);
+              const searchResultPageUrlForV1 = `/search?query=${newValue}`;
+              const searchResultPageUrlForV2 = `/search/v2${
+                searchFor === "all" ? "" : `/${searchFor}`
+              }?query=${newValue}`;
+              router.push(
+                searchResultPage === "v2"
+                  ? searchResultPageUrlForV2
+                  : searchResultPageUrlForV1
+              );
             }
           }}
           onInputChange={(_e, newInput) => {

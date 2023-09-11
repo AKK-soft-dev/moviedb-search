@@ -6,13 +6,13 @@ export default function useLoadingIndicatorToggler() {
   const { setQueryData } = useDataQueryMagic();
   const closeLoadingIndicator = useCallback(() => {
     setQueryData(searchIndicatorKey, () => false);
-  }, []);
+  }, [setQueryData]);
   const openLoadingIndicator = useCallback(() => {
     setQueryData(searchIndicatorKey, () => true);
-  }, []);
+  }, [setQueryData]);
   const toggleLoadingIndicator = useCallback(() => {
     setQueryData(searchIndicatorKey, (prev) => !prev);
-  }, []);
+  }, [setQueryData]);
 
   return {
     openLoadingIndicator,

@@ -4,6 +4,21 @@
   animation-direction: alternate-reverse;
 }
 
+.drawer-width {
+  width: 300;
+}
+
+.floating-button {
+  right: 300;
+  position: "absolute";
+  top: "70%";
+  width: 50;
+  height: 50;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  visibility: "visible";
+}
+
 @keyframes slideBackground {
   0% {
     background-position: 0 0;

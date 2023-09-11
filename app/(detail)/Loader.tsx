@@ -13,6 +13,7 @@ export default function Loader() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: theme.zIndex.modal,
       }}
     >
       <PuffLoader size={250} color={theme.palette.secondary.main} />

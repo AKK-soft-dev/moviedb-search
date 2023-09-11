@@ -1,5 +1,5 @@
 "use client";
-import FetchedDetector from "@/components/utils/FetchedDetector";
+import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 import { Container, Box, Typography, Button, Skeleton } from "@mui/material";
 import { useState } from "react";
 

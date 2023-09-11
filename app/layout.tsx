@@ -12,6 +12,7 @@ import MyDataQueryProvider from "@/context/MyDataQueryProvider";
 import SnackbarProviderClient from "@/context/SnackbarProviderClient";
 import Footer from "@/components/Footer";
 import NextAuthProvider from "@/components/NextAuthProvider";
+import PageTransitionIndicator from "@/components/utils/PageTransitionIndicator";
 
 export const metadata: Metadata = {
   title: {
@@ -40,7 +41,13 @@ export default async function RootLayout({
         <MyDataQueryProvider>
           <ThemeRegistry options={{ key: "mui", prepend: false }}>
             <NextAuthProvider>
-              <Box minHeight="100vh" display="flex" flexDirection="column">
+              <Box
+                component="div"
+                id="root"
+                minHeight="100vh"
+                display="flex"
+                flexDirection="column"
+              >
                 <SnackbarProviderClient>
                   <Navbar />
                   {children}
@@ -49,6 +56,7 @@ export default async function RootLayout({
                 <Footer />
               </Box>
             </NextAuthProvider>
+            <PageTransitionIndicator />
           </ThemeRegistry>
         </MyDataQueryProvider>
       </body>

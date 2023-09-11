@@ -2,7 +2,7 @@ import fetchData from "@/config/fetch";
 import type { Metadata } from "next";
 import { Box, Container, Typography } from "@mui/material";
 import { notFound } from "next/navigation";
-import FetchedDetector from "@/components/utils/FetchedDetector";
+import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 import GradientBackground from "@/components/utils/GradientBackground";
 import Media from "../../Media";
 import { PersonDetailType } from "../person-type";

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import fetchData from "@/config/fetch";
 import { Box, Typography, Container, Divider } from "@mui/material";
 import SeasonOverviewItem from "../../SeasonOveriewItem";
-import FetchedDetector from "@/components/utils/FetchedDetector";
+import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 import BackLink from "../../BackLink";
 
 type Props = {

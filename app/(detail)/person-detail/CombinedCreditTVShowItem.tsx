@@ -69,7 +69,7 @@ export default function CombinedCreditTVShowItem({
           )}
           <Box component="div" className="user_score-wrapper">
             <Typography className="user_score" variant="body2" component="span">
-              {vote_average.toFixed(1)}
+              {vote_average?.toFixed(1)}
             </Typography>
           </Box>
         </Box>

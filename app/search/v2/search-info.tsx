@@ -14,7 +14,7 @@ export default function SearchInfo({ prefix }: { prefix: string }) {
         backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
       }}
     >
-      <Typography variant="h5" component="p" noWrap>
+      <Typography variant="h6" noWrap>
         {prefix} {searchParams.get("query")}{" "}
       </Typography>
     </Box>

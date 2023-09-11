@@ -1,7 +1,7 @@
 import fetchData from "@/config/fetch";
 import { Box, Container, Typography } from "@mui/material";
 import type { Metadata } from "next";
-import FetchedDetector from "@/components/utils/FetchedDetector";
+import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 import PopularTVShows from "./PopularTVShows";
 
 export const metadata: Metadata = {

@@ -1,3 +1,4 @@
+import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 import { Container, Typography } from "@mui/material";
 import { Metadata } from "next";
 
@@ -10,5 +11,10 @@ export default function WatchListPageLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <Container>{children}</Container>;
+  return (
+    <Container>
+      {children}
+      <FetchedDetector />
+    </Container>
+  );
 }

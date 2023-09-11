@@ -78,7 +78,7 @@ export default function PlayTrailerButton({
     if (!data && open) {
       refetch();
     }
-  }, [open]);
+  }, [open, data, refetch]);
 
   const trailers = data?.results;
   const trailerExist = trailers && trailers.length;

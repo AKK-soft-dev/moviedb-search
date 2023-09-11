@@ -157,19 +157,24 @@ export default function withPanel({ type, ItemDisplayComponent }: Props) {
           onClose={handleConfirmDialogClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          PaperProps={{
+            elevation: 0,
+          }}
         >
           <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               {toDeleteItemMedia && (
                 <>
-                  <Typography component="span" fontWeight={700}>
+                  <Typography component="span" fontWeight={500}>
+                    &ldquo;
                     {panelType === "movie"
                       ? (toDeleteItemMedia as MovieType).title
                       : (toDeleteItemMedia as TVShowType).name}
+                    &rdquo;
                   </Typography>{" "}
                   with user score{" "}
-                  <Typography component="span" fontWeight={700}>
+                  <Typography component="span" fontWeight={500}>
                     {toDeleteItemMedia?.vote_average?.toFixed(1)}
                   </Typography>{" "}
                   will be deleted from your watch list!

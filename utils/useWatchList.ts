@@ -14,12 +14,12 @@ type CreatorType = {
   image: string;
 };
 
-export type MovieType = Omit<WatchListMovieType, "creator"> & {
+export type MovieType = WatchListMovieType & {
   _id: string;
   creator: CreatorType;
 };
 
-export type TVShowType = Omit<WatchListTVShowType, "creator"> & {
+export type TVShowType = WatchListTVShowType & {
   _id: string;
   creator: CreatorType;
 };

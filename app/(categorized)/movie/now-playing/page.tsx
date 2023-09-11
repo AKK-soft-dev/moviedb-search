@@ -1,7 +1,7 @@
 import fetchData from "@/config/fetch";
 import type { Metadata } from "next";
 import NowPlayingMovies from "./NowPlayingMovies";
-import FetchedDetector from "@/components/utils/FetchedDetector";
+import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 
 export const metadata: Metadata = {
   title: {

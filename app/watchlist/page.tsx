@@ -9,7 +9,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import MovieItem from "@/components/utils/items/MovieItem";
 import TVShowItem from "@/components/utils/items/TVShowItem";
-import FetchedDetector from "@/components/utils/FetchedDetector";
+import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 import withPanel from "./withPanel";
 import useWatchList from "@/utils/useWatchList";
 import NotFoundData from "@/components/utils/NotFoundData";
@@ -105,8 +105,6 @@ export default function WatchListPage() {
         {dataEmpty && !isLoadingWatchList && authenticated && (
           <NotFoundData message="Your watch list is empty!" />
         )}
-
-        <FetchedDetector />
       </Box>
     </Box>
   );
@@ -123,7 +121,7 @@ function Title({ children }: { children: React.ReactNode }) {
         backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
       }}
     >
-      <Typography variant="h5" component="p" noWrap>
+      <Typography variant="h6" noWrap>
         {children}
       </Typography>
     </Box>
