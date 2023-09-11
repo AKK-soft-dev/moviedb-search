@@ -151,7 +151,9 @@ export default function FloatingFilterButton() {
             <ToggleButtonGroup
               value={searchResultPage}
               exclusive
-              onChange={(e, newValue) => updateSearchResultPage(newValue)}
+              onChange={(e, newValue) =>
+                newValue && updateSearchResultPage(newValue)
+              }
             >
               <StyledToggleButton value="v1" color="primary">
                 V1 (Bugs)
@@ -166,9 +168,10 @@ export default function FloatingFilterButton() {
               Search for
             </Typography>
             <ToggleButtonGroup
-              value={searchFor}
+              disabled={v1Page}
+              value={v1Page || searchFor}
               exclusive
-              onChange={(e, newValue) => updateSearchFor(newValue)}
+              onChange={(e, newValue) => newValue && updateSearchFor(newValue)}
             >
               <StyledToggleButton value="all" color="primary">
                 All

@@ -3,18 +3,18 @@ import { connectToDB } from "@/utils/database";
 import { WatchListTVShowType } from "../watchlist-types";
 import { NextRequest } from "next/server";
 
-export const GET = async () => {
-  try {
-    await connectToDB();
+// export const GET = async () => {
+//   try {
+//     await connectToDB();
 
-    const tvShows = await WatchListTVShow.find({}).populate("creator");
-    return new Response(JSON.stringify(tvShows), { status: 200 });
-  } catch (err) {
-    return new Response("Failed to fetch all tv shows in watch list", {
-      status: 500,
-    });
-  }
-};
+//     const tvShows = await WatchListTVShow.find({}).populate("creator");
+//     return new Response(JSON.stringify(tvShows), { status: 200 });
+//   } catch (err) {
+//     return new Response("Failed to fetch all tv shows in watch list", {
+//       status: 500,
+//     });
+//   }
+// };
 
 export const POST = async (req: NextRequest) => {
   const {

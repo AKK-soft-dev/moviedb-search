@@ -182,10 +182,13 @@ export default function Navbar() {
     const abortController = new AbortController();
 
     if (prevDeferredQuery.current !== deferredQuery) {
+      prevDeferredQuery.current = deferredQuery;
       setLoading(true);
       fetch(
         `/api/search${
-          searchFor === "all" ? "" : `/${searchFor}`
+          searchFor === "all" || searchResultPage === "v1"
+            ? ""
+            : `/${searchFor}`
         }?query=${deferredQuery}`,
         {
           signal: abortController.signal,
@@ -203,7 +206,7 @@ export default function Navbar() {
         })
         .catch((err: Error) => {
           if (err.name !== "AbortError") {
-            // handle error here
+            // handle abort error here
           }
         });
     }
@@ -211,7 +214,7 @@ export default function Navbar() {
     return () => {
       abortController.abort();
     };
-  }, [deferredQuery, searchFor]);
+  }, [deferredQuery, searchFor, searchResultPage]);
 
   return (
     <AppBar position="sticky" sx={{ top: 0 }} elevation={1}>

@@ -12,6 +12,8 @@ import React, { useState } from "react";
 import { useDataQueryMagic } from "react-data-query";
 import { searchIndicatorKey } from "../Navbar";
 import GradientBackground from "../utils/GradientBackground";
+import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useSearchFilter from "@/utils/useSearchFilter";
 
 export default function Hero({
   backgroundImageUrl,
@@ -19,14 +21,22 @@ export default function Hero({
   backgroundImageUrl: string;
 }) {
   const theme = useTheme();
-  const defaultBackground = theme.palette.background.default;
+  const { openLoadingIndicator } = useLoadingIndicatorToggler();
+  const { searchResultPage, searchFor } = useSearchFilter();
   const [query, setQuery] = useState("");
   const router = useRouter();
-  const { setQueryData } = useDataQueryMagic();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setQueryData(searchIndicatorKey, () => true);
-    router.push(`/search/v2?query=${query}`);
+    openLoadingIndicator();
+    const searchResultPageUrlForV1 = `/search?query=${query}`;
+    const searchResultPageUrlForV2 = `/search/v2${
+      searchFor === "all" ? "" : `/${searchFor}`
+    }?query=${query}`;
+    router.push(
+      searchResultPage === "v2"
+        ? searchResultPageUrlForV2
+        : searchResultPageUrlForV1
+    );
   };
   return (
     <Box
