@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { TabPanelProps } from "./tabs";
-import usePaginatedSearchQuery from "@/utils/usePaginatedSearchQuery";
+import usePaginatedSearchQuery from "@/utils/custom-hooks/usePaginatedSearchQuery";
 import { Box, Button, Pagination } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/items/BSGridItem";

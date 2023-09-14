@@ -1,6 +1,5 @@
 "use client";
 import { Box } from "@mui/material";
-import { useEffect } from "react";
 import MovieItem from "@/components/utils/items/MovieItem";
 import TVShowItem from "@/components/utils/items/TVShowItem";
 import PersonItem from "@/components/utils/items/PersonItem";

@@ -1,8 +1,6 @@
 "use client";
-import { useDataQuery } from "react-data-query";
-import { searchIndicatorKey } from "../Navbar";
 import { Box, LinearProgress, Modal, useTheme } from "@mui/material";
-import useLoadingIndicator from "@/utils/useLoadingIndicator";
+import useLoadingIndicator from "@/utils/custom-hooks/useLoadingIndicator";
 
 // Use only once
 export default function PageTransitionIndicator() {

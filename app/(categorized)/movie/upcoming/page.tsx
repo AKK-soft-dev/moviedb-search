@@ -1,5 +1,4 @@
 import fetchData from "@/config/fetch";
-import { Box, Container, Typography } from "@mui/material";
 import type { Metadata } from "next";
 import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 import UpcomingMovies from "./UpcomingMovies";

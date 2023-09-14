@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import LinkIcon from "@mui/icons-material/Link";
 import { useSnackbar } from "notistack";
 import NotFoundData from "@/components/utils/NotFoundData";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 
 type ResultType = "movie" | "person" | "tv";
 type ResultHOCProps = {

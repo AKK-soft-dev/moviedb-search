@@ -5,8 +5,6 @@ import { Container, Typography, Box } from "@mui/material";
 import CombinedCreditMovieItem from "./CombinedCreditMovieItem";
 import CombinedCreditTVShowItem from "./CombinedCreditTVShowItem";
 import GridItem from "@/components/utils/items/BSGridItem";
-import { MovieItemDataType } from "@/components/utils/items/MovieItem";
-import { TVShowItemDataType } from "@/components/utils/items/TVShowItem";
 
 export default function CombinedCredits({
   data,

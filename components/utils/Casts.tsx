@@ -1,5 +1,5 @@
 "use client";
-import { Box, Container, Button, Typography, IconButton } from "@mui/material";
+import { Box, Container, Typography, IconButton } from "@mui/material";
 import MySlider2 from "./MySlider2";
 import SliderItem from "./items/SliderItem";
 import CastItem from "./items/CastItem";

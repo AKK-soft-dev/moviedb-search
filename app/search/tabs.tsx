@@ -9,9 +9,9 @@ import MovieItem from "@/components/utils/items/MovieItem";
 import TVShowItem from "@/components/utils/items/TVShowItem";
 import PersonItem from "@/components/utils/items/PersonItem";
 import { useSearchParams } from "next/navigation";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 import SearchInfo from "./search-info";
-import useTab from "@/utils/useTab";
+import useTab from "@/utils/custom-hooks/useTab";
 
 type DataType = {
   results: any[];

@@ -11,7 +11,6 @@ import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import { formatDisplayDate } from "@/utils/format-date";
 import { EpisodeType } from "./[id]/season/season-type";
 import PlayTrailerButton from "@/components/utils/PlayTrailerButton";
-import { useState } from "react";
 import ReadMoreLess from "@/components/utils/ReadMoreLess";
 
 export default function EpisodeOverviewItem({

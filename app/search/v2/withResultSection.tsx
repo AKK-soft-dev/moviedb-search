@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { ResultSectionProps } from "./results";
-import { Box, Button, Pagination } from "@mui/material";
+import { Box, Pagination } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/items/BSGridItem";
 import { useRouter, useSearchParams } from "next/navigation";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 
 export type SectionType = "movie" | "person" | "tv";
 type SectionProps = {

@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { useEffect } from "react";
 import withResult from "../withResult";
 import MovieItem from "@/components/utils/items/MovieItem";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 import SearchInfo from "../../search-info";
 import { DataType } from "../search-types";
 

@@ -3,7 +3,7 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 
 export default function BackLink({
   href,

@@ -4,7 +4,7 @@ import { Box, Pagination, Container, Typography } from "@mui/material";
 import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/items/BSGridItem";
 import { useRouter, useSearchParams } from "next/navigation";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 import NotFoundData from "./NotFoundData";
 
 type DataType = {

@@ -14,7 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { MenuType } from "../Navbar";
 import menus from "@/utils/menus";
 import Link from "next/link";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 import { usePathname } from "next/navigation";
 
 const drawerWidth = 260;

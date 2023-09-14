@@ -39,11 +39,11 @@ import { usePathname, useRouter } from "next/navigation";
 import MyMenu from "./utils/MyMenu";
 import MyDrawer from "./utils/MyDrawer";
 import menus from "@/utils/menus";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 import { useSession, getProviders, signOut, signIn } from "next-auth/react";
 import WatchListLinkButton from "./WatchListLinkButton";
-import useAuthStatus from "@/utils/useAuthStatus";
-import useSearchFilter from "@/utils/useSearchFilter";
+import useAuthStatus from "@/utils/custom-hooks/useAuthStatus";
+import useSearchFilter from "@/utils/custom-hooks/useSearchFilter";
 
 const ExpandMoreIcon = styled(MuiExpandMoreIcon)<{ open: boolean }>(
   ({ open, theme }) => ({

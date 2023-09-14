@@ -4,16 +4,13 @@ import {
   Container,
   OutlinedInput,
   Typography,
-  alpha,
   useTheme,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useDataQueryMagic } from "react-data-query";
-import { searchIndicatorKey } from "../Navbar";
 import GradientBackground from "../utils/GradientBackground";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
-import useSearchFilter from "@/utils/useSearchFilter";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
+import useSearchFilter from "@/utils/custom-hooks/useSearchFilter";
 
 export default function Hero({
   backgroundImageUrl,

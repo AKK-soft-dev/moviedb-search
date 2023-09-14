@@ -2,7 +2,7 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import Link from "next/link";
 import { SeasonType } from "./tvshow-type";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 import SeasonOverviewItem from "./SeasonOveriewItem";
 
 export default function LastSeason({

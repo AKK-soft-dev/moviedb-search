@@ -9,12 +9,10 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import MovieItem from "@/components/utils/items/MovieItem";
 import TVShowItem from "@/components/utils/items/TVShowItem";
-import FetchedDetector from "@/components/utils/FetchedAndPageLoadedDetector";
 import withPanel from "./withPanel";
-import useWatchList from "@/utils/useWatchList";
+import useWatchList from "@/utils/custom-hooks/useWatchList";
 import NotFoundData from "@/components/utils/NotFoundData";
-import useAuthStatus from "@/utils/useAuthStatus";
-import { useState } from "react";
+import useAuthStatus from "@/utils/custom-hooks/useAuthStatus";
 import useWatchListItemDeleteMode from "./useWatchListDeleteMode";
 
 const MoviesPanel = withPanel({

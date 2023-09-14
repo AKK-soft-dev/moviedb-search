@@ -18,7 +18,10 @@ import BSGridContainer from "@/components/utils/BSGridContainer";
 import BSGridItem from "@/components/utils/items/BSGridItem";
 import { PanelProps } from "./watchlist-types";
 import useWatchListItemDeleteMode from "./useWatchListDeleteMode";
-import useWatchList, { MovieType, TVShowType } from "@/utils/useWatchList";
+import useWatchList, {
+  MovieType,
+  TVShowType,
+} from "@/utils/custom-hooks/useWatchList";
 
 export type PanelType = "movie" | "tv";
 type Props = {

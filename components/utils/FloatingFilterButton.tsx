@@ -17,8 +17,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useState, forwardRef } from "react";
 import { TransitionProps } from "@mui/material/transitions";
-import useSearchFilter from "@/utils/useSearchFilter";
-import useLoadingIndicator from "@/utils/useLoadingIndicator";
+import useSearchFilter from "@/utils/custom-hooks/useSearchFilter";
+import useLoadingIndicator from "@/utils/custom-hooks/useLoadingIndicator";
 
 // window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
 const Transition = forwardRef(function Transition(

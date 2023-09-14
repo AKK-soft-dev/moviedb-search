@@ -9,7 +9,7 @@ import {
   WatchListTVShowType,
 } from "@/app/api/watchlist/watchlist-types";
 import { useSession } from "next-auth/react";
-import useWatchList from "@/utils/useWatchList";
+import useWatchList from "@/utils/custom-hooks/useWatchList";
 import { enqueueSnackbar, useSnackbar } from "notistack";
 
 type MovieType = {

@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { MenuType } from "../Navbar";
 import menus from "@/utils/menus";
-import useLoadingIndicatorToggler from "@/utils/useLoadingIndicatorToggler";
+import useLoadingIndicatorToggler from "@/utils/custom-hooks/useLoadingIndicatorToggler";
 import { usePathname } from "next/navigation";
 
 const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({

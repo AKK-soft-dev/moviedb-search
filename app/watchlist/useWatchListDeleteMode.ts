@@ -1,4 +1,4 @@
-import useWatchList from "@/utils/useWatchList";
+import useWatchList from "@/utils/custom-hooks/useWatchList";
 import { useDataQuery, useDataQueryMagic } from "react-data-query";
 
 type ReturnType = {
