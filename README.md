@@ -13,6 +13,6 @@ A web app written in Next.js that consumes tmdb api. You can explore movies, tv 
 - React Data Query (My library) (for data fetching and state management)
 - MUI
 - Bootstrap (Grid layout only)
-- Sass
+- Scss (to override bootstrap styles)
 
 > More info coming soon
