@@ -58,12 +58,16 @@ export default function SeasonOverviewItem({
             }}
           >
             {poster_path ? (
-              <Image
+              <img
                 src={imgSrc}
-                style={{ objectFit: "cover", borderRadius: 6 }}
+                style={{
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: 6,
+                }}
                 alt={name}
                 title={name}
-                fill
               />
             ) : (
               <Box
