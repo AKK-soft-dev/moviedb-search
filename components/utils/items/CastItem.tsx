@@ -40,7 +40,7 @@ export default function CastItem({
           {profile_path ? (
             <img
               src={imgSrc}
-              style={{ width: "100%", height: "100%" }}
+              style={{ objectFit: "cover", width: "100%", height: "100%" }}
               alt={name}
               title={name}
             />

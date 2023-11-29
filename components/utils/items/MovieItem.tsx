@@ -54,7 +54,7 @@ export default function MovieItem({
           {poster_path ? (
             <img
               src={imgSrc}
-              style={{ width: "100%", height: "100%" }}
+              style={{ objectFit: "cover", width: "100%", height: "100%" }}
               alt={title}
               title={title}
             />
