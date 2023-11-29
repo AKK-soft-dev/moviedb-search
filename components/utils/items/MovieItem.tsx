@@ -52,12 +52,11 @@ export default function MovieItem({
           }}
         >
           {poster_path ? (
-            <Image
+            <img
               src={imgSrc}
-              style={{ objectFit: "cover" }}
+              style={{ width: "100%", height: "100%" }}
               alt={title}
               title={title}
-              fill
             />
           ) : (
             <Box

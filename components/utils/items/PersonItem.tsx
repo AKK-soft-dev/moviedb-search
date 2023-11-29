@@ -48,12 +48,11 @@ export default function PersonItem({
           }}
         >
           {profile_path ? (
-            <Image
+            <img
               src={imgSrc}
-              style={{ objectFit: "cover" }}
+              style={{ width: "100%", height: "100%" }}
               alt={original_name}
               title={name}
-              fill
             />
           ) : (
             <Box

@@ -38,12 +38,11 @@ export default function CastItem({
           }}
         >
           {profile_path ? (
-            <Image
+            <img
               src={imgSrc}
-              style={{ objectFit: "cover" }}
+              style={{ width: "100%", height: "100%" }}
               alt={name}
               title={name}
-              fill
             />
           ) : (
             <Box
