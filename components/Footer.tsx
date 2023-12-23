@@ -19,7 +19,7 @@ export default function Footer() {
           <Stack direction="row" spacing={2} justifyContent="center" mt={2}>
             <Link
               component="a"
-              href="https://github.com/AKK-soft-dev"
+              href="https://github.com/aungkoko-coding"
               color="text.primary"
               target="_blank"
             >
@@ -33,7 +33,7 @@ export default function Footer() {
             >
               <FacebookIcon />
             </Link>
-            <Link href="mailto: aungkokosoftdev@gmail.com" color="text.primary">
+            <Link href="mailto: webdev.aungkoko@gmail.com" color="text.primary">
               <GmailIcon />
             </Link>
           </Stack>
